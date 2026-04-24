@@ -1,0 +1,569 @@
+
+<style>
+  .sb-root { font-family: var(--font-sans); padding: 1rem 0; }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2rem 0 0.75rem; }
+  .screen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 12px; margin-bottom: 0.5rem; }
+  .phone { background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: 20px; padding: 12px 10px 14px; cursor: pointer; transition: border-color 0.15s; position: relative; min-height: 220px; }
+  .phone:hover { border-color: var(--color-border-primary); }
+  .phone-name { font-size: 11px; color: var(--color-text-tertiary); text-align: center; margin-top: 8px; }
+  .notch { width: 36px; height: 5px; background: var(--color-border-secondary); border-radius: 3px; margin: 0 auto 8px; }
+  .screen-inner { background: var(--color-background-secondary); border-radius: 10px; padding: 8px; min-height: 160px; position: relative; overflow: hidden; }
+
+  .el-bar { height: 7px; border-radius: 4px; margin-bottom: 5px; background: var(--color-border-tertiary); }
+  .el-bar.accent { background: #534AB7; }
+  .el-bar.amber { background: #BA7517; }
+  .el-bar.teal { background: #1D9E75; }
+  .el-bar.coral { background: #D85A30; }
+  .el-bar.w20 { width: 20%; }
+  .el-bar.w30 { width: 30%; }
+  .el-bar.w40 { width: 40%; }
+  .el-bar.w55 { width: 55%; }
+  .el-bar.w65 { width: 65%; }
+  .el-bar.w80 { width: 80%; }
+  .el-bar.w100 { width: 100%; }
+  .el-box { border-radius: 6px; margin-bottom: 5px; }
+  .el-circle { border-radius: 50%; }
+  .el-row { display: flex; gap: 4px; align-items: center; margin-bottom: 5px; }
+  .el-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 5px; }
+  .el-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 5px; }
+  .pill { border-radius: 10px; }
+
+  .tag { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin: 2px 2px 0 0; font-weight: 500; }
+  .tag-p { background: #EEEDFE; color: #3C3489; }
+  .tag-t { background: #E1F5EE; color: #085041; }
+  .tag-a { background: #FAEEDA; color: #633806; }
+  .tag-c { background: #FAECE7; color: #4A1B0C; }
+  .tag-g { background: #EAF3DE; color: #27500A; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+  .phase-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+  .phase-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; white-space: nowrap; margin-top: 1px; }
+  .p1 { background: #EEEDFE; color: #3C3489; }
+  .p2 { background: #E1F5EE; color: #085041; }
+  .phase-screens { display: flex; flex-wrap: wrap; gap: 5px; }
+  .screen-chip { font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); }
+
+  .detail-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .detail-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
+  .el-list { list-style: none; padding: 0; margin: 0; }
+  .el-list li { font-size: 12px; color: var(--color-text-secondary); padding: 3px 0; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; justify-content: space-between; }
+  .el-list li:last-child { border: none; }
+  .el-list li span { color: var(--color-text-primary); font-weight: 500; }
+</style>
+
+<div class="sb-root">
+  <h2 class="sr-only">Spell Bee App screen plan — all screens and their UI elements mapped across Phase 1 and Phase 2</h2>
+
+  <p class="section-label">Phase 1 — MVP screens</p>
+
+  <div class="screen-grid">
+
+    <!-- Onboarding -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div style="text-align:center; margin-bottom:8px;">
+          <div class="el-box" style="width:40px;height:40px;background:#534AB7;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;">
+            <div style="width:18px;height:18px;background:#EEEDFE;border-radius:50%;"></div>
+          </div>
+          <div class="el-bar accent w65" style="margin:0 auto 4px;"></div>
+          <div class="el-bar w40" style="margin:0 auto;"></div>
+        </div>
+        <div class="el-bar w100" style="height:5px;background:#534AB7;border-radius:4px;margin-bottom:6px;"></div>
+        <div class="el-grid3">
+          <div class="el-box pill" style="height:28px;background:#EEEDFE;border:0.5px solid #AFA9EC;"></div>
+          <div class="el-box pill" style="height:28px;background:#EEEDFE;border:0.5px solid #AFA9EC;"></div>
+          <div class="el-box pill" style="height:28px;background:#EEEDFE;border:0.5px solid #AFA9EC;"></div>
+        </div>
+        <div class="el-row" style="margin-top:6px;">
+          <div class="el-box" style="flex:1;height:28px;background:#534AB7;border-radius:6px;"></div>
+        </div>
+        <div class="el-bar w55" style="margin: 5px auto 0;"></div>
+      </div>
+      <div class="phone-name">Onboarding & grade select</div>
+    </div>
+
+    <!-- Home Dashboard -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-row">
+          <div class="el-circle" style="width:20px;height:20px;background:#534AB7;flex-shrink:0;"></div>
+          <div class="el-bar accent w55" style="margin:0;"></div>
+          <div class="el-circle" style="width:20px;height:20px;background:var(--color-border-tertiary);flex-shrink:0;margin-left:auto;"></div>
+        </div>
+        <div class="el-box" style="height:36px;background:#EEEDFE;border-radius:8px;margin-bottom:5px;display:flex;align-items:center;padding:0 6px;gap:5px;">
+          <div style="display:flex;gap:2px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:#BA7517;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#BA7517;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#BA7517;opacity:0.3;"></div>
+          </div>
+          <div class="el-bar amber w55" style="margin:0;height:5px;"></div>
+        </div>
+        <div class="el-grid2">
+          <div class="el-box" style="height:44px;background:#E1F5EE;border-radius:8px;"></div>
+          <div class="el-box" style="height:44px;background:#FAEEDA;border-radius:8px;"></div>
+        </div>
+        <div class="el-bar w80"></div>
+        <div class="el-bar w65"></div>
+        <div class="el-row" style="margin-top:4px;">
+          <div class="el-box" style="width:12px;height:12px;background:#1D9E75;border-radius:2px;flex-shrink:0;"></div>
+          <div class="el-bar teal w55" style="margin:0;height:5px;"></div>
+        </div>
+      </div>
+      <div class="phone-name">Home dashboard</div>
+    </div>
+
+    <!-- Learning Module -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-row">
+          <div class="el-bar w30" style="height:5px;"></div>
+          <div class="el-bar accent w55" style="height:5px;margin:0;flex:1;"></div>
+          <div class="el-bar w10" style="height:5px;width:10%;"></div>
+        </div>
+        <div class="el-box" style="height:52px;background:#EEEDFE;border-radius:10px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;">
+          <div style="display:flex;gap:4px;align-items:flex-end;">
+            <div style="width:6px;height:16px;background:#534AB7;border-radius:2px;"></div>
+            <div style="width:6px;height:24px;background:#534AB7;border-radius:2px;"></div>
+            <div style="width:6px;height:12px;background:#AFA9EC;border-radius:2px;"></div>
+          </div>
+        </div>
+        <div class="el-bar accent w80" style="margin-bottom:4px;"></div>
+        <div class="el-bar w65"></div>
+        <div class="el-grid2" style="margin-top:6px;">
+          <div class="el-box pill" style="height:22px;background:#E1F5EE;border:0.5px solid #5DCAA5;"></div>
+          <div class="el-box pill" style="height:22px;background:var(--color-background-secondary);"></div>
+        </div>
+        <div class="el-grid2">
+          <div class="el-box pill" style="height:22px;background:var(--color-background-secondary);"></div>
+          <div class="el-box pill" style="height:22px;background:var(--color-background-secondary);"></div>
+        </div>
+      </div>
+      <div class="phone-name">Word learning card</div>
+    </div>
+
+    <!-- Spelling Test -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-row">
+          <div class="el-bar w30"></div>
+          <div class="el-bar coral w55" style="margin:0;flex:1;height:5px;"></div>
+        </div>
+        <div class="el-box" style="height:30px;background:#FAECE7;border-radius:8px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;">
+          <div class="el-bar coral w30" style="margin:0;height:5px;"></div>
+        </div>
+        <div style="display:flex;gap:3px;margin-bottom:6px;justify-content:center;">
+          <div style="width:16px;height:22px;background:#EEEDFE;border-radius:4px;border:0.5px solid #AFA9EC;"></div>
+          <div style="width:16px;height:22px;background:#EEEDFE;border-radius:4px;border:0.5px solid #AFA9EC;"></div>
+          <div style="width:16px;height:22px;background:#534AB7;border-radius:4px;"></div>
+          <div style="width:16px;height:22px;background:#EEEDFE;border-radius:4px;border:0.5px solid #AFA9EC;"></div>
+          <div style="width:16px;height:22px;background:#EEEDFE;border-radius:4px;border:0.5px solid #AFA9EC;"></div>
+        </div>
+        <div class="el-grid3" style="gap:3px;">
+          <div style="height:18px;background:var(--color-border-tertiary);border-radius:4px;"></div>
+          <div style="height:18px;background:var(--color-border-tertiary);border-radius:4px;"></div>
+          <div style="height:18px;background:var(--color-border-tertiary);border-radius:4px;"></div>
+          <div style="height:18px;background:var(--color-border-tertiary);border-radius:4px;"></div>
+          <div style="height:18px;background:var(--color-border-tertiary);border-radius:4px;"></div>
+          <div style="height:18px;background:var(--color-border-tertiary);border-radius:4px;"></div>
+        </div>
+        <div class="el-row" style="margin-top:6px;">
+          <div class="el-box" style="flex:1;height:22px;background:#D85A30;border-radius:6px;"></div>
+        </div>
+      </div>
+      <div class="phone-name">Spelling test (timed)</div>
+    </div>
+
+    <!-- Results / Feedback -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div style="text-align:center;margin-bottom:6px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:#E1F5EE;border:2px solid #1D9E75;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;">
+            <div style="width:16px;height:16px;border-radius:50%;background:#1D9E75;"></div>
+          </div>
+          <div class="el-bar teal w55" style="margin:0 auto 3px;"></div>
+          <div class="el-bar w40" style="margin:0 auto;"></div>
+        </div>
+        <div class="el-grid3" style="gap:4px;margin-bottom:5px;">
+          <div style="height:30px;background:#E1F5EE;border-radius:6px;"></div>
+          <div style="height:30px;background:#FAEEDA;border-radius:6px;"></div>
+          <div style="height:30px;background:#FAECE7;border-radius:6px;"></div>
+        </div>
+        <div class="el-bar w100"></div>
+        <div class="el-bar w80" style="margin-top:3px;"></div>
+        <div class="el-row" style="margin-top:5px;">
+          <div class="el-box" style="flex:1;height:22px;background:#534AB7;border-radius:6px;"></div>
+        </div>
+      </div>
+      <div class="phone-name">Test results & feedback</div>
+    </div>
+
+    <!-- Progress Dashboard -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar accent w65" style="margin-bottom:6px;"></div>
+        <div class="el-row" style="align-items:flex-end;gap:3px;margin-bottom:5px;height:40px;">
+          <div style="width:10px;height:20px;background:#AFA9EC;border-radius:2px 2px 0 0;"></div>
+          <div style="width:10px;height:30px;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="width:10px;height:25px;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="width:10px;height:35px;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="width:10px;height:28px;background:#AFA9EC;border-radius:2px 2px 0 0;"></div>
+          <div style="width:10px;height:38px;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="width:10px;height:32px;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+        </div>
+        <div class="el-grid2">
+          <div style="height:28px;background:#E1F5EE;border-radius:6px;"></div>
+          <div style="height:28px;background:#FAEEDA;border-radius:6px;"></div>
+        </div>
+        <div class="el-bar w80" style="margin-top:5px;"></div>
+        <div class="el-bar w60" style="margin-top:3px;"></div>
+      </div>
+      <div class="phone-name">Progress dashboard</div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar amber w55" style="margin-bottom:5px;"></div>
+        <div style="display:flex;gap:3px;align-items:flex-end;justify-content:center;margin-bottom:6px;">
+          <div style="width:28px;height:40px;background:#AFA9EC;border-radius:4px 4px 0 0;display:flex;align-items:center;justify-content:center;"><div style="width:14px;height:14px;border-radius:50%;background:#534AB7;"></div></div>
+          <div style="width:28px;height:52px;background:#534AB7;border-radius:4px 4px 0 0;display:flex;align-items:center;justify-content:center;"><div style="width:14px;height:14px;border-radius:50%;background:#EEEDFE;"></div></div>
+          <div style="width:28px;height:34px;background:#BA7517;border-radius:4px 4px 0 0;display:flex;align-items:center;justify-content:center;"><div style="width:14px;height:14px;border-radius:50%;background:#FAEEDA;"></div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <div class="el-row" style="background:#EEEDFE;border-radius:5px;padding:3px 5px;margin:0;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#534AB7;"></div>
+            <div class="el-bar w55" style="margin:0;flex:1;height:4px;"></div>
+            <div class="el-bar accent w20" style="margin:0;height:4px;"></div>
+          </div>
+          <div class="el-row" style="border-radius:5px;padding:3px 5px;margin:0;">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--color-border-tertiary);"></div>
+            <div class="el-bar w55" style="margin:0;flex:1;height:4px;"></div>
+            <div class="el-bar w20" style="margin:0;height:4px;"></div>
+          </div>
+          <div class="el-row" style="border-radius:5px;padding:3px 5px;margin:0;">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--color-border-tertiary);"></div>
+            <div class="el-bar w55" style="margin:0;flex:1;height:4px;"></div>
+            <div class="el-bar w20" style="margin:0;height:4px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-name">Leaderboard</div>
+    </div>
+
+    <!-- Streak / Rewards -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar amber w40" style="margin-bottom:5px;"></div>
+        <div style="display:flex;gap:3px;justify-content:center;margin-bottom:6px;">
+          <div style="width:16px;height:16px;background:#BA7517;border-radius:3px;"></div>
+          <div style="width:16px;height:16px;background:#BA7517;border-radius:3px;"></div>
+          <div style="width:16px;height:16px;background:#BA7517;border-radius:3px;"></div>
+          <div style="width:16px;height:16px;background:#BA7517;border-radius:3px;"></div>
+          <div style="width:16px;height:16px;background:#BA7517;border-radius:3px;"></div>
+          <div style="width:16px;height:16px;background:var(--color-border-tertiary);border-radius:3px;"></div>
+          <div style="width:16px;height:16px;background:var(--color-border-tertiary);border-radius:3px;"></div>
+        </div>
+        <div class="el-grid3" style="gap:4px;">
+          <div style="height:32px;background:#FAEEDA;border-radius:6px;border:0.5px solid #EF9F27;"></div>
+          <div style="height:32px;background:#FAEEDA;border-radius:6px;border:0.5px solid #EF9F27;"></div>
+          <div style="height:32px;background:var(--color-background-secondary);border-radius:6px;border:0.5px solid var(--color-border-tertiary);opacity:0.5;"></div>
+        </div>
+        <div class="el-bar w80" style="margin-top:5px;"></div>
+        <div class="el-bar w55" style="margin-top:3px;"></div>
+      </div>
+      <div class="phone-name">Streak & rewards</div>
+    </div>
+
+  </div>
+
+  <p class="section-label">Phase 2 — scale & enhancement screens</p>
+
+  <div class="screen-grid">
+
+    <!-- AI Learning Path -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar teal w55" style="margin-bottom:5px;"></div>
+        <div style="position:relative;margin-bottom:6px;">
+          <div style="width:3px;background:#1D9E75;position:absolute;left:10px;top:0;bottom:0;border-radius:2px;"></div>
+          <div style="padding-left:20px;display:flex;flex-direction:column;gap:5px;">
+            <div style="height:14px;background:#E1F5EE;border-radius:4px;border:0.5px solid #5DCAA5;"></div>
+            <div style="height:14px;background:#534AB7;border-radius:4px;"></div>
+            <div style="height:14px;background:var(--color-background-secondary);border-radius:4px;opacity:0.6;"></div>
+            <div style="height:14px;background:var(--color-background-secondary);border-radius:4px;opacity:0.4;"></div>
+          </div>
+        </div>
+        <div class="el-bar w65"></div>
+        <div class="el-bar w40" style="margin-top:3px;"></div>
+      </div>
+      <div class="phone-name">AI learning path</div>
+    </div>
+
+    <!-- Tournament -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar coral w55" style="margin-bottom:5px;"></div>
+        <div class="el-box" style="height:36px;background:#FAECE7;border-radius:8px;margin-bottom:5px;display:flex;align-items:center;padding:0 6px;gap:4px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#D85A30;"></div>
+          <div class="el-bar coral w65" style="margin:0;flex:1;height:5px;"></div>
+          <div style="font-size:9px;color:#D85A30;font-weight:500;white-space:nowrap;">Live</div>
+        </div>
+        <div style="display:flex;gap:4px;margin-bottom:5px;">
+          <div style="flex:1;height:40px;background:#EEEDFE;border-radius:6px;border:0.5px solid #AFA9EC;"></div>
+          <div style="width:16px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--color-text-tertiary);">vs</div>
+          <div style="flex:1;height:40px;background:#FAECE7;border-radius:6px;border:0.5px solid #F0997B;"></div>
+        </div>
+        <div class="el-bar w100" style="height:4px;background:var(--color-border-tertiary);border-radius:2px;margin-bottom:5px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:#534AB7;border-radius:2px;"></div>
+        </div>
+        <div class="el-row">
+          <div class="el-box" style="flex:1;height:20px;background:#D85A30;border-radius:6px;"></div>
+        </div>
+      </div>
+      <div class="phone-name">Live tournament battle</div>
+    </div>
+
+    <!-- National Rank -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar accent w55" style="margin-bottom:5px;"></div>
+        <div class="el-box" style="height:44px;background:#EEEDFE;border-radius:10px;margin-bottom:5px;display:flex;align-items:center;padding:0 8px;gap:6px;">
+          <div style="width:28px;height:28px;background:#534AB7;border-radius:50%;"></div>
+          <div style="flex:1;">
+            <div class="el-bar accent w80" style="margin-bottom:3px;height:5px;"></div>
+            <div class="el-bar w55" style="height:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#3C3489;font-weight:500;">#142</div>
+        </div>
+        <div class="el-grid3" style="gap:4px;margin-bottom:5px;">
+          <div style="height:24px;background:#E1F5EE;border-radius:5px;"></div>
+          <div style="height:24px;background:#FAEEDA;border-radius:5px;"></div>
+          <div style="height:24px;background:#FAECE7;border-radius:5px;"></div>
+        </div>
+        <div class="el-bar w80"></div>
+        <div class="el-bar w55" style="margin-top:3px;"></div>
+      </div>
+      <div class="phone-name">National ranking</div>
+    </div>
+
+    <!-- Badges / Achievements -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar amber w55" style="margin-bottom:5px;"></div>
+        <div class="el-grid3" style="gap:5px;margin-bottom:5px;">
+          <div style="height:30px;background:#FAEEDA;border-radius:50%;border:1.5px solid #BA7517;"></div>
+          <div style="height:30px;background:#FAEEDA;border-radius:50%;border:1.5px solid #BA7517;"></div>
+          <div style="height:30px;background:var(--color-background-secondary);border-radius:50%;border:0.5px dashed var(--color-border-tertiary);opacity:0.5;"></div>
+          <div style="height:30px;background:#E1F5EE;border-radius:50%;border:1.5px solid #1D9E75;"></div>
+          <div style="height:30px;background:var(--color-background-secondary);border-radius:50%;border:0.5px dashed var(--color-border-tertiary);opacity:0.5;"></div>
+          <div style="height:30px;background:var(--color-background-secondary);border-radius:50%;border:0.5px dashed var(--color-border-tertiary);opacity:0.5;"></div>
+        </div>
+        <div class="el-bar w80"></div>
+        <div class="el-bar w55" style="margin-top:3px;"></div>
+        <div class="el-row" style="margin-top:5px;">
+          <div class="el-box" style="flex:1;height:20px;background:#534AB7;border-radius:6px;"></div>
+        </div>
+      </div>
+      <div class="phone-name">Badges & achievements</div>
+    </div>
+
+    <!-- Parent Dashboard -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-bar w55" style="margin-bottom:5px;"></div>
+        <div class="el-grid2" style="margin-bottom:5px;">
+          <div style="height:32px;background:#E1F5EE;border-radius:6px;"></div>
+          <div style="height:32px;background:#FAEEDA;border-radius:6px;"></div>
+        </div>
+        <div style="display:flex;gap:3px;align-items:flex-end;margin-bottom:5px;height:32px;">
+          <div style="flex:1;height:60%;background:#AFA9EC;border-radius:2px 2px 0 0;"></div>
+          <div style="flex:1;height:80%;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="flex:1;height:70%;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="flex:1;height:90%;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="flex:1;height:75%;background:#AFA9EC;border-radius:2px 2px 0 0;"></div>
+          <div style="flex:1;height:85%;background:#534AB7;border-radius:2px 2px 0 0;"></div>
+          <div style="flex:1;height:65%;background:#AFA9EC;border-radius:2px 2px 0 0;"></div>
+        </div>
+        <div class="el-bar w80"></div>
+        <div class="el-bar w55" style="margin-top:3px;"></div>
+      </div>
+      <div class="phone-name">Parent dashboard</div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen-inner">
+        <div class="el-row" style="margin-bottom:5px;">
+          <div class="el-bar w30"></div>
+          <div class="el-box" style="width:20px;height:12px;background:#534AB7;border-radius:3px;margin-left:auto;"></div>
+        </div>
+        <div class="el-grid2" style="margin-bottom:5px;">
+          <div style="height:24px;background:#EEEDFE;border-radius:5px;"></div>
+          <div style="height:24px;background:#E1F5EE;border-radius:5px;"></div>
+          <div style="height:24px;background:#FAEEDA;border-radius:5px;"></div>
+          <div style="height:24px;background:#FAECE7;border-radius:5px;"></div>
+        </div>
+        <div class="el-bar w100"></div>
+        <div class="el-bar w80" style="margin-top:3px;"></div>
+        <div class="el-bar w65" style="margin-top:3px;"></div>
+        <div class="el-row" style="margin-top:5px;">
+          <div class="el-box" style="width:30%;height:18px;background:#D85A30;border-radius:5px;"></div>
+          <div class="el-box" style="width:30%;height:18px;background:#534AB7;border-radius:5px;margin-left:4px;"></div>
+        </div>
+      </div>
+      <div class="phone-name">Admin / word bank panel</div>
+    </div>
+
+  </div>
+
+  <p class="section-label">Element inventory per screen</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-bottom:1.5rem;">
+    <div class="detail-card">
+      <div class="detail-title">Onboarding & grade select</div>
+      <ul class="el-list">
+        <li>App logo + mascot illustration <span>hero</span></li>
+        <li>Name input field <span>text field</span></li>
+        <li>Grade selector (1–8) <span>pill grid</span></li>
+        <li>Language preference toggle <span>toggle</span></li>
+        <li>Continue CTA button <span>primary btn</span></li>
+        <li>Progress dots (3-step flow) <span>stepper</span></li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <div class="detail-title">Home dashboard</div>
+      <ul class="el-list">
+        <li>Avatar + greeting header <span>topbar</span></li>
+        <li>Daily streak flame counter <span>widget</span></li>
+        <li>Daily goal progress bar <span>progress</span></li>
+        <li>Quick actions (Learn / Test / Revise) <span>card grid</span></li>
+        <li>Today's word of the day <span>card</span></li>
+        <li>Recent performance summary <span>stat row</span></li>
+        <li>Notification bell <span>icon</span></li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <div class="detail-title">Word learning card</div>
+      <ul class="el-list">
+        <li>Progress bar (word N of M) <span>progress</span></li>
+        <li>Audio pronunciation button <span>icon btn</span></li>
+        <li>Word display + phonetic spelling <span>display</span></li>
+        <li>Meaning + example sentence <span>body text</span></li>
+        <li>Multiple choice options (4) <span>option pills</span></li>
+        <li>Correct / wrong feedback flash <span>state</span></li>
+        <li>Next / skip control <span>nav btn</span></li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <div class="detail-title">Spelling test (timed)</div>
+      <ul class="el-list">
+        <li>Countdown timer ring <span>circular</span></li>
+        <li>Audio play button (word) <span>icon btn</span></li>
+        <li>Letter tile input row <span>tiles</span></li>
+        <li>On-screen keyboard <span>keyboard</span></li>
+        <li>Question counter (Q3/10) <span>label</span></li>
+        <li>Submit answer button <span>primary btn</span></li>
+        <li>Hint button (optional) <span>secondary btn</span></li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <div class="detail-title">Test results & feedback</div>
+      <ul class="el-list">
+        <li>Score circle (percentage) <span>radial</span></li>
+        <li>Correct / wrong / skipped stats <span>3-up cards</span></li>
+        <li>Word-by-word breakdown list <span>list</span></li>
+        <li>XP points earned badge <span>badge</span></li>
+        <li>Retry / next level CTA <span>btn row</span></li>
+        <li>Share score button <span>icon btn</span></li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <div class="detail-title">Progress dashboard</div>
+      <ul class="el-list">
+        <li>Weekly activity bar chart <span>chart</span></li>
+        <li>Words learned / mastered count <span>metric cards</span></li>
+        <li>Grade completion ring <span>donut</span></li>
+        <li>Streak calendar (30-day) <span>heatmap</span></li>
+        <li>Weak words list <span>list</span></li>
+        <li>Next milestone indicator <span>progress</span></li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <div class="detail-title">Live tournament battle (Phase 2)</div>
+      <ul class="el-list">
+        <li>Opponent avatar + name <span>vs card</span></li>
+        <li>Live score bar (both players) <span>dual progress</span></li>
+        <li>Round counter + timer <span>header</span></li>
+        <li>Letter tile input (fast-type) <span>tiles</span></li>
+        <li>Correct streak multiplier <span>badge</span></li>
+        <li>Win / lose result overlay <span>modal</span></li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <div class="detail-title">Parent dashboard (Phase 2)</div>
+      <ul class="el-list">
+        <li>Child profile switcher <span>avatar row</span></li>
+        <li>Weekly time spent chart <span>bar chart</span></li>
+        <li>Words learned this week <span>metric</span></li>
+        <li>Accuracy trend line <span>sparkline</span></li>
+        <li>Upcoming tests / events <span>list</span></li>
+        <li>Daily usage limit controls <span>settings</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="section-label">Feature → screen mapping</p>
+
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1rem;">
+    <div class="phase-row">
+      <div class="phase-badge p1">Phase 1</div>
+      <div class="phase-screens">
+        <div class="screen-chip">Onboarding</div>
+        <div class="screen-chip">Home dashboard</div>
+        <div class="screen-chip">Word learning</div>
+        <div class="screen-chip">Spelling test</div>
+        <div class="screen-chip">Results & feedback</div>
+        <div class="screen-chip">Progress tracker</div>
+        <div class="screen-chip">Leaderboard (class)</div>
+        <div class="screen-chip">Streak & rewards</div>
+      </div>
+    </div>
+    <div class="phase-row">
+      <div class="phase-badge p2">Phase 2</div>
+      <div class="phase-screens">
+        <div class="screen-chip">AI learning path</div>
+        <div class="screen-chip">Tournament lobby</div>
+        <div class="screen-chip">Live battle</div>
+        <div class="screen-chip">National ranking</div>
+        <div class="screen-chip">Badges & certs</div>
+        <div class="screen-chip">Parent dashboard</div>
+        <div class="screen-chip">Admin panel</div>
+        <div class="screen-chip">Analytics (web)</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">Element tag legend</p>
+  <div class="legend">
+    <div><span class="tag tag-p">Purple</span> core learning</div>
+    <div><span class="tag tag-a">Amber</span> streak / reward</div>
+    <div><span class="tag tag-t">Teal</span> success / progress</div>
+    <div><span class="tag tag-c">Coral</span> test / urgency</div>
+    <div><span class="tag tag-g">Green</span> Phase 2 / AI</div>
+  </div>
+
+</div>

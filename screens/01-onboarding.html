@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Onboarding</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #0A0818; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes float { 0%,100% { transform:translateY(0px) rotate(-5deg); } 50% { transform:translateY(-12px) rotate(5deg); } }
+  @keyframes bounce { 0%,100% { transform:scale(1); } 50% { transform:scale(1.15); } }
+  @keyframes glow { 0%,100% { box-shadow:0 0 20px rgba(108,99,255,0.4); } 50% { box-shadow:0 0 40px rgba(108,99,255,0.8); } }
+  @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+  @keyframes popIn { 0% { transform:scale(0); opacity:0; } 80% { transform:scale(1.1); } 100% { transform:scale(1); opacity:1; } }
+  .fade-up { opacity:0; animation: fadeUp 0.5s ease forwards; }
+  .bee-anim { animation: float 3s ease-in-out infinite; display:inline-block; }
+  .grade-pill { background: #231F55; border: 1.5px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border-radius: 12px; padding: 10px 0; text-align: center; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; }
+  .grade-pill:hover { border-color: rgba(108,99,255,0.5); color: #fff; transform: translateY(-2px); }
+  .grade-pill.selected { background: #6C63FF; border-color: #6C63FF; color: #fff; animation: bounce 0.3s ease; box-shadow: 0 0 20px rgba(108,99,255,0.5); }
+  .lang-btn { padding: 10px 24px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+  .lang-btn.active { background: #6C63FF; color: #fff; }
+  .lang-btn.inactive { background: transparent; color: rgba(255,255,255,0.5); border: 1.5px solid rgba(255,255,255,0.15); }
+  .cta-btn { width: 100%; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; background: linear-gradient(135deg, #6C63FF, #8B7FFF); background-size: 200% 100%; color: #fff; transition: transform 0.2s, box-shadow 0.2s; animation: shimmer 3s infinite; }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,99,255,0.5); }
+  .step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s; }
+  .step-dot.active { width: 24px; border-radius: 4px; background: #6C63FF; }
+  .notch { width: 120px; height: 34px; background: #0A0818; border-radius: 0 0 20px 20px; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .notch-cam { width: 10px; height: 10px; border-radius: 50%; background: #1A1740; }
+  .notch-pill { width: 50px; height: 4px; border-radius: 2px; background: #1A1740; }
+  .input-field { width: 100%; background: #231F55; border: 1.5px solid rgba(108,99,255,0.3); border-radius: 14px; padding: 14px 18px; color: #fff; font-size: 1rem; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+  .input-field:focus { border-color: #6C63FF; box-shadow: 0 0 0 3px rgba(108,99,255,0.2); }
+  .input-field::placeholder { color: rgba(255,255,255,0.3); }
+  .stars-bg { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .star { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.5); animation: float 4s ease-in-out infinite; }
+</style>
+</head>
+<body>
+<div class="stars-bg" id="starsBg"></div>
+
+<!-- Phone Frame -->
+<div style="width:390px; height:844px; background:#0F0D2A; border-radius:40px; position:relative; overflow:hidden; box-shadow:0 30px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.08); flex-shrink:0;">
+
+  <!-- Notch -->
+  <div class="notch">
+    <div class="notch-cam"></div>
+    <div class="notch-pill"></div>
+    <div class="notch-cam"></div>
+  </div>
+
+  <!-- Background glow -->
+  <div style="position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(108,99,255,0.15) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <!-- Step indicator -->
+  <div class="fade-up" style="animation-delay:0ms; position:absolute; top:50px; right:20px; background:rgba(108,99,255,0.15); border:1px solid rgba(108,99,255,0.3); border-radius:20px; padding:4px 12px; font-size:0.75rem; font-weight:600; color:#6C63FF;">
+    Step 2 of 3
+  </div>
+
+  <!-- Content -->
+  <div style="padding:50px 24px 24px; height:100%; display:flex; flex-direction:column; overflow:hidden;">
+
+    <!-- Bee Logo -->
+    <div class="fade-up" style="animation-delay:100ms; text-align:center; margin-top:16px; margin-bottom:8px;">
+      <div class="bee-anim" style="font-size:4rem; display:inline-block; filter:drop-shadow(0 0 20px rgba(245,166,35,0.5));">🐝</div>
+      <div style="font-family:'Space Mono',monospace; font-size:1.4rem; font-weight:700; background:linear-gradient(135deg,#6C63FF,#00C896); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-top:4px;">Spell Bee</div>
+    </div>
+
+    <!-- Heading -->
+    <div class="fade-up" style="animation-delay:200ms; text-align:center; margin-bottom:20px;">
+      <h2 style="font-size:1.4rem; font-weight:800; color:#fff; line-height:1.3;">Hi! What's your name?</h2>
+      <p style="color:rgba(255,255,255,0.5); font-size:0.85rem; margin-top:4px;">Tell us about yourself</p>
+    </div>
+
+    <!-- Name Input -->
+    <div class="fade-up" style="animation-delay:300ms; margin-bottom:20px;">
+      <label style="font-size:0.75rem; font-weight:600; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:block;">Your Name</label>
+      <input type="text" class="input-field" placeholder="e.g. Aryan Sharma" value="Aryan" />
+    </div>
+
+    <!-- Grade Selector -->
+    <div class="fade-up" style="animation-delay:400ms; margin-bottom:20px;">
+      <label style="font-size:0.75rem; font-weight:600; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block;">Select Your Grade</label>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;" id="gradeGrid">
+        <div class="grade-pill" onclick="selectGrade(1)">1</div>
+        <div class="grade-pill" onclick="selectGrade(2)">2</div>
+        <div class="grade-pill selected" onclick="selectGrade(3)">3</div>
+        <div class="grade-pill" onclick="selectGrade(4)">4</div>
+        <div class="grade-pill" onclick="selectGrade(5)">5</div>
+        <div class="grade-pill" onclick="selectGrade(6)">6</div>
+        <div class="grade-pill" onclick="selectGrade(7)">7</div>
+        <div class="grade-pill" onclick="selectGrade(8)">8</div>
+      </div>
+    </div>
+
+    <!-- Language Toggle -->
+    <div class="fade-up" style="animation-delay:500ms; margin-bottom:24px;">
+      <label style="font-size:0.75rem; font-weight:600; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block;">Language</label>
+      <div style="background:#231F55; border-radius:40px; padding:4px; display:flex; gap:4px;">
+        <button class="lang-btn active" id="langEn" onclick="setLang('en')">🇬🇧 English</button>
+        <button class="lang-btn inactive" id="langHi" onclick="setLang('hi')">🇮🇳 Hindi</button>
+      </div>
+    </div>
+
+    <!-- Fun fact -->
+    <div class="fade-up" style="animation-delay:600ms; background:rgba(0,200,150,0.1); border:1px solid rgba(0,200,150,0.2); border-radius:14px; padding:12px 16px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.2rem;">💡</span>
+      <p style="font-size:0.78rem; color:rgba(0,200,150,0.9); line-height:1.4;">Students who learn 5 words daily improve reading speed by 40% in 3 months!</p>
+    </div>
+
+    <!-- CTA Button -->
+    <div class="fade-up" style="animation-delay:700ms; margin-top:auto;">
+      <button class="cta-btn" onclick="goNext()">Let's Go &nbsp;→</button>
+    </div>
+
+    <!-- Step Dots -->
+    <div class="fade-up" style="animation-delay:800ms; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:16px;">
+      <div class="step-dot"></div>
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Stars
+const bg = document.getElementById('starsBg');
+for(let i=0;i<60;i++){
+  const s = document.createElement('div');
+  s.className='star';
+  const size = Math.random()*2+1;
+  s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;opacity:${Math.random()*0.5+0.1};`;
+  bg.appendChild(s);
+}
+
+let selectedGrade = 3;
+
+function selectGrade(g) {
+  selectedGrade = g;
+  document.querySelectorAll('.grade-pill').forEach((el, i) => {
+    el.classList.toggle('selected', i === g - 1);
+  });
+}
+
+function setLang(lang) {
+  document.getElementById('langEn').className = 'lang-btn ' + (lang==='en'?'active':'inactive');
+  document.getElementById('langHi').className = 'lang-btn ' + (lang==='hi'?'active':'inactive');
+}
+
+function goNext() {
+  const btn = document.querySelector('.cta-btn');
+  btn.style.transform = 'scale(0.96)';
+  btn.textContent = 'Setting up...';
+  setTimeout(()=>{ btn.style.transform=''; btn.textContent="Let's Go →"; }, 800);
+}
+</script>
+</body>
+</html>

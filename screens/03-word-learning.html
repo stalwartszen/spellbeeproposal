@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Word Learning</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #0A0818; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes slideIn { from { opacity:0; transform:translateX(60px); } to { opacity:1; transform:translateX(0); } }
+  @keyframes pulseRing { 0% { transform:scale(1); opacity:1; } 100% { transform:scale(2.5); opacity:0; } }
+  @keyframes fillBar { from { width:0; } to { width:var(--w); } }
+  @keyframes popIn { 0% { transform:scale(0); opacity:0; } 80% { transform:scale(1.1); } 100% { transform:scale(1); opacity:1; } }
+  @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+  @keyframes correctGlow { 0%,100% { box-shadow:0 0 0 rgba(0,200,150,0); } 50% { box-shadow:0 0 20px rgba(0,200,150,0.5); } }
+  .fade-up { opacity:0; animation: fadeUp 0.5s ease forwards; }
+  .slide-in { opacity:0; animation: slideIn 0.5s ease forwards; }
+  .notch { width:120px; height:34px; background:#0A0818; border-radius:0 0 20px 20px; position:absolute; top:0; left:50%; transform:translateX(-50%); z-index:10; }
+  .bottom-nav { position:absolute; bottom:0; left:0; right:0; background:rgba(15,13,42,0.95); backdrop-filter:blur(20px); border-top:1px solid rgba(255,255,255,0.06); padding:10px 0 20px; display:flex; align-items:center; justify-content:space-around; }
+  .nav-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:4px 12px; }
+  .nav-icon { font-size:1.3rem; }
+  .nav-label { font-size:0.6rem; font-weight:600; color:rgba(255,255,255,0.4); }
+  .nav-item.active .nav-label { color:#6C63FF; }
+  .audio-btn { width:72px; height:72px; background:rgba(0,200,150,0.15); border:2px solid rgba(0,200,150,0.4); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; font-size:1.8rem; transition:transform 0.2s; }
+  .audio-btn:hover { transform:scale(1.05); }
+  .pulse-ring { position:absolute; inset:-4px; border-radius:50%; border:2px solid rgba(0,200,150,0.5); animation:pulseRing 2s ease-out infinite; }
+  .pulse-ring:nth-child(2) { animation-delay:0.7s; }
+  .option-pill { width:100%; padding:14px 20px; border-radius:16px; background:#231F55; border:1.5px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.8); font-size:0.9rem; font-weight:500; cursor:pointer; transition:all 0.2s ease; text-align:left; font-family:'Inter',sans-serif; display:flex; align-items:center; gap:12px; }
+  .option-pill:hover { border-color:rgba(108,99,255,0.5); background:rgba(108,99,255,0.1); }
+  .option-pill.correct { background:rgba(0,200,150,0.15); border-color:#00C896; color:#00C896; animation:correctGlow 1s ease; }
+  .option-pill.wrong { background:rgba(255,92,53,0.1); border-color:rgba(255,92,53,0.5); color:#FF5C35; }
+  .option-letter { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; flex-shrink:0; }
+  .xp-badge { background:linear-gradient(135deg,rgba(108,99,255,0.3),rgba(108,99,255,0.1)); border:1px solid rgba(108,99,255,0.4); border-radius:20px; padding:5px 14px; font-size:0.75rem; font-weight:700; color:#6C63FF; display:inline-flex; align-items:center; gap:5px; }
+</style>
+</head>
+<body>
+<div style="width:390px; height:844px; background:#0F0D2A; border-radius:40px; position:relative; overflow:hidden; box-shadow:0 30px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.08); flex-shrink:0;">
+
+  <div class="notch"></div>
+
+  <!-- BG glow -->
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(0,200,150,0.08) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <div style="height:calc(100% - 74px); overflow-y:auto; padding:44px 20px 20px;">
+
+    <!-- Top Bar -->
+    <div class="fade-up" style="animation-delay:0ms; display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+      <button style="width:38px;height:38px;background:rgba(255,255,255,0.06);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;">←</button>
+      <div style="font-weight:700;font-size:1rem;color:#fff;">Word Learning</div>
+      <div class="xp-badge">⚡ 240 XP</div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="fade-up" style="animation-delay:50ms; margin-bottom:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.5);">Word 4 of 10</span>
+        <span style="font-size:0.75rem;color:#6C63FF;font-weight:600;">40%</span>
+      </div>
+      <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:6px;overflow:hidden;">
+        <div style="height:100%;border-radius:6px;background:linear-gradient(90deg,#6C63FF,#8B7FFF);--w:40%;animation:fillBar 1s ease forwards;width:0;"></div>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:8px;">
+        <div style="flex:1;height:3px;border-radius:2px;background:#00C896;"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:#00C896;"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:#00C896;"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:#6C63FF;"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.15);"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.15);"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.15);"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.15);"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.15);"></div>
+        <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.15);"></div>
+      </div>
+    </div>
+
+    <!-- Word Card -->
+    <div class="slide-in" style="animation-delay:150ms; background:linear-gradient(135deg,#1A1740,#1E1B4B); border:1.5px solid rgba(108,99,255,0.25); border-radius:24px; padding:28px 24px; margin-bottom:20px; text-align:center;">
+
+      <!-- Audio Button -->
+      <div style="display:flex;justify-content:center;margin-bottom:20px;">
+        <div class="audio-btn" onclick="playAudio()">
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring"></div>
+          <span>🔊</span>
+        </div>
+      </div>
+
+      <!-- Word -->
+      <div style="font-family:'Space Mono',monospace;font-size:2rem;font-weight:700;color:#fff;letter-spacing:3px;margin-bottom:8px;text-shadow:0 0 30px rgba(108,99,255,0.3);">PERSEVERANCE</div>
+
+      <!-- Phonetic -->
+      <div style="font-size:0.9rem;color:rgba(108,99,255,0.9);margin-bottom:16px;font-style:italic;">/pər · sev · ər · əns/</div>
+
+      <!-- Meaning -->
+      <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:12px 16px;margin-bottom:4px;">
+        <div style="font-size:0.7rem;font-weight:600;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Definition</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.8);line-height:1.6;">Steadfastness in doing something despite difficulty or delay in achieving success.</div>
+      </div>
+
+      <!-- Example -->
+      <div style="margin-top:12px;font-size:0.8rem;color:rgba(255,255,255,0.4);font-style:italic;line-height:1.5;">"Her <span style="color:#6C63FF;font-weight:600;">perseverance</span> through hardship led her to victory."</div>
+
+      <!-- Tags -->
+      <div style="display:flex;gap:6px;justify-content:center;margin-top:14px;">
+        <span style="background:rgba(108,99,255,0.15);border-radius:20px;padding:4px 12px;font-size:0.7rem;color:#6C63FF;font-weight:600;">noun</span>
+        <span style="background:rgba(0,200,150,0.15);border-radius:20px;padding:4px 12px;font-size:0.7rem;color:#00C896;font-weight:600;">Grade 5</span>
+        <span style="background:rgba(245,166,35,0.15);border-radius:20px;padding:4px 12px;font-size:0.7rem;color:#F5A623;font-weight:600;">⭐⭐⭐ Hard</span>
+      </div>
+    </div>
+
+    <!-- Question -->
+    <div class="fade-up" style="animation-delay:300ms; margin-bottom:14px;">
+      <div style="font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.6);margin-bottom:14px;">Which sentence uses <span style="color:#6C63FF;">PERSEVERANCE</span> correctly?</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+
+        <button class="option-pill fade-up" style="animation-delay:350ms;" onclick="selectOption(this, false)">
+          <div class="option-letter" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);">A</div>
+          She ate the perseverance for breakfast.
+        </button>
+
+        <button class="option-pill correct fade-up" style="animation-delay:400ms;" onclick="selectOption(this, true)">
+          <div class="option-letter" style="background:rgba(0,200,150,0.2);color:#00C896;">B</div>
+          His perseverance paid off after years of training.
+          <span style="margin-left:auto;font-size:1rem;">✓</span>
+        </button>
+
+        <button class="option-pill fade-up" style="animation-delay:450ms;" onclick="selectOption(this, false)">
+          <div class="option-letter" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);">C</div>
+          The perseverance flew over the mountains swiftly.
+        </button>
+
+        <button class="option-pill fade-up" style="animation-delay:500ms;" onclick="selectOption(this, false)">
+          <div class="option-letter" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);">D</div>
+          We painted the perseverance bright blue.
+        </button>
+      </div>
+    </div>
+
+    <!-- Next Button -->
+    <div class="fade-up" style="animation-delay:600ms;">
+      <button onclick="nextWord()" style="width:100%;padding:16px;border-radius:16px;background:linear-gradient(135deg,#6C63FF,#8B7FFF);border:none;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:transform 0.2s,box-shadow 0.2s;" onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(108,99,255,0.4)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+        Next Word →
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+    <div class="nav-item active"><span class="nav-icon">📖</span><span class="nav-label" style="color:#6C63FF;">Learn</span></div>
+    <div class="nav-item"><span class="nav-icon">✏️</span><span class="nav-label">Test</span></div>
+    <div class="nav-item"><span class="nav-icon">🏆</span><span class="nav-label">Ranks</span></div>
+    <div class="nav-item"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></div>
+  </div>
+</div>
+
+<script>
+function selectOption(el, correct) {
+  document.querySelectorAll('.option-pill').forEach(p => {
+    p.classList.remove('correct','wrong');
+    p.style.borderColor = '';
+  });
+  el.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    document.querySelectorAll('.option-pill')[1].classList.add('correct');
+  }
+}
+function playAudio() {
+  const btn = document.querySelector('.audio-btn');
+  btn.style.background = 'rgba(0,200,150,0.3)';
+  setTimeout(() => btn.style.background = 'rgba(0,200,150,0.15)', 500);
+}
+function nextWord() {
+  const card = document.querySelector('.slide-in');
+  card.style.animation = 'none';
+  card.style.opacity = '0';
+  card.style.transform = 'translateX(-60px)';
+  card.style.transition = 'all 0.3s ease';
+  setTimeout(() => {
+    card.style.transform = 'translateX(60px)';
+    card.style.transition = 'none';
+    setTimeout(() => {
+      card.style.transition = 'all 0.3s ease';
+      card.style.opacity = '1';
+      card.style.transform = 'translateX(0)';
+    }, 50);
+  }, 300);
+}
+
+// Fill bar animation fix
+document.querySelectorAll('[style*="fillBar"]').forEach(el => {
+  const w = el.style.getPropertyValue('--w') || el.style.cssText.match(/--w:([^;]+)/)?.[1];
+  if(w) el.style.setProperty('--w', w.trim());
+});
+</script>
+</body>
+</html>
