@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Progress · Warm Earth</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#1A0D04;width:390px;height:844px;overflow:hidden;position:relative;}
+.bg-glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.card{background:#2D1508;border:1px solid rgba(255,154,0,0.14);border-radius:20px;padding:16px 18px;}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(26,13,4,0.96);backdrop-filter:blur(20px);border-top:1px solid rgba(255,154,0,0.1);padding:10px 0 20px;display:flex;align-items:center;justify-content:space-around;}
+.nav-label{font-size:0.6rem;font-weight:700;color:rgba(255,218,170,0.35);}
+.heat-cell{width:14px;height:14px;border-radius:3px;}
+</style>
+</head>
+<body>
+
+<div class="bg-glow" style="width:350px;height:350px;background:rgba(255,154,0,0.08);top:-100px;right:-80px;"></div>
+<div class="bg-glow" style="width:250px;height:250px;background:rgba(255,107,53,0.06);bottom:80px;left:-50px;"></div>
+
+<!-- Notch -->
+<div style="width:120px;height:34px;background:#1A0D04;border-radius:0 0 20px 20px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:10;"></div>
+
+<div style="padding:48px 20px 84px;height:100%;overflow-y:auto;position:relative;z-index:1;">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div style="font-family:'Fredoka One',cursive;font-size:1.2rem;color:rgba(255,242,220,0.92);">My Progress 📊</div>
+    <div style="background:rgba(255,154,0,0.12);border:1px solid rgba(255,154,0,0.25);border-radius:20px;padding:5px 12px;">
+      <span style="font-size:0.72rem;font-weight:700;color:#FF9A00;">This Week</span>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+    <div class="card" style="text-align:center;padding:14px 10px;">
+      <div style="font-family:'Fredoka One',cursive;font-size:1.6rem;color:#FF9A00;">127</div>
+      <div style="font-size:0.65rem;color:rgba(255,218,170,0.45);margin-top:2px;">Words Learnt</div>
+    </div>
+    <div class="card" style="text-align:center;padding:14px 10px;">
+      <div style="font-family:'Fredoka One',cursive;font-size:1.6rem;color:#FF6B35;">84%</div>
+      <div style="font-size:0.65rem;color:rgba(255,218,170,0.45);margin-top:2px;">Accuracy</div>
+    </div>
+    <div class="card" style="text-align:center;padding:14px 10px;">
+      <div style="font-family:'Fredoka One',cursive;font-size:1.6rem;color:#FFD93D;">12</div>
+      <div style="font-size:0.65rem;color:rgba(255,218,170,0.45);margin-top:2px;">Day Streak</div>
+    </div>
+  </div>
+
+  <!-- Weekly bar chart -->
+  <div class="card" style="margin-bottom:14px;">
+    <div style="font-size:0.72rem;font-weight:700;color:rgba(255,218,170,0.5);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:14px;">Words per Day</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;height:70px;gap:4px;">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:100%;border-radius:6px 6px 0 0;background:rgba(255,154,0,0.4);" class="bar" style="height:52px;"></div>
+        <div style="font-size:0.58rem;color:rgba(255,218,170,0.35);">Mon</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:100%;height:60px;border-radius:6px 6px 0 0;background:rgba(255,154,0,0.5);"></div>
+        <div style="font-size:0.58rem;color:rgba(255,218,170,0.35);">Tue</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:100%;height:35px;border-radius:6px 6px 0 0;background:rgba(255,154,0,0.3);"></div>
+        <div style="font-size:0.58rem;color:rgba(255,218,170,0.35);">Wed</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:100%;height:62px;border-radius:6px 6px 0 0;background:rgba(255,154,0,0.55);"></div>
+        <div style="font-size:0.58rem;color:rgba(255,218,170,0.35);">Thu</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:100%;height:48px;border-radius:6px 6px 0 0;background:#FF9A00;"></div>
+        <div style="font-size:0.58rem;color:#FF9A00;font-weight:700;">Fri</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:100%;height:20px;border-radius:6px 6px 0 0;background:rgba(255,154,0,0.2);"></div>
+        <div style="font-size:0.58rem;color:rgba(255,218,170,0.35);">Sat</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:100%;height:8px;border-radius:6px 6px 0 0;background:rgba(255,154,0,0.15);"></div>
+        <div style="font-size:0.58rem;color:rgba(255,218,170,0.35);">Sun</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accuracy ring -->
+  <div class="card" style="margin-bottom:14px;display:flex;align-items:center;gap:20px;">
+    <div style="position:relative;width:72px;height:72px;flex-shrink:0;">
+      <svg width="72" height="72" style="transform:rotate(-90deg)">
+        <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,154,0,0.12)" stroke-width="7"/>
+        <circle cx="36" cy="36" r="30" fill="none" stroke="#FF9A00" stroke-width="7" stroke-dasharray="188" stroke-dashoffset="30"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:#FF9A00;">84%</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'Fredoka One',cursive;font-size:0.9rem;color:rgba(255,242,220,0.9);margin-bottom:4px;">Overall Accuracy</div>
+      <div style="font-size:0.72rem;color:rgba(255,218,170,0.5);line-height:1.5;">127 correct · 24 to review</div>
+      <div style="margin-top:8px;height:4px;background:rgba(255,154,0,0.12);border-radius:4px;overflow:hidden;">
+        <div style="width:84%;height:100%;background:linear-gradient(90deg,#FF9A00,#FF6B35);border-radius:4px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Heatmap -->
+  <div class="card">
+    <div style="font-size:0.72rem;font-weight:700;color:rgba(255,218,170,0.5);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;">30-Day Activity</div>
+    <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:4px;">
+      <div class="heat-cell" style="background:rgba(255,154,0,0.7);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.9);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.4);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.8);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.5);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.95);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.3);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.7);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.6);"></div>
+      <div class="heat-cell" style="background:rgba(255,218,170,0.1);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.85);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.5);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.75);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.9);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.4);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.65);"></div>
+      <div class="heat-cell" style="background:rgba(255,218,170,0.1);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.8);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,1);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.55);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.7);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.9);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.4);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.75);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.6);"></div>
+      <div class="heat-cell" style="background:rgba(255,218,170,0.1);"></div>
+      <div class="heat-cell" style="background:rgba(255,154,0,0.85);"></div>
+      <div class="heat-cell" style="background:rgba(255,218,170,0.1);"></div>
+      <div class="heat-cell" style="background:rgba(255,218,170,0.1);"></div>
+      <div class="heat-cell" style="background:rgba(255,218,170,0.05);"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">🏠</span><span class="nav-label">Home</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">📖</span><span class="nav-label">Learn</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">✏️</span><span class="nav-label">Test</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">📊</span><span class="nav-label" style="color:#FF9A00;">Progress</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">👤</span><span class="nav-label">Profile</span></div>
+</div>
+</body>
+</html>

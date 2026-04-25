@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Results · Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#0B0F1E;width:390px;height:844px;overflow:hidden;position:relative;}
+.card{background:#131D35;border:1px solid rgba(56,189,248,0.1);border-radius:16px;padding:16px 18px;}
+</style>
+</head>
+<body>
+
+<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;"></div>
+
+<!-- Notch -->
+<div style="width:120px;height:34px;background:#0B0F1E;border-radius:0 0 20px 20px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:10;"></div>
+
+<div style="padding:52px 20px 24px;height:100%;display:flex;flex-direction:column;position:relative;z-index:1;">
+
+  <!-- Header -->
+  <div style="text-align:center;margin-bottom:28px;">
+    <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(52,211,153,0.6);margin-bottom:8px;">Test Complete</div>
+    <div style="font-size:1.5rem;font-weight:800;color:rgba(232,244,255,0.92);letter-spacing:-0.02em;">Great result, Aryan!</div>
+  </div>
+
+  <!-- Score -->
+  <div style="display:flex;justify-content:center;margin-bottom:24px;">
+    <div style="position:relative;width:120px;height:120px;">
+      <svg width="120" height="120" style="transform:rotate(-90deg)">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(52,211,153,0.1)" stroke-width="9"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#34D399" stroke-width="9" stroke-dasharray="327" stroke-dashoffset="49" stroke-linecap="round"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-family:'Space Mono',monospace;font-size:2.2rem;font-weight:700;color:#34D399;line-height:1;">8</div>
+        <div style="font-size:0.62rem;color:rgba(180,215,242,0.45);margin-top:2px;">out of 10</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+    <div class="card" style="text-align:center;padding:14px 8px;border-color:rgba(52,211,153,0.2);">
+      <div style="font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:#34D399;">8</div>
+      <div style="font-size:0.62rem;color:rgba(180,215,242,0.4);margin-top:2px;font-weight:600;">Correct</div>
+    </div>
+    <div class="card" style="text-align:center;padding:14px 8px;border-color:rgba(244,114,182,0.2);">
+      <div style="font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:#F472B6;">1</div>
+      <div style="font-size:0.62rem;color:rgba(180,215,242,0.4);margin-top:2px;font-weight:600;">Wrong</div>
+    </div>
+    <div class="card" style="text-align:center;padding:14px 8px;border-color:rgba(129,140,248,0.2);">
+      <div style="font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:#818CF8;">1</div>
+      <div style="font-size:0.62rem;color:rgba(180,215,242,0.4);margin-top:2px;font-weight:600;">Skipped</div>
+    </div>
+  </div>
+
+  <!-- XP -->
+  <div class="card" style="margin-bottom:14px;border-color:rgba(56,189,248,0.2);display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(180,215,242,0.4);margin-bottom:4px;">XP Earned</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;color:#38BDF8;">+120 XP</div>
+    </div>
+    <div style="width:48px;height:48px;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">⚡</div>
+  </div>
+
+  <!-- Accuracy bar -->
+  <div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="font-size:0.78rem;font-weight:700;color:rgba(232,244,255,0.8);">Session Accuracy</div>
+      <div style="font-family:'Space Mono',monospace;font-size:0.82rem;color:#34D399;font-weight:700;">80%</div>
+    </div>
+    <div style="height:6px;background:rgba(52,211,153,0.1);border-radius:6px;overflow:hidden;">
+      <div style="width:80%;height:100%;background:#34D399;border-radius:6px;"></div>
+    </div>
+  </div>
+
+  <!-- Review word -->
+  <div class="card" style="margin-bottom:14px;">
+    <div style="font-size:0.65rem;font-weight:700;color:rgba(180,215,242,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">Review List</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(244,114,182,0.06);border:1px solid rgba(244,114,182,0.2);border-radius:10px;">
+      <span style="font-family:'Space Mono',monospace;font-size:0.82rem;color:rgba(232,244,255,0.85);">Ephemeral</span>
+      <span style="font-size:0.68rem;color:#F472B6;font-weight:700;">Incorrect</span>
+    </div>
+  </div>
+
+  <div style="flex:1;"></div>
+
+  <div style="display:flex;gap:8px;">
+    <button style="flex:1;padding:14px;background:#131D35;border:1px solid rgba(56,189,248,0.2);border-radius:12px;font-size:0.88rem;font-weight:700;color:rgba(232,244,255,0.7);cursor:pointer;">Review</button>
+    <button style="flex:2;padding:14px;background:#38BDF8;border:none;border-radius:12px;font-size:0.9rem;font-weight:700;color:#0B0F1E;cursor:pointer;">Next Test →</button>
+  </div>
+</div>
+</body>
+</html>

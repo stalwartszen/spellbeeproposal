@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Test · Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#0B0F1E;width:390px;height:844px;overflow:hidden;position:relative;}
+.tile{width:36px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:1rem;font-weight:700;border:1.5px solid rgba(56,189,248,0.2);background:#131D35;color:rgba(232,244,255,0.9);}
+.tile.filled{background:rgba(56,189,248,0.12);border-color:#38BDF8;color:#38BDF8;}
+.tile.empty{border-style:dashed;background:rgba(56,189,248,0.03);}
+.key{background:#131D35;border:1px solid rgba(56,189,248,0.15);border-radius:7px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'Space Mono',monospace;font-size:0.78rem;font-weight:700;color:rgba(232,244,255,0.7);}
+</style>
+</head>
+<body>
+
+<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;"></div>
+
+<!-- Notch -->
+<div style="width:120px;height:34px;background:#0B0F1E;border-radius:0 0 20px 20px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:10;"></div>
+
+<div style="padding:48px 20px 24px;height:100%;display:flex;flex-direction:column;position:relative;z-index:1;">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <button style="width:36px;height:36px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);border-radius:10px;cursor:pointer;color:rgba(180,215,242,0.7);font-size:0.9rem;">←</button>
+    <div style="font-size:0.88rem;font-weight:700;color:rgba(232,244,255,0.88);">Spelling Test</div>
+    <div style="background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);border-radius:8px;padding:4px 10px;">
+      <span style="font-family:'Space Mono',monospace;font-size:0.7rem;font-weight:700;color:#F472B6;">Q 4/10</span>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div style="height:4px;background:rgba(56,189,248,0.1);border-radius:4px;overflow:hidden;margin-bottom:20px;">
+    <div style="width:40%;height:100%;background:#38BDF8;border-radius:4px;"></div>
+  </div>
+
+  <!-- Timer + Audio -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:24px;">
+    <div style="position:relative;width:64px;height:64px;">
+      <svg width="64" height="64" style="transform:rotate(-90deg)">
+        <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(244,114,182,0.12)" stroke-width="5"/>
+        <circle cx="32" cy="32" r="26" fill="none" stroke="#F472B6" stroke-width="5" stroke-dasharray="163" stroke-dashoffset="58"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.95rem;font-weight:700;color:rgba(232,244,255,0.9);">0:23</div>
+    </div>
+    <div style="width:60px;height:60px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.6rem;">🔊</div>
+  </div>
+
+  <!-- Instruction -->
+  <div style="text-align:center;margin-bottom:20px;">
+    <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(180,215,242,0.35);margin-bottom:6px;">Listen and spell the word</div>
+    <div style="font-size:0.75rem;color:rgba(180,215,242,0.5);font-style:italic;">"She showed great _____ in finishing the race."</div>
+  </div>
+
+  <!-- Letter tiles -->
+  <div style="display:flex;justify-content:center;gap:5px;margin-bottom:24px;flex-wrap:wrap;">
+    <div class="tile filled">P</div>
+    <div class="tile filled">E</div>
+    <div class="tile filled">R</div>
+    <div class="tile filled">S</div>
+    <div class="tile filled">E</div>
+    <div class="tile filled">V</div>
+    <div class="tile empty"></div>
+    <div class="tile empty"></div>
+    <div class="tile empty"></div>
+    <div class="tile empty"></div>
+    <div class="tile empty"></div>
+    <div class="tile empty"></div>
+  </div>
+
+  <!-- Keyboard -->
+  <div style="flex:1;display:flex;flex-direction:column;gap:5px;justify-content:center;">
+    <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px;">
+      <div class="key">Q</div><div class="key">W</div><div class="key">E</div><div class="key">R</div><div class="key">T</div><div class="key">Y</div><div class="key">U</div><div class="key">I</div><div class="key">O</div><div class="key">P</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:3px;padding:0 8px;">
+      <div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div><div class="key">G</div><div class="key">H</div><div class="key">J</div><div class="key">K</div><div class="key">L</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.4fr repeat(7,1fr) 1.4fr;gap:3px;">
+      <div class="key" style="font-size:0.68rem;">⇧</div>
+      <div class="key">Z</div><div class="key">X</div><div class="key">C</div><div class="key">V</div><div class="key">B</div><div class="key">N</div><div class="key">M</div>
+      <div class="key" style="font-size:0.68rem;">⌫</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:3px;">
+      <div class="key" style="font-size:0.6rem;">123</div>
+      <div class="key" style="background:rgba(56,189,248,0.05);">space</div>
+      <div class="key" style="font-size:0.6rem;">↵</div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <button style="width:100%;padding:14px;background:#38BDF8;border:none;border-radius:12px;font-size:0.9rem;font-weight:700;color:#0B0F1E;cursor:pointer;margin-top:12px;">Submit Answer</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Home · Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#0B0F1E;width:390px;height:844px;overflow:hidden;position:relative;}
+.card{background:#131D35;border:1px solid rgba(56,189,248,0.1);border-radius:16px;padding:16px 18px;}
+.action-card{background:#131D35;border:1.5px solid rgba(56,189,248,0.12);border-radius:16px;padding:16px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;}
+.progress-bar{height:8px;background:rgba(56,189,248,0.1);border-radius:8px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:8px;background:#38BDF8;}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(11,15,30,0.96);backdrop-filter:blur(20px);border-top:1px solid rgba(56,189,248,0.08);padding:10px 0 20px;display:flex;align-items:center;justify-content:space-around;}
+.nav-label{font-size:0.6rem;font-weight:600;color:rgba(180,215,242,0.35);}
+.nav-item.active .nav-label{color:#38BDF8;}
+</style>
+</head>
+<body>
+
+<!-- Grid texture -->
+<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;"></div>
+
+<!-- Notch -->
+<div style="width:120px;height:34px;background:#0B0F1E;border-radius:0 0 20px 20px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:10;"></div>
+
+<div style="padding:48px 20px 84px;height:100%;overflow-y:auto;position:relative;z-index:1;">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#38BDF8,#818CF8);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#0B0F1E;">A</div>
+      <div>
+        <div style="font-size:0.7rem;color:rgba(180,215,242,0.45);font-weight:500;">Good morning</div>
+        <div style="font-size:0.95rem;font-weight:700;color:rgba(232,244,255,0.9);">Aryan</div>
+      </div>
+    </div>
+    <div style="width:38px;height:38px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;">
+      <span style="font-size:1rem;">🔔</span>
+      <div style="position:absolute;top:7px;right:7px;width:7px;height:7px;background:#F472B6;border-radius:50%;border:1.5px solid #0B0F1E;"></div>
+    </div>
+  </div>
+
+  <!-- Streak -->
+  <div style="background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.16);border-radius:16px;padding:16px 18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:44px;height:44px;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🔥</div>
+      <div>
+        <div style="font-size:0.65rem;color:rgba(180,215,242,0.45);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">Active streak</div>
+        <div style="display:flex;align-items:baseline;gap:4px;margin-top:1px;">
+          <span style="font-family:'Space Mono',monospace;font-size:1.6rem;font-weight:700;color:rgba(232,244,255,0.9);">12</span>
+          <span style="font-size:0.78rem;color:rgba(180,215,242,0.5);">days</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.25);border-radius:10px;padding:5px 10px;">
+      <span style="font-size:0.7rem;font-weight:700;color:#38BDF8;">Top 10%</span>
+    </div>
+  </div>
+
+  <!-- Daily Goal -->
+  <div class="card" style="margin-bottom:12px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div>
+        <div style="font-size:0.65rem;font-weight:700;color:rgba(180,215,242,0.4);text-transform:uppercase;letter-spacing:0.08em;">Daily Goal</div>
+        <div style="font-size:0.95rem;font-weight:700;color:rgba(232,244,255,0.9);margin-top:3px;">13 <span style="color:rgba(180,215,242,0.4);font-weight:500;">/ 20 words</span></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:0.68rem;font-weight:700;color:#38BDF8;">65%</div>
+        <div style="font-size:0.62rem;color:rgba(180,215,242,0.4);margin-top:2px;">7 remaining</div>
+      </div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width:65%;"></div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div style="font-size:0.65rem;font-weight:700;color:rgba(180,215,242,0.35);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Quick Actions</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+    <div class="action-card" style="border-color:rgba(56,189,248,0.2);">
+      <div style="width:36px;height:36px;background:rgba(56,189,248,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">📖</div>
+      <div style="font-size:0.88rem;font-weight:700;color:rgba(232,244,255,0.88);">Learn</div>
+      <div style="font-size:0.68rem;color:rgba(56,189,248,0.7);font-weight:600;">10 new words</div>
+    </div>
+    <div class="action-card" style="border-color:rgba(244,114,182,0.2);">
+      <div style="width:36px;height:36px;background:rgba(244,114,182,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">✏️</div>
+      <div style="font-size:0.88rem;font-weight:700;color:rgba(232,244,255,0.88);">Test</div>
+      <div style="font-size:0.68rem;color:rgba(244,114,182,0.7);font-weight:600;">Spelling quiz</div>
+    </div>
+    <div class="action-card" style="border-color:rgba(129,140,248,0.2);">
+      <div style="width:36px;height:36px;background:rgba(129,140,248,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🔄</div>
+      <div style="font-size:0.88rem;font-weight:700;color:rgba(232,244,255,0.88);">Revise</div>
+      <div style="font-size:0.68rem;color:rgba(129,140,248,0.7);font-weight:600;">24 weak words</div>
+    </div>
+    <div class="action-card" style="border-color:rgba(52,211,153,0.2);">
+      <div style="width:36px;height:36px;background:rgba(52,211,153,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🏆</div>
+      <div style="font-size:0.88rem;font-weight:700;color:rgba(232,244,255,0.88);">Compete</div>
+      <div style="font-size:0.68rem;color:rgba(52,211,153,0.7);font-weight:600;">Rank #5 today</div>
+    </div>
+  </div>
+
+  <!-- Word of the day -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(180,215,242,0.4);">Word of the Day</div>
+      <div style="width:28px;height:28px;background:rgba(56,189,248,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">🔊</div>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:rgba(232,244,255,0.92);margin-bottom:3px;letter-spacing:1px;">EPHEMERAL</div>
+    <div style="font-size:0.7rem;color:rgba(180,215,242,0.45);margin-bottom:6px;">/ɪˈfem.ər.əl/ · adj</div>
+    <div style="font-size:0.78rem;color:rgba(180,215,242,0.6);line-height:1.5;padding-top:8px;border-top:1px solid rgba(56,189,248,0.08);">Lasting for a very short time; transitory</div>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div class="nav-item active" style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;">
+    <span style="font-size:1.1rem;">🏠</span><span class="nav-label" style="color:#38BDF8;">Home</span>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;">
+    <span style="font-size:1.1rem;">📖</span><span class="nav-label">Learn</span>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;">
+    <span style="font-size:1.1rem;">✏️</span><span class="nav-label">Test</span>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;">
+    <span style="font-size:1.1rem;">📊</span><span class="nav-label">Progress</span>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;">
+    <span style="font-size:1.1rem;">👤</span><span class="nav-label">Profile</span>
+  </div>
+</div>
+</body>
+</html>

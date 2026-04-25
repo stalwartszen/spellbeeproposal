@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Leaderboard · Warm Earth</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#1A0D04;width:390px;height:844px;overflow:hidden;position:relative;}
+.bg-glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.tab{flex:1;padding:10px;text-align:center;font-family:'Fredoka One',cursive;font-size:0.85rem;cursor:pointer;border-radius:12px;}
+.tab.active{background:#FF9A00;color:#fff;}
+.tab.inactive{color:rgba(255,218,170,0.45);}
+.rank-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;margin-bottom:6px;cursor:pointer;transition:all 0.2s;}
+.rank-row.me{background:rgba(255,154,0,0.12);border:1.5px solid rgba(255,154,0,0.35);}
+.rank-row:not(.me){background:#2D1508;}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:0.85rem;color:#fff;flex-shrink:0;}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(26,13,4,0.96);backdrop-filter:blur(20px);border-top:1px solid rgba(255,154,0,0.1);padding:10px 0 20px;display:flex;align-items:center;justify-content:space-around;}
+.nav-label{font-size:0.6rem;font-weight:700;color:rgba(255,218,170,0.35);}
+</style>
+</head>
+<body>
+
+<div class="bg-glow" style="width:380px;height:380px;background:rgba(255,154,0,0.08);top:-100px;left:50%;transform:translateX(-50%);"></div>
+<div class="bg-glow" style="width:250px;height:250px;background:rgba(255,107,53,0.06);bottom:80px;right:-50px;"></div>
+
+<!-- Notch -->
+<div style="width:120px;height:34px;background:#1A0D04;border-radius:0 0 20px 20px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:10;"></div>
+
+<div style="padding:48px 20px 84px;height:100%;overflow-y:auto;position:relative;z-index:1;">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div style="font-family:'Fredoka One',cursive;font-size:1.2rem;color:rgba(255,242,220,0.92);">Leaderboard 🏆</div>
+    <div style="background:rgba(255,154,0,0.15);border:1px solid rgba(255,154,0,0.3);border-radius:20px;padding:4px 12px;">
+      <span style="font-size:0.72rem;font-weight:700;color:#FF9A00;">Season 3</span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div style="background:#2D1508;border-radius:16px;padding:4px;display:flex;gap:4px;margin-bottom:20px;">
+    <div class="tab active">Class</div>
+    <div class="tab inactive">School</div>
+    <div class="tab inactive">National</div>
+  </div>
+
+  <!-- Podium -->
+  <div style="display:flex;align-items:flex-end;justify-content:center;gap:10px;margin-bottom:24px;background:linear-gradient(180deg,rgba(255,154,0,0.06),transparent);border-radius:20px;padding:16px 10px 0;">
+    <!-- 2nd -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div style="font-size:1.3rem;">🥈</div>
+      <div style="width:38px;height:38px;background:linear-gradient(135deg,rgba(255,218,170,0.4),rgba(255,218,170,0.2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:0.9rem;color:rgba(255,242,220,0.9);">P</div>
+      <div style="font-size:0.65rem;color:rgba(255,218,170,0.6);font-weight:700;text-align:center;">Priya</div>
+      <div style="width:100%;height:52px;background:rgba(255,218,170,0.15);border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:0.7rem;font-weight:700;color:rgba(255,218,170,0.6);">1,840</span>
+      </div>
+    </div>
+    <!-- 1st -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div style="font-size:1.5rem;">👑</div>
+      <div style="width:44px;height:44px;background:linear-gradient(135deg,#FF9A00,#FF6B35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1rem;color:#fff;box-shadow:0 4px 16px rgba(255,154,0,0.4);">A</div>
+      <div style="font-size:0.7rem;color:#FF9A00;font-weight:700;text-align:center;">Aryan</div>
+      <div style="width:100%;height:72px;background:linear-gradient(180deg,rgba(255,154,0,0.3),rgba(255,154,0,0.15));border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,154,0,0.25);">
+        <span style="font-family:'Fredoka One',cursive;font-size:0.85rem;color:#FF9A00;">2,340</span>
+      </div>
+    </div>
+    <!-- 3rd -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div style="font-size:1.3rem;">🥉</div>
+      <div style="width:38px;height:38px;background:linear-gradient(135deg,rgba(255,107,53,0.4),rgba(255,107,53,0.2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:0.9rem;color:rgba(255,242,220,0.9);">R</div>
+      <div style="font-size:0.65rem;color:rgba(255,218,170,0.6);font-weight:700;text-align:center;">Rohan</div>
+      <div style="width:100%;height:40px;background:rgba(255,107,53,0.15);border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:0.7rem;font-weight:700;color:rgba(255,107,53,0.7);">1,620</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rankings -->
+  <div>
+    <div class="rank-row">
+      <div style="font-family:'Fredoka One',cursive;font-size:0.85rem;color:rgba(255,218,170,0.4);width:22px;text-align:center;">4</div>
+      <div class="avatar" style="background:linear-gradient(135deg,#818CF8,#6C63FF);">S</div>
+      <div style="flex:1;"><div style="font-size:0.82rem;font-weight:700;color:rgba(255,242,220,0.85);">Sneha</div><div style="font-size:0.65rem;color:rgba(255,218,170,0.4);">Grade 3</div></div>
+      <div style="font-family:'Fredoka One',cursive;font-size:0.82rem;color:rgba(255,218,170,0.6);">1,510 XP</div>
+    </div>
+    <div class="rank-row me">
+      <div style="font-family:'Fredoka One',cursive;font-size:0.85rem;color:#FF9A00;width:22px;text-align:center;">5</div>
+      <div class="avatar" style="background:linear-gradient(135deg,#FF9A00,#FF6B35);">Y</div>
+      <div style="flex:1;"><div style="font-size:0.82rem;font-weight:700;color:rgba(255,242,220,0.92);">You 👋</div><div style="font-size:0.65rem;color:rgba(255,154,0,0.6);">Grade 3 · 12 streak</div></div>
+      <div style="font-family:'Fredoka One',cursive;font-size:0.82rem;color:#FF9A00;">1,420 XP</div>
+    </div>
+    <div class="rank-row">
+      <div style="font-family:'Fredoka One',cursive;font-size:0.85rem;color:rgba(255,218,170,0.4);width:22px;text-align:center;">6</div>
+      <div class="avatar" style="background:linear-gradient(135deg,#7DA87B,#5A8A58);">K</div>
+      <div style="flex:1;"><div style="font-size:0.82rem;font-weight:700;color:rgba(255,242,220,0.85);">Karan</div><div style="font-size:0.65rem;color:rgba(255,218,170,0.4);">Grade 3</div></div>
+      <div style="font-family:'Fredoka One',cursive;font-size:0.82rem;color:rgba(255,218,170,0.6);">1,380 XP</div>
+    </div>
+    <div class="rank-row">
+      <div style="font-family:'Fredoka One',cursive;font-size:0.85rem;color:rgba(255,218,170,0.4);width:22px;text-align:center;">7</div>
+      <div class="avatar" style="background:linear-gradient(135deg,#FFD93D,#FF9A00);">M</div>
+      <div style="flex:1;"><div style="font-size:0.82rem;font-weight:700;color:rgba(255,242,220,0.85);">Meera</div><div style="font-size:0.65rem;color:rgba(255,218,170,0.4);">Grade 3</div></div>
+      <div style="font-family:'Fredoka One',cursive;font-size:0.82rem;color:rgba(255,218,170,0.6);">1,260 XP</div>
+    </div>
+    <div class="rank-row">
+      <div style="font-family:'Fredoka One',cursive;font-size:0.85rem;color:rgba(255,218,170,0.4);width:22px;text-align:center;">8</div>
+      <div class="avatar" style="background:rgba(255,218,170,0.15);">A</div>
+      <div style="flex:1;"><div style="font-size:0.82rem;font-weight:700;color:rgba(255,242,220,0.85);">Anika</div><div style="font-size:0.65rem;color:rgba(255,218,170,0.4);">Grade 3</div></div>
+      <div style="font-family:'Fredoka One',cursive;font-size:0.82rem;color:rgba(255,218,170,0.6);">1,140 XP</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">🏠</span><span class="nav-label">Home</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">📖</span><span class="nav-label">Learn</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">✏️</span><span class="nav-label">Test</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">📊</span><span class="nav-label">Progress</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;"><span style="font-size:1.2rem;">🏆</span><span class="nav-label" style="color:#FF9A00;">Rank</span></div>
+</div>
+</body>
+</html>

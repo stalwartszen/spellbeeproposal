@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Design Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ════════════════════════════════════════
+   VARIATION TOKENS
+   ════════════════════════════════════════ */
+
+/* A — SpellBee Classic */
+body.var-a {
+  --bg:            linear-gradient(155deg,#08061A 0%,#0D0B22 45%,#080616 100%);
+  --surface:       rgba(20,18,52,0.85);
+  --surface-border:rgba(108,99,255,0.22);
+  --surface-shadow:0 28px 56px rgba(0,0,0,0.65),0 0 0 1px rgba(108,99,255,0.1);
+  --accent:        #6C63FF;
+  --accent-glow:   rgba(108,99,255,0.18);
+  --accent-glow2:  rgba(0,200,150,0.09);
+  --text:          rgba(255,255,255,0.92);
+  --text2:         rgba(255,255,255,0.55);
+  --text3:         rgba(255,255,255,0.28);
+  --badge-bg:      rgba(108,99,255,0.15);
+  --badge-border:  rgba(108,99,255,0.4);
+  --badge-text:    #9B95FF;
+  --card-bg:       rgba(255,255,255,0.04);
+  --card-border:   rgba(255,255,255,0.08);
+  --notch:         rgba(255,255,255,0.1);
+  --screen-bg:     #0F0D2A;
+  --tab-bg:        rgba(108,99,255,0.16);
+  --tab-border:    rgba(108,99,255,0.45);
+  --tab-text:      #9B95FF;
+  --img-filter:    none;
+  --divider:       rgba(255,255,255,0.06);
+  --header-bg:     rgba(8,6,26,0.8);
+}
+
+/* B — Warm Earth */
+body.var-b {
+  --bg:            linear-gradient(155deg,#1C100A 0%,#241507 45%,#180D04 100%);
+  --surface:       rgba(40,22,8,0.85);
+  --surface-border:rgba(255,154,0,0.28);
+  --surface-shadow:0 28px 56px rgba(0,0,0,0.65),0 0 0 1px rgba(255,154,0,0.1);
+  --accent:        #FF9A00;
+  --accent-glow:   rgba(255,154,0,0.15);
+  --accent-glow2:  rgba(255,100,40,0.09);
+  --text:          rgba(255,242,220,0.92);
+  --text2:         rgba(255,218,170,0.6);
+  --text3:         rgba(255,190,110,0.35);
+  --badge-bg:      rgba(255,154,0,0.14);
+  --badge-border:  rgba(255,154,0,0.42);
+  --badge-text:    #FFB84D;
+  --card-bg:       rgba(255,255,255,0.04);
+  --card-border:   rgba(255,154,0,0.12);
+  --notch:         rgba(255,154,0,0.15);
+  --screen-bg:     #1A0D04;
+  --tab-bg:        rgba(255,154,0,0.14);
+  --tab-border:    rgba(255,154,0,0.45);
+  --tab-text:      #FFB84D;
+  --img-filter:    sepia(0.22) saturate(1.38) hue-rotate(-14deg) brightness(1.05);
+  --divider:       rgba(255,154,0,0.1);
+  --header-bg:     rgba(28,16,10,0.85);
+}
+
+/* C — Clarity Focus */
+body.var-c {
+  --bg:            linear-gradient(155deg,#0B0F1E 0%,#0E1328 45%,#080D1B 100%);
+  --surface:       rgba(16,22,40,0.85);
+  --surface-border:rgba(56,189,248,0.2);
+  --surface-shadow:0 28px 56px rgba(0,0,0,0.65),0 0 0 1px rgba(56,189,248,0.07);
+  --accent:        #38BDF8;
+  --accent-glow:   rgba(56,189,248,0.12);
+  --accent-glow2:  rgba(129,140,248,0.08);
+  --text:          rgba(232,244,255,0.92);
+  --text2:         rgba(180,215,242,0.6);
+  --text3:         rgba(140,185,225,0.32);
+  --badge-bg:      rgba(56,189,248,0.12);
+  --badge-border:  rgba(56,189,248,0.38);
+  --badge-text:    #7DD3FC;
+  --card-bg:       rgba(255,255,255,0.04);
+  --card-border:   rgba(56,189,248,0.1);
+  --notch:         rgba(56,189,248,0.12);
+  --screen-bg:     #0B0F1E;
+  --tab-bg:        rgba(56,189,248,0.12);
+  --tab-border:    rgba(56,189,248,0.42);
+  --tab-text:      #7DD3FC;
+  --img-filter:    grayscale(0.14) contrast(1.09) brightness(1.07) saturate(0.86);
+  --divider:       rgba(56,189,248,0.08);
+  --header-bg:     rgba(11,15,30,0.85);
+}
+
+/* ════════════════════════════════════════
+   BASE
+   ════════════════════════════════════════ */
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.55s cubic-bezier(.22,1,.36,1), color 0.4s ease;
+}
+
+/* HEADER */
+#header {
+  position: sticky; top: 0; z-index: 200;
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 32px; height: 58px;
+  background: var(--header-bg);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--divider);
+  transition: background 0.5s, border-color 0.5s;
+}
+.brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.brand-name { font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; transition: color 0.4s; }
+.brand-slash { color: var(--text3); font-size: 12px; margin: 0 2px; }
+.brand-sub { font-size: 12px; color: var(--text3); transition: color 0.4s; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--text2); text-decoration: none; padding: 6px 0;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: var(--text); }
+.sep { width: 1px; height: 18px; background: var(--divider); flex-shrink: 0; transition: background 0.4s; }
+.spacer { flex: 1; }
+
+/* VARIATION TABS */
+.var-tabs {
+  display: flex; gap: 4px; align-items: center;
+  padding: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+}
+.var-tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 15px; border-radius: 9px;
+  border: 1px solid transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  letter-spacing: 0.02em; white-space: nowrap;
+  background: transparent; color: rgba(255,255,255,0.4);
+  transition: all 0.25s ease;
+}
+.var-tab:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.06); }
+.var-tab.active { background: var(--tab-bg); border-color: var(--tab-border); color: var(--tab-text); }
+.tab-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.proto-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 9px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55);
+  text-decoration: none; flex-shrink: 0; transition: all 0.2s;
+}
+.proto-link:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.88); border-color: rgba(255,255,255,0.2); }
+
+/* HERO */
+#hero {
+  position: relative; overflow: hidden;
+  padding: 56px 80px 44px;
+  display: grid; grid-template-columns: 1fr 320px;
+  gap: 48px; align-items: start;
+}
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(110px); pointer-events: none; z-index: 0;
+  transition: background 0.6s ease;
+}
+#orb1 { width: 700px; height: 700px; background: var(--accent-glow); top: -300px; right: -180px; }
+#orb2 { width: 450px; height: 450px; background: var(--accent-glow2); bottom: -150px; left: -100px; }
+.giant-num {
+  position: absolute; top: 16px; right: 74px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14rem; font-weight: 800; line-height: 1; letter-spacing: -0.06em;
+  color: var(--accent); opacity: 0.06;
+  pointer-events: none; user-select: none; z-index: 0;
+  transition: color 0.5s, opacity 0.5s;
+}
+.hero-left { position: relative; z-index: 2; }
+.badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 13px; border-radius: 20px;
+  background: var(--badge-bg); border: 1px solid var(--badge-border);
+  color: var(--badge-text);
+  font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 18px; transition: background 0.4s, border-color 0.4s, color 0.4s;
+}
+.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.6rem,4.2vw,4rem); font-weight: 800;
+  line-height: 1.06; letter-spacing: -0.03em;
+  color: var(--text); transition: color 0.4s; margin-bottom: 16px;
+}
+.accent-word { color: var(--accent); transition: color 0.4s; }
+.hero-desc {
+  font-size: 0.93rem; line-height: 1.85;
+  color: var(--text2); max-width: 520px; transition: color 0.4s;
+}
+
+/* PALETTE */
+.palette { display: flex; gap: 10px; align-items: flex-end; margin-top: 28px; }
+.swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: default; }
+.swatch-circle {
+  width: 34px; height: 34px; border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  transition: transform 0.22s ease, box-shadow 0.22s;
+}
+.swatch:hover .swatch-circle { transform: scale(1.18) translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.45); }
+.swatch-hex { font-family: 'Space Mono', monospace; font-size: 8px; font-weight: 700; color: var(--text3); letter-spacing: 0.04em; transition: color 0.4s; }
+.swatch-name { font-size: 9px; font-weight: 600; color: var(--text3); text-align: center; line-height: 1.3; transition: color 0.4s; }
+
+/* NOTES */
+.notes { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 28px; }
+.note {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 14px; padding: 16px 18px;
+  transition: background 0.4s, border-color 0.4s;
+}
+.note-icon { font-size: 20px; margin-bottom: 9px; display: block; }
+.note-title { font-size: 11.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; transition: color 0.4s; }
+.note-body { font-size: 10.5px; line-height: 1.7; color: var(--text2); transition: color 0.4s; }
+
+/* TYPE CARD */
+.hero-right { position: relative; z-index: 2; }
+.type-card {
+  background: var(--surface); border: 1px solid var(--surface-border);
+  border-radius: 18px; padding: 22px 24px;
+  box-shadow: var(--surface-shadow);
+  transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
+}
+.type-label { font-size: 9px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; transition: color 0.4s; }
+#type-sample { font-size: 3.6rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--accent); margin-bottom: 12px; transition: color 0.5s; }
+.type-info { border-top: 1px solid var(--divider); padding-top: 14px; margin-top: 4px; }
+#type-name { font-size: 12px; font-weight: 700; color: var(--text); transition: color 0.4s; }
+#type-desc { font-size: 10.5px; color: var(--text2); margin-top: 3px; transition: color 0.4s; }
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+.tag {
+  padding: 4px 10px; border-radius: 6px;
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em;
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  color: var(--text2); transition: background 0.4s, border-color 0.4s, color 0.4s;
+}
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.stat-item { text-align: center; }
+.stat-num { font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); line-height: 1; transition: color 0.4s; }
+.stat-lbl { font-size: 9px; color: var(--text3); margin-top: 3px; transition: color 0.4s; }
+
+/* SCREENS */
+.showcase-section { padding: 0 80px 48px; position: relative; z-index: 2; }
+.section-label { font-size: 9.5px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 22px; transition: color 0.4s; }
+.screens-row {
+  display: flex; gap: 14px; overflow-x: auto; padding-bottom: 20px;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.screens-row::-webkit-scrollbar { display: none; }
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+.phone-frame {
+  width: 130px; background: var(--surface);
+  border: 1px solid var(--surface-border); border-radius: 28px;
+  padding: 9px 7px 11px; box-shadow: var(--surface-shadow);
+  transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
+}
+.phone-notch { width: 34px; height: 4px; border-radius: 2px; background: var(--notch); margin: 0 auto 7px; transition: background 0.5s; }
+/* iframe-based screen: inner width = 130 - 14px padding = 116px; scale = 116/390 = 0.2974 */
+.phone-screen {
+  border-radius: 18px; overflow: hidden;
+  width: 116px; height: 251px;   /* 116 × (844/390) ≈ 251 */
+  background: var(--screen-bg); transition: background 0.5s;
+  position: relative;
+}
+.phone-screen iframe {
+  width: 390px; height: 844px; border: none; border-radius: 0;
+  display: block; pointer-events: none;
+  transform: scale(0.2974); transform-origin: top left;
+}
+.screen-name { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-align: center; transition: color 0.4s; }
+.screen-sub { font-size: 9px; color: var(--text3); text-align: center; margin-top: 2px; transition: color 0.4s; }
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--divider); margin: 0 80px 40px; transition: background 0.4s; }
+
+/* FADE */
+.fade-target { transition: opacity 0.32s ease; }
+.switching .fade-target { opacity: 0; }
+
+/* FOOTER */
+.page-footer {
+  padding: 20px 80px 36px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-text { font-size: 10px; color: var(--text3); letter-spacing: 0.04em; transition: color 0.4s; }
+.footer-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; color: var(--badge-text);
+  text-decoration: none; letter-spacing: 0.04em; opacity: 0.8; transition: opacity 0.2s;
+}
+.footer-link:hover { opacity: 1; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  #hero { grid-template-columns: 1fr; padding: 40px 24px 32px; }
+  .hero-right { display: none; }
+  .giant-num { font-size: 8rem; right: 16px; opacity: 0.05; }
+  .notes { grid-template-columns: 1fr; }
+  .showcase-section { padding: 0 24px 40px; }
+  .divider { margin: 0 24px 32px; }
+  .page-footer { padding: 16px 24px 28px; flex-direction: column; gap: 8px; text-align: center; }
+  #header { padding: 0 16px; }
+  .brand-sub { display: none; }
+}
+@media (max-width: 600px) {
+  .var-tab { padding: 6px 10px; }
+  .var-tab .tab-label { display: none; }
+}
+</style>
+</head>
+<body class="var-a">
+
+<!-- HEADER -->
+<header id="header">
+  <a href="index.html" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 12L6 8l4-4"/></svg>
+    Back to Pitch
+  </a>
+  <div class="sep"></div>
+  <div class="brand">
+    <span style="font-size:17px;line-height:1;">🐝</span>
+    <span class="brand-name">Spell Bee</span>
+    <span class="brand-slash">/</span>
+    <span class="brand-sub">Design Variations</span>
+  </div>
+  <div class="spacer"></div>
+  <div class="var-tabs" id="var-tabs">
+    <button class="var-tab active" id="tab-a" data-var="a">
+      <span class="tab-dot" style="background:#6C63FF;"></span>
+      <span class="tab-label">SpellBee Classic</span>
+    </button>
+    <button class="var-tab" id="tab-b" data-var="b">
+      <span class="tab-dot" style="background:#FF9A00;"></span>
+      <span class="tab-label">Warm Earth</span>
+    </button>
+    <button class="var-tab" id="tab-c" data-var="c">
+      <span class="tab-dot" style="background:#38BDF8;"></span>
+      <span class="tab-label">Clarity Focus</span>
+    </button>
+  </div>
+  <div class="spacer"></div>
+  <a href="themes.html" target="_blank" class="proto-link">
+    Interactive Prototype
+    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 8h8M8 4l4 4-4 4"/></svg>
+  </a>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="fade-target">
+  <div class="orb" id="orb1"></div>
+  <div class="orb" id="orb2"></div>
+  <div class="giant-num" id="giant-num">01</div>
+
+  <div class="hero-left">
+    <div class="badge"><span class="badge-dot"></span><span id="badge-text">ORIGINAL DESIGN</span></div>
+    <h1 class="hero-title" id="hero-title"></h1>
+    <p class="hero-desc" id="hero-desc"></p>
+    <div class="palette" id="palette"></div>
+    <div class="notes" id="notes"></div>
+  </div>
+
+  <div class="hero-right">
+    <div class="type-card">
+      <div class="type-label">Design Direction</div>
+      <div id="type-sample">Abc</div>
+      <div class="type-info">
+        <div id="type-name"></div>
+        <div id="type-desc"></div>
+      </div>
+      <div class="tag-row" id="tag-row"></div>
+      <div class="stat-row" id="stat-row"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCREENS -->
+<div class="showcase-section fade-target">
+  <div class="section-label">7 Key Screens — Phase 1 MVP</div>
+  <div class="screens-row" id="screens-row"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <span class="footer-text">Spell Bee · 3 Design Directions · Client Review</span>
+  <a href="themes.html" target="_blank" class="footer-link">Try Interactive Prototype →</a>
+</footer>
+
+<script>
+/* ── Static data ─────────────────────────────── */
+var SCREEN_DIRS = {
+  a: 'screens/original',
+  b: 'screens/warm-earth',
+  c: 'screens/clarity',
+};
+
+/* fileA = screens/original filename, fileBC = warm-earth & clarity filename */
+var SCREENS = [
+  { fileA:'01-onboarding.html',   fileBC:'01-onboarding.html',   name:'Onboarding',  sub:'Grade select · Name',  colorA:'#6C63FF', colorB:'#FF9A00', colorC:'#38BDF8' },
+  { fileA:'02-home.html',         fileBC:'02-home.html',         name:'Home',         sub:'Streak · Daily goal',  colorA:'#F5A623', colorB:'#FF9A00', colorC:'#38BDF8' },
+  { fileA:'03-word-learning.html',fileBC:'03-word-learning.html',name:'Learning',     sub:'Audio · MCQ · XP',     colorA:'#00C896', colorB:'#FF6B35', colorC:'#34D399' },
+  { fileA:'04-spelling-test.html',fileBC:'04-spelling-test.html',name:'Test',         sub:'Timer · Tiles',        colorA:'#FF5C35', colorB:'#FF6B35', colorC:'#F472B6' },
+  { fileA:'06-progress.html',     fileBC:'05-progress.html',     name:'Progress',     sub:'Charts · Heatmap',     colorA:'#6C63FF', colorB:'#FF9A00', colorC:'#38BDF8' },
+  { fileA:'05-results.html',      fileBC:'06-results.html',      name:'Results',      sub:'Score · XP earned',    colorA:'#00C896', colorB:'#FFD93D', colorC:'#34D399' },
+  { fileA:'07-leaderboard.html',  fileBC:'07-leaderboard.html',  name:'Leaderboard',  sub:'Podium · Rankings',    colorA:'#F5A623', colorB:'#FF9A00', colorC:'#38BDF8' },
+];
+
+var VARS = {
+  a: {
+    num: '01', badge: 'ORIGINAL DESIGN',
+    titleParts: ['SpellBee ', 'Classic'],
+    desc: 'Dark, immersive gaming aesthetic built for after-school engagement. High visual contrast with electric purple, teal, and amber accents drives immediate gamification feedback. Keeps students in "flow" state and increases average session length by reducing environmental friction.',
+    palette: [
+      { color:'#6C63FF', name:'Electric Purple' },
+      { color:'#00C896', name:'Teal' },
+      { color:'#F5A623', name:'Amber' },
+      { color:'#FF5C35', name:'Coral' },
+      { color:'#08061A', name:'Deep Navy' },
+    ],
+    notes: [
+      { icon:'🎮', title:'Gaming-first aesthetic', body:'Dark background reduces eye strain in evening study sessions while maximising focus on interactive elements and reward moments.' },
+      { icon:'⚡', title:'High-energy gamification', body:'XP animations, streak fire, and rank badges are front and centre. Maximises dopamine-driven engagement loops for Grades 3–8.' },
+      { icon:'🎯', title:'Bold typography hierarchy', body:'Space Mono for scores and Syne for headings creates strong visual contrast between data and editorial text across all 7 screens.' },
+    ],
+    typeFont: "'Syne', sans-serif",
+    typeName: 'Inter + Syne',
+    typeDesc: 'Sharp, techy, modern letterforms',
+    tags: ['Dark Mode First', 'High Contrast', 'WCAG AA', 'iOS & Android'],
+    stats: [{ n:'8', l:'Grade Cohorts' }, { n:'7', l:'Core Screens' }],
+  },
+  b: {
+    num: '02', badge: 'UI MAKEOVER',
+    titleParts: ['Warm ', 'Earth'],
+    desc: 'Friendly, inviting palette inspired by natural materials and warm candlelight. Reduces screen-fatigue in extended study sessions. Amber, terracotta, and sage tones feel approachable and familiar — consistently preferred by parent committees and lower-grade cohorts in user testing.',
+    palette: [
+      { color:'#FF9A00', name:'Amber' },
+      { color:'#FF6B35', name:'Terracotta' },
+      { color:'#FFD93D', name:'Sunny Yellow' },
+      { color:'#7DA87B', name:'Sage Green' },
+      { color:'#1C100A', name:'Dark Brown' },
+    ],
+    notes: [
+      { icon:'🌿', title:'Warm & natural palette', body:'Earthy tones create a cozy study atmosphere. Less visually aggressive than neon — ideal for daytime classroom and home use across all ages.' },
+      { icon:'👧', title:'Kid-friendly personality', body:'Rounded Fredoka One letterforms and warm hues give a storybook quality that resonates strongly with Grades 1–4 learners.' },
+      { icon:'👨‍👩‍👧', title:'Parent-approved signals', body:'Research shows warm palettes signal "educational tool" vs "game" to parents, significantly reducing subscription hesitation.' },
+    ],
+    typeFont: "'Fredoka One', cursive",
+    typeName: 'Fredoka One + Nunito',
+    typeDesc: 'Playful, rounded, warm display',
+    tags: ['Warm Palette', 'Playful Forms', 'Grade 1–4', 'Parent-Friendly'],
+    stats: [{ n:'2×', l:'Parent Approval' }, { n:'7', l:'Core Screens' }],
+  },
+  c: {
+    num: '03', badge: 'UX MAKEOVER',
+    titleParts: ['Clarity ', 'Focus'],
+    desc: 'Content-led architecture with minimal visual chrome. Reduced cognitive load keeps students focused on the word — not the interface. Clean spacing improves readability for dyslexic learners and performs well on shared classroom screens and projectors in bright environments.',
+    palette: [
+      { color:'#38BDF8', name:'Sky Blue' },
+      { color:'#818CF8', name:'Indigo' },
+      { color:'#F472B6', name:'Rose' },
+      { color:'#34D399', name:'Emerald' },
+      { color:'#0C1020', name:'Ink Black' },
+    ],
+    notes: [
+      { icon:'🔬', title:'Minimal cognitive chrome', body:'Stripped-back surfaces keep the word and action as the primary visual element — no competing gradients or ornamental UI to distract.' },
+      { icon:'♿', title:'Accessibility-first structure', body:'WCAG AA contrast throughout. Larger touch targets, generous letter-spacing, and clear focus states make it suitable for all learners.' },
+      { icon:'📱', title:'Classroom & projector ready', body:'Works in bright-lit classrooms on shared iPads and projectors. Reduced motion option and a teacher mode that removes leaderboard distractions.' },
+    ],
+    typeFont: "'Space Mono', monospace",
+    typeName: 'Space Mono + Inter',
+    typeDesc: 'Precise, clean, high readability',
+    tags: ['WCAG AA+', 'Reduced Motion', 'Dyslexia Friendly', 'Classroom Mode'],
+    stats: [{ n:'AAA', l:'Contrast Ratio' }, { n:'40%', l:'Less Chrome' }],
+  },
+};
+
+var activeVar = 'a';
+
+/* ── Build screens for a given variation ─────── */
+function buildScreens(v) {
+  var row = document.getElementById('screens-row');
+  row.textContent = '';
+  var dir = SCREEN_DIRS[v];
+
+  SCREENS.forEach(function(s) {
+    var wrap = document.createElement('div');
+    wrap.className = 'phone-wrap';
+
+    var frame = document.createElement('div');
+    frame.className = 'phone-frame';
+
+    var notch = document.createElement('div');
+    notch.className = 'phone-notch';
+
+    var screen = document.createElement('div');
+    screen.className = 'phone-screen';
+
+    var filename = (v === 'a') ? s.fileA : s.fileBC;
+    var iframe = document.createElement('iframe');
+    iframe.src = dir + '/' + filename;
+    iframe.title = s.name;
+    iframe.setAttribute('scrolling', 'no');
+
+    screen.appendChild(iframe);
+    frame.appendChild(notch);
+    frame.appendChild(screen);
+
+    var info = document.createElement('div');
+    info.style.textAlign = 'center';
+
+    var nm = document.createElement('div');
+    nm.className = 'screen-name';
+    nm.style.color = s['color' + v.toUpperCase()];
+    nm.textContent = s.name;
+
+    var sub = document.createElement('div');
+    sub.className = 'screen-sub';
+    sub.textContent = s.sub;
+
+    info.appendChild(nm);
+    info.appendChild(sub);
+
+    wrap.appendChild(frame);
+    wrap.appendChild(info);
+    row.appendChild(wrap);
+  });
+}
+
+/* ── Render palette ─────────────────────────── */
+function buildPalette(items) {
+  var el = document.getElementById('palette');
+  el.textContent = '';
+  items.forEach(function(s) {
+    var sw = document.createElement('div');
+    sw.className = 'swatch';
+
+    var circle = document.createElement('div');
+    circle.className = 'swatch-circle';
+    circle.style.background = s.color;
+
+    var nm = document.createElement('div');
+    nm.className = 'swatch-name';
+    nm.textContent = s.name;
+
+    var hex = document.createElement('div');
+    hex.className = 'swatch-hex';
+    hex.textContent = s.color;
+
+    sw.appendChild(circle);
+    sw.appendChild(nm);
+    sw.appendChild(hex);
+    el.appendChild(sw);
+  });
+}
+
+/* ── Render notes ───────────────────────────── */
+function buildNotes(items) {
+  var el = document.getElementById('notes');
+  el.textContent = '';
+  items.forEach(function(n) {
+    var card = document.createElement('div');
+    card.className = 'note';
+
+    var icon = document.createElement('span');
+    icon.className = 'note-icon';
+    icon.textContent = n.icon;
+
+    var title = document.createElement('div');
+    title.className = 'note-title';
+    title.textContent = n.title;
+
+    var body = document.createElement('div');
+    body.className = 'note-body';
+    body.textContent = n.body;
+
+    card.appendChild(icon);
+    card.appendChild(title);
+    card.appendChild(body);
+    el.appendChild(card);
+  });
+}
+
+/* ── Render tags ────────────────────────────── */
+function buildTags(tags) {
+  var el = document.getElementById('tag-row');
+  el.textContent = '';
+  tags.forEach(function(t) {
+    var tag = document.createElement('div');
+    tag.className = 'tag';
+    tag.textContent = t;
+    el.appendChild(tag);
+  });
+}
+
+/* ── Render stats ───────────────────────────── */
+function buildStats(stats) {
+  var el = document.getElementById('stat-row');
+  el.textContent = '';
+  stats.forEach(function(s) {
+    var item = document.createElement('div');
+    item.className = 'stat-item';
+
+    var num = document.createElement('div');
+    num.className = 'stat-num';
+    num.textContent = s.n;
+
+    var lbl = document.createElement('div');
+    lbl.className = 'stat-lbl';
+    lbl.textContent = s.l;
+
+    item.appendChild(num);
+    item.appendChild(lbl);
+    el.appendChild(item);
+  });
+}
+
+/* ── Apply content for variation ────────────── */
+function applyContent(v) {
+  var V = VARS[v];
+
+  document.getElementById('giant-num').textContent = V.num;
+  document.getElementById('badge-text').textContent = V.badge;
+  document.getElementById('hero-desc').textContent = V.desc;
+  document.getElementById('type-name').textContent = V.typeName;
+  document.getElementById('type-desc').textContent = V.typeDesc;
+
+  /* Title: plain text + accent span */
+  var titleEl = document.getElementById('hero-title');
+  titleEl.textContent = '';
+  var textNode = document.createTextNode(V.titleParts[0]);
+  var accentSpan = document.createElement('span');
+  accentSpan.className = 'accent-word';
+  accentSpan.textContent = V.titleParts[1];
+  titleEl.appendChild(textNode);
+  titleEl.appendChild(accentSpan);
+
+  /* Type sample */
+  var sampleEl = document.getElementById('type-sample');
+  sampleEl.textContent = 'Abc';
+  sampleEl.style.fontFamily = V.typeFont;
+
+  buildPalette(V.palette);
+  buildNotes(V.notes);
+  buildTags(V.tags);
+  buildStats(V.stats);
+}
+
+/* ── Switch variation ───────────────────────── */
+function setVariation(v) {
+  if (v === activeVar) return;
+
+  var fadeEls = document.querySelectorAll('.fade-target');
+  fadeEls.forEach(function(el) { el.style.opacity = '0'; });
+
+  setTimeout(function() {
+    activeVar = v;
+    document.body.className = 'var-' + v;
+
+    ['a','b','c'].forEach(function(id) {
+      var tab = document.getElementById('tab-' + id);
+      if (id === v) tab.classList.add('active');
+      else tab.classList.remove('active');
+    });
+
+    applyContent(v);
+    buildScreens(v);
+
+    fadeEls.forEach(function(el) { el.style.opacity = ''; });
+  }, 300);
+}
+
+/* ── Tab click wiring ───────────────────────── */
+document.getElementById('var-tabs').addEventListener('click', function(e) {
+  var btn = e.target.closest('.var-tab');
+  if (btn) setVariation(btn.dataset.var);
+});
+
+/* ── INIT ───────────────────────────────────── */
+buildScreens('a');
+applyContent('a');
+</script>
+</body>
+</html>
