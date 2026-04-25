@@ -262,12 +262,11 @@ body {
 }
 .screens-row::-webkit-scrollbar { display: none; }
 /* ── iPhone mockup ─────────────────────────────
-   Outer shell: 124px wide
-   Bezel: 5px left/right, 9px top, 10px bottom
-   Inner screen: 109px wide
-   Scale = 109 / 390 = 0.2795
-   Screen height = 844 × 0.2795 ≈ 236px
-   Total shell height = 236 + 9 + 10 = 255px + inset = 265px
+   Outer shell: 100px wide
+   Inner screen: 86px wide
+   Scale = 86 / 390 = 0.2205
+   Screen height = 844 × 0.2205 ≈ 186px
+   Total shell height ≈ 211px
    ─────────────────────────────────────────── */
 .phone-wrap {
   display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -276,40 +275,39 @@ body {
 
 /* Outer titanium shell */
 .iphone {
-  width: 124px;
-  height: 264px;
-  border-radius: 28px;
+  width: 100px;
+  height: 211px;
+  border-radius: 22px;
   position: relative;
   flex-shrink: 0;
-  /* Titanium frame — multi-layer shadow for depth */
   background: linear-gradient(160deg,#3a3a3c 0%,#1c1c1e 40%,#2c2c2e 100%);
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.14),
     0 0 0 2px #111113,
     0 0 0 3px rgba(255,255,255,0.08),
-    0 20px 44px rgba(0,0,0,0.72),
-    0 6px 16px rgba(0,0,0,0.5),
+    0 16px 36px rgba(0,0,0,0.72),
+    0 5px 12px rgba(0,0,0,0.5),
     inset 0 1px 0 rgba(255,255,255,0.18);
   transition: box-shadow 0.5s, transform 0.3s;
 }
-.iphone:hover { transform: translateY(-4px) scale(1.02); }
+.iphone:hover { transform: translateY(-3px) scale(1.02); }
 
 /* Side buttons — left: silent + volume */
 .iphone::before {
   content: '';
   position: absolute;
-  left: -3px; top: 56px;
-  width: 3px; height: 20px;
+  left: -2.5px; top: 44px;
+  width: 2.5px; height: 15px;
   background: linear-gradient(180deg,#3a3a3c,#2a2a2c);
   border-radius: 2px 0 0 2px;
-  box-shadow: 0 24px 0 #333335, 0 44px 0 #333335, -1px 0 0 rgba(255,255,255,0.1);
+  box-shadow: 0 19px 0 #333335, 0 35px 0 #333335, -1px 0 0 rgba(255,255,255,0.1);
 }
 /* Right: power button */
 .iphone::after {
   content: '';
   position: absolute;
-  right: -3px; top: 76px;
-  width: 3px; height: 36px;
+  right: -2.5px; top: 60px;
+  width: 2.5px; height: 28px;
   background: linear-gradient(180deg,#3a3a3c,#2a2a2c);
   border-radius: 0 2px 2px 0;
   box-shadow: -1px 0 0 rgba(0,0,0,0.4);
@@ -318,8 +316,8 @@ body {
 /* Screen glass area */
 .iphone-glass {
   position: absolute;
-  inset: 4px;
-  border-radius: 25px;
+  inset: 3px;
+  border-radius: 20px;
   overflow: hidden;
   background: #000;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
@@ -328,9 +326,9 @@ body {
 /* Actual app screen (clipped to glass) */
 .iphone-screen {
   position: absolute;
-  top: 9px; left: 5px;
-  width: 109px; height: 236px;
-  border-radius: 22px;
+  top: 7px; left: 4px;
+  width: 86px; height: 186px;
+  border-radius: 17px;
   overflow: hidden;
   background: #000;
 }
@@ -338,17 +336,17 @@ body {
   width: 390px; height: 844px;
   border: none; display: block;
   pointer-events: none;
-  transform: scale(0.2795);
+  transform: scale(0.2205);
   transform-origin: top left;
 }
 
 /* Dynamic Island */
 .dynamic-island {
   position: absolute;
-  top: 11px; left: 50%; transform: translateX(-50%);
-  width: 36px; height: 8px;
+  top: 9px; left: 50%; transform: translateX(-50%);
+  width: 26px; height: 6px;
   background: #000;
-  border-radius: 6px;
+  border-radius: 5px;
   z-index: 10;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
 }
@@ -356,8 +354,8 @@ body {
 /* Home indicator bar */
 .home-bar {
   position: absolute;
-  bottom: 14px; left: 50%; transform: translateX(-50%);
-  width: 36px; height: 3px;
+  bottom: 10px; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 2px;
   background: rgba(255,255,255,0.35);
   border-radius: 3px;
   z-index: 10;
