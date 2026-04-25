@@ -118,6 +118,38 @@
     width: 60px; height: 3px; background: rgba(255,255,255,0.35);
     border-radius: 3px; z-index: 10;
   }
+
+  /* ── Floating theme switcher (outside phones) ── */
+  #theme-dock {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 22px; border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    transition: background 0.35s, border-color 0.35s;
+  }
+  .theme-chip {
+    display: flex; align-items: center; gap: 9px;
+    padding: 9px 20px; border-radius: 999px; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.01em;
+    transition: all 0.25s ease; white-space: nowrap;
+  }
+  .theme-chip:hover { transform: translateY(-1px); }
+  .chip-swatch {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    transition: transform 0.25s;
+  }
+  .theme-chip:hover .chip-swatch { transform: scale(1.3); }
+  .dock-sep {
+    width: 1px; height: 22px; background: rgba(255,255,255,0.12); flex-shrink: 0;
+  }
+  #dock-mode {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 16px; border-radius: 999px; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 600; transition: all 0.25s ease;
+  }
+  #dock-mode:hover { transform: translateY(-1px); }
 </style>
 </head>
 <body id="body">
@@ -166,48 +198,70 @@
 </div>
 
 <!-- ═══════════ SCREENS ═══════════ -->
-<div id="pageBody" class="w-full flex items-center justify-center gap-10 flex-wrap" style="min-height:calc(100vh - 53px); padding: 48px 40px;">
+<div id="pageBody" style="min-height:calc(100vh - 53px); padding: 40px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:36px;">
 
-  <!-- Home -->
-  <div id="screen-home" class="flex flex-col items-center gap-3">
-    <div class="iphone">
-      <div class="iphone-glass">
-        <div class="iphone-screen">
-          <iframe id="iframe-home" src="screens/original/02-home.html" scrolling="no"></iframe>
+  <!-- Phones row -->
+  <div style="display:flex; align-items:flex-end; justify-content:center; gap:32px; flex-wrap:wrap;">
+
+    <!-- Home -->
+    <div id="screen-home" class="flex flex-col items-center gap-3">
+      <div class="iphone">
+        <div class="iphone-glass">
+          <div class="iphone-screen">
+            <iframe id="iframe-home" src="screens/original/02-home.html" scrolling="no"></iframe>
+          </div>
         </div>
+        <div class="dynamic-island"></div>
+        <div class="home-bar"></div>
       </div>
-      <div class="dynamic-island"></div>
-      <div class="home-bar"></div>
+      <span id="label-home" style="font-size:12px;font-weight:600;letter-spacing:0.5px;opacity:0.5;">Home</span>
     </div>
-    <span id="label-home" style="font-size:12px;font-weight:600;letter-spacing:0.5px;opacity:0.5;">Home</span>
+
+    <!-- Spelling Test -->
+    <div id="screen-test" class="flex flex-col items-center gap-3">
+      <div class="iphone">
+        <div class="iphone-glass">
+          <div class="iphone-screen">
+            <iframe id="iframe-test" src="screens/original/04-spelling-test.html" scrolling="no"></iframe>
+          </div>
+        </div>
+        <div class="dynamic-island"></div>
+        <div class="home-bar"></div>
+      </div>
+      <span id="label-test" style="font-size:12px;font-weight:600;letter-spacing:0.5px;opacity:0.5;">Spelling Test</span>
+    </div>
+
+    <!-- Leaderboard -->
+    <div id="screen-leader" class="flex flex-col items-center gap-3">
+      <div class="iphone">
+        <div class="iphone-glass">
+          <div class="iphone-screen">
+            <iframe id="iframe-leader" src="screens/original/07-leaderboard.html" scrolling="no"></iframe>
+          </div>
+        </div>
+        <div class="dynamic-island"></div>
+        <div class="home-bar"></div>
+      </div>
+      <span id="label-leader" style="font-size:12px;font-weight:600;letter-spacing:0.5px;opacity:0.5;">Leaderboard</span>
+    </div>
+
   </div>
 
-  <!-- Spelling Test -->
-  <div id="screen-test" class="flex flex-col items-center gap-3">
-    <div class="iphone">
-      <div class="iphone-glass">
-        <div class="iphone-screen">
-          <iframe id="iframe-test" src="screens/original/04-spelling-test.html" scrolling="no"></iframe>
-        </div>
-      </div>
-      <div class="dynamic-island"></div>
-      <div class="home-bar"></div>
-    </div>
-    <span id="label-test" style="font-size:12px;font-weight:600;letter-spacing:0.5px;opacity:0.5;">Spelling Test</span>
-  </div>
-
-  <!-- Leaderboard -->
-  <div id="screen-leader" class="flex flex-col items-center gap-3">
-    <div class="iphone">
-      <div class="iphone-glass">
-        <div class="iphone-screen">
-          <iframe id="iframe-leader" src="screens/original/07-leaderboard.html" scrolling="no"></iframe>
-        </div>
-      </div>
-      <div class="dynamic-island"></div>
-      <div class="home-bar"></div>
-    </div>
-    <span id="label-leader" style="font-size:12px;font-weight:600;letter-spacing:0.5px;opacity:0.5;">Leaderboard</span>
+  <!-- Floating theme dock — outside phones -->
+  <div id="theme-dock">
+    <button id="chip-spellbee" class="theme-chip" onclick="setTheme('spellbee')">
+      <span class="chip-swatch" id="swatch-spellbee"></span>
+      SpellBee Show
+    </button>
+    <button id="chip-earth" class="theme-chip" onclick="setTheme('earth')">
+      <span class="chip-swatch" id="swatch-earth"></span>
+      Warm Earth
+    </button>
+    <div class="dock-sep"></div>
+    <button id="dock-mode" onclick="toggleMode()">
+      <span id="dock-icon">🌙</span>
+      <span id="dock-label">Dark</span>
+    </button>
   </div>
 
 </div>
@@ -395,6 +449,30 @@
       btn.style.background = isActive ? c.activeBg   : 'transparent';
       btn.style.color      = isActive ? c.activeText : c.idleText;
     });
+
+    // ── floating theme dock ──────────────────────────
+    const CHIP_ACCENTS = { spellbee: '#C8001E', earth: '#FF9A00' };
+    const dock = document.getElementById('theme-dock');
+    dock.style.background   = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+    dock.style.borderColor  = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)';
+
+    ['spellbee','earth'].forEach(id => {
+      const chip   = document.getElementById('chip-' + id);
+      const swatch = document.getElementById('swatch-' + id);
+      const accent = CHIP_ACCENTS[id];
+      const isActive = id === activeTheme;
+      chip.style.background = isActive ? accent : 'transparent';
+      chip.style.color      = isActive ? '#fff'  : c.idleText;
+      chip.style.boxShadow  = isActive ? '0 4px 16px ' + accent + '55' : 'none';
+      swatch.style.background = accent;
+      swatch.style.opacity    = isActive ? '0' : '1';
+    });
+
+    const dockMode = document.getElementById('dock-mode');
+    dockMode.style.background = c.modeBg;
+    dockMode.style.color      = c.modeText;
+    document.getElementById('dock-icon').textContent  = isDark ? '☀️' : '🌙';
+    document.getElementById('dock-label').textContent = isDark ? 'Light' : 'Dark';
   }
 
   function setTheme(id) {
