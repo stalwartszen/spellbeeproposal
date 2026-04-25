@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Home v2</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── Theme tokens ─────────────────────────────────────────── */
+:root {
+  --page-bg:       #E8DDD0;
+  --bg:            #F7F0E6;
+  --surface:       #FFFFFF;
+  --border:        rgba(26,26,46,0.09);
+  --text-1:        #1A1A2E;
+  --text-2:        #3D3D66;
+  --text-3:        #7070A0;
+  --text-muted:    #B0B0C8;
+  --progress-bg:   #F0EDE8;
+  --nav-bg:        #FFFFFF;
+  --nav-border:    rgba(26,26,46,0.09);
+  --streak-bg:     #FFF3CC;
+  --streak-border: #FFD966;
+  --xp-pill-bg:    #FFF3CC;
+  --xp-pill-text:  #8A5E00;
+  --heart-bg:      rgba(200,0,30,0.08);
+  --divider:       rgba(26,26,46,0.06);
+  --card-shadow:   rgba(0,0,0,0.06);
+}
+[data-theme="dark"] {
+  --page-bg:       #0D0D22;
+  --bg:            #1A1A2E;
+  --surface:       #252545;
+  --border:        rgba(255,255,255,0.07);
+  --text-1:        #F7F0E6;
+  --text-2:        #D0D0E8;
+  --text-3:        #7070A0;
+  --text-muted:    #4A4A70;
+  --progress-bg:   rgba(255,255,255,0.07);
+  --nav-bg:        #1A1A2E;
+  --nav-border:    rgba(255,255,255,0.06);
+  --streak-bg:     rgba(245,165,0,0.1);
+  --streak-border: rgba(245,165,0,0.3);
+  --xp-pill-bg:    rgba(245,165,0,0.15);
+  --xp-pill-text:  #F5A500;
+  --heart-bg:      rgba(200,0,30,0.18);
+  --divider:       rgba(255,255,255,0.05);
+  --card-shadow:   rgba(0,0,0,0.25);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--page-bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  min-height: 100vh; padding: 32px 20px 48px; gap: 20px;
+  transition: background 0.3s;
+}
+
+/* ── Keyframes ────────────────────────────────────────────── */
+@keyframes fadeUp   { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes flamePop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.16)} }
+@keyframes fillBar  { from{width:0} to{width:var(--w)} }
+
+.fade-up { opacity:0; animation: fadeUp 0.4s ease forwards; }
+
+/* ── Lucide icon resets ───────────────────────────────────── */
+i[data-lucide] { display: inline-flex; flex-shrink: 0; }
+
+/* Flame pulsing animation on the svg inside .flame-wrap */
+.flame-wrap svg { animation: flamePop 2s ease-in-out infinite; }
+
+/* Filled heart in pill */
+.heart-filled svg { fill: #C8001E; stroke: #C8001E; }
+
+/* Nav icon inherits parent color → currentColor in SVG */
+.ni { color: var(--text-muted); }
+.ni.on { color: #C8001E; }
+.ni.on svg { filter: drop-shadow(0 0 4px rgba(200,0,30,0.5)); }
+
+/* ── Phone shell ──────────────────────────────────────────── */
+.phone {
+  width: 390px; height: 844px;
+  background: var(--bg); border-radius: 44px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.12);
+  flex-shrink: 0; transition: background 0.3s;
+}
+.notch {
+  width: 126px; height: 34px; background: #0B0B1A;
+  border-radius: 0 0 22px 22px;
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 20;
+}
+
+/* ── Scroll area ──────────────────────────────────────────── */
+.scroll { height: calc(100% - 80px); overflow-y: auto; padding: 52px 18px 20px; }
+.scroll::-webkit-scrollbar { display: none; }
+
+/* ── Cards ────────────────────────────────────────────────── */
+.card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 16px 18px;
+  transition: background 0.3s, border-color 0.3s;
+  box-shadow: 0 2px 12px var(--card-shadow);
+}
+
+/* ── Action cards (push-down style) ──────────────────────── */
+.act {
+  border-radius: 18px; padding: 16px 14px 14px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: transform 0.12s; user-select: none;
+}
+.act:active { transform: translateY(3px); }
+
+/* ── Pills ────────────────────────────────────────────────── */
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 20px; padding: 5px 11px;
+  font-size: 0.78rem; font-weight: 800;
+}
+.pill-xp    { background: var(--xp-pill-bg); border: 1.5px solid rgba(245,165,0,0.35); color: var(--xp-pill-text); transition: background 0.3s; }
+.pill-heart { background: var(--heart-bg);   border: 1.5px solid rgba(200,0,30,0.2);   color: #C8001E; transition: background 0.3s; }
+
+/* ── Primary CTA ──────────────────────────────────────────── */
+.btn-cta {
+  width: 100%; padding: 15px; background: #C8001E; color: #fff;
+  border: none; border-radius: 16px; font-family: 'Nunito', sans-serif;
+  font-size: 1rem; font-weight: 900; letter-spacing: 0.6px; text-transform: uppercase;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 5px 0 #8A0011; transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-cta:active { transform: translateY(4px); box-shadow: 0 1px 0 #8A0011; }
+
+/* ── Progress bar ─────────────────────────────────────────── */
+.pbar  { height: 12px; background: var(--progress-bg); border-radius: 8px; overflow: hidden; transition: background 0.3s; }
+.pfill { height: 100%; border-radius: 8px; --w: 65%; animation: fillBar 1.1s ease forwards; animation-delay: 0.5s; width: 0; }
+
+/* ── Section label ────────────────────────────────────────── */
+.slabel { font-size: 0.68rem; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.6px; margin-bottom: 9px; }
+
+/* ── Bottom nav ───────────────────────────────────────────── */
+.bnav {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--nav-bg); border-top: 1.5px solid var(--nav-border);
+  padding: 10px 0 22px; display: flex; align-items: center; justify-content: space-around;
+  transition: background 0.3s;
+}
+.ni  { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px 10px; }
+.nl  { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+.ni.on .nl { color: #C8001E; }
+</style>
+</head>
+<body>
+
+<!-- ── Theme toggle (outer UI) ────────────────────────────── -->
+<div style="display:flex; align-items:center; gap:12px;">
+  <span style="font-size:0.82rem; font-weight:700; color:var(--text-3); letter-spacing:0.5px; text-transform:uppercase;">THEME</span>
+  <button id="themBtn" onclick="toggleTheme()" style="
+    display:flex; align-items:center; gap:8px;
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 30px; padding: 7px 16px;
+    font-family:'Nunito',sans-serif; font-size:0.82rem; font-weight:800;
+    color: var(--text-2); cursor: pointer;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    transition: background 0.3s, border-color 0.3s;
+  ">
+    <span id="themIcon">🌙</span>
+    <span id="themLabel">Dark Mode</span>
+  </button>
+</div>
+
+<!-- ── Phone ──────────────────────────────────────────────── -->
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="scroll">
+
+    <!-- ① Top bar: XP · Bee mascot · Hearts -->
+    <div class="fade-up" style="animation-delay:0ms; display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+
+      <div class="pill pill-xp">
+        <i data-lucide="zap" style="width:14px;height:14px;"></i>
+        <span>1,240 XP</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:7px;">
+        <span style="font-size:1.3rem; line-height:1;">🐝</span>
+        <span style="font-size:1rem; font-weight:900; color:var(--text-1);">Aryan</span>
+      </div>
+
+      <div class="pill pill-heart">
+        <span class="heart-filled" style="display:inline-flex;">
+          <i data-lucide="heart" style="width:14px;height:14px;"></i>
+        </span>
+        <span>5</span>
+      </div>
+
+    </div>
+
+    <!-- ② Stats row: Streak · League · Words -->
+    <div class="fade-up" style="animation-delay:70ms; display:flex; gap:9px; margin-bottom:14px;">
+
+      <div style="
+        flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+        text-align:center; padding:14px 8px;
+        background: var(--streak-bg); border: 2px solid var(--streak-border);
+        border-radius: 18px; transition: background 0.3s, border-color 0.3s;
+      ">
+        <div class="flame-wrap" style="color:#F5A500; margin-bottom:4px; line-height:1;">
+          <i data-lucide="flame" style="width:28px;height:28px; fill:rgba(245,165,0,0.18);"></i>
+        </div>
+        <div id="streakNum" style="font-family:'Space Mono',monospace; font-size:1.7rem; font-weight:700; color:#F5A500; line-height:1.1;">0</div>
+        <div style="font-size:0.62rem; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Streak</div>
+      </div>
+
+      <div class="card" style="flex:1; text-align:center; padding:14px 8px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <div style="color:#C8001E; margin-bottom:4px; line-height:1;">
+          <i data-lucide="medal" style="width:26px;height:26px;"></i>
+        </div>
+        <div style="font-size:0.82rem; font-weight:900; color:#C8001E;">Silver</div>
+        <div style="font-size:0.62rem; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:1px; margin-top:2px;">League</div>
+      </div>
+
+      <div class="card" style="flex:1; text-align:center; padding:14px 8px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <div style="color:#3B7EE8; margin-bottom:4px; line-height:1;">
+          <i data-lucide="library" style="width:26px;height:26px;"></i>
+        </div>
+        <div style="font-size:0.82rem; font-weight:900; color:#3B7EE8;">248</div>
+        <div style="font-size:0.62rem; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:1px; margin-top:2px;">Words</div>
+      </div>
+
+    </div>
+
+    <!-- ③ 7-day calendar -->
+    <div class="card fade-up" style="animation-delay:140ms; margin-bottom:14px;">
+      <div class="slabel">This Week</div>
+      <div id="weekRow" style="display:flex; gap:7px;"></div>
+    </div>
+
+    <!-- ④ Daily goal -->
+    <div class="card fade-up" style="animation-delay:200ms; margin-bottom:14px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <div>
+          <div class="slabel" style="margin-bottom:3px;">Daily Goal</div>
+          <div style="font-size:1rem; font-weight:800; color:var(--text-1);">
+            13 <span style="color:var(--text-3); font-weight:600; font-size:0.9rem;">/ 20 words</span>
+          </div>
+        </div>
+        <div style="width:44px; height:44px; background:rgba(245,165,0,0.15); border-radius:14px; display:flex; align-items:center; justify-content:center; color:#F5A500;">
+          <i data-lucide="target" style="width:22px;height:22px;"></i>
+        </div>
+      </div>
+      <div class="pbar">
+        <div class="pfill" style="--w:65%; background:linear-gradient(90deg,#F5A500,#FFB800);"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-top:7px;">
+        <span style="font-size:0.7rem; font-weight:800; color:#F5A500;">65% done</span>
+        <span style="font-size:0.7rem; font-weight:600; color:var(--text-3);">7 left</span>
+      </div>
+    </div>
+
+    <!-- ⑤ CTA -->
+    <div class="fade-up" style="animation-delay:260ms; margin-bottom:16px;">
+      <button class="btn-cta">
+        <i data-lucide="play" style="width:18px;height:18px; fill:#fff; stroke:#fff;"></i>
+        Continue Learning 🐝
+      </button>
+    </div>
+
+    <!-- ⑥ Quick actions -->
+    <div class="fade-up" style="animation-delay:310ms; margin-bottom:14px;">
+      <div class="slabel">Quick Actions</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+
+        <!-- Spell Test -->
+        <div class="act" style="background:#C8001E; box-shadow:0 5px 0 #8A0011;">
+          <div style="position:absolute; top:9px; right:9px; background:rgba(255,255,255,0.22); border-radius:20px; padding:2px 7px; display:flex; align-items:center; gap:3px;">
+            <span style="font-size:0.58rem; font-weight:800; color:#fff;">HOT</span>
+            <i data-lucide="flame" style="width:10px;height:10px;color:#fff;"></i>
+          </div>
+          <div style="color:#fff; margin-bottom:9px;">
+            <i data-lucide="pencil" style="width:28px;height:28px; stroke-width:2;"></i>
+          </div>
+          <div style="font-size:0.92rem; font-weight:900; color:#fff;">Spell Test</div>
+          <div style="font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.72); margin-top:2px;">Spelling quiz</div>
+        </div>
+
+        <!-- Learn -->
+        <div class="act" style="background:#F5A500; box-shadow:0 5px 0 #B07800;">
+          <div style="color:#1A1A2E; margin-bottom:9px;">
+            <i data-lucide="book-open" style="width:28px;height:28px; stroke-width:2;"></i>
+          </div>
+          <div style="font-size:0.92rem; font-weight:900; color:#1A1A2E;">Learn</div>
+          <div style="font-size:0.7rem; font-weight:600; color:rgba(26,26,46,0.6); margin-top:2px;">10 new words</div>
+        </div>
+
+        <!-- Revise -->
+        <div class="act" style="background:#22A861; box-shadow:0 5px 0 #145231;">
+          <div style="position:absolute; top:9px; right:9px; background:rgba(255,255,255,0.22); border-radius:20px; padding:2px 7px;">
+            <span style="font-size:0.58rem; font-weight:800; color:#fff;">DUE</span>
+          </div>
+          <div style="color:#fff; margin-bottom:9px;">
+            <i data-lucide="refresh-cw" style="width:28px;height:28px; stroke-width:2;"></i>
+          </div>
+          <div style="font-size:0.92rem; font-weight:900; color:#fff;">Revise</div>
+          <div style="font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.72); margin-top:2px;">24 weak words</div>
+        </div>
+
+        <!-- Challenge -->
+        <div class="act" style="background:#3B7EE8; box-shadow:0 5px 0 #1A5AB0;">
+          <div style="color:#fff; margin-bottom:9px;">
+            <i data-lucide="swords" style="width:28px;height:28px; stroke-width:2;"></i>
+          </div>
+          <div style="font-size:0.92rem; font-weight:900; color:#fff;">Challenge</div>
+          <div style="font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.72); margin-top:2px;">Beat a friend</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ⑦ Word of the Day -->
+    <div class="fade-up" style="animation-delay:490ms; margin-bottom:14px;">
+      <div class="slabel">Word of the Day</div>
+      <div style="background:linear-gradient(135deg,#C8001E 0%,#FF4060 100%); border-radius:20px; padding:20px 18px; position:relative; overflow:hidden; box-shadow:0 5px 0 #8A0011;">
+        <div style="position:absolute;top:-24px;right:-24px;width:110px;height:110px;background:rgba(255,255,255,0.07);border-radius:50%;pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-28px;left:12px;width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:50%;pointer-events:none;"></div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; position:relative;">
+          <div style="background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 10px; display:flex; align-items:center; gap:5px;">
+            <i data-lucide="sparkles" style="width:12px;height:12px;color:#fff;"></i>
+            <span style="font-size:0.65rem; font-weight:800; color:#fff; letter-spacing:0.5px;">WORD OF THE DAY</span>
+          </div>
+          <button style="width:32px;height:32px;background:rgba(255,255,255,0.2);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;">
+            <i data-lucide="volume-2" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+
+        <div style="font-family:'Space Mono',monospace; font-size:1.55rem; font-weight:700; color:#fff; letter-spacing:3px; margin-bottom:4px; position:relative;">EPHEMERAL</div>
+        <div style="font-size:0.78rem; color:rgba(255,255,255,0.78); margin-bottom:6px; font-style:italic;">/ɪˈfem.ər.əl/ · adjective</div>
+        <div style="font-size:0.82rem; color:rgba(255,255,255,0.88); line-height:1.55; margin-bottom:14px; position:relative;">
+          Lasting for a very short time; transitory.
+          <span style="color:rgba(255,255,255,0.5);">"The ephemeral beauty of cherry blossoms…"</span>
+        </div>
+
+        <div style="display:flex; gap:8px; position:relative;">
+          <button style="flex:1;padding:10px;background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.35);border-radius:12px;color:#fff;font-size:0.8rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;">
+            <i data-lucide="bookmark" style="width:14px;height:14px;"></i> Save Word
+          </button>
+          <button style="flex:1;padding:10px;background:#fff;border:none;border-radius:12px;color:#C8001E;font-size:0.8rem;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 3px 0 #ddd;display:flex;align-items:center;justify-content:center;gap:5px;">
+            Learn Now <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑧ Recent Activity -->
+    <div class="fade-up" style="animation-delay:540ms; margin-bottom:8px;">
+      <div class="slabel">Recent Activity</div>
+      <div class="card" style="display:flex; flex-direction:column;">
+
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <div style="width:40px;height:40px;background:rgba(34,168,97,0.14);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#22A861;">
+              <i data-lucide="file-text" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size:0.87rem;font-weight:800;color:var(--text-1);">Spelling Test</div>
+              <div style="font-size:0.68rem;font-weight:600;color:var(--text-3);">Grade 5 · Chapter 3 · 2h ago</div>
+            </div>
+          </div>
+          <div style="background:#C8E6D4;border-radius:20px;padding:4px 11px;">
+            <span style="font-family:'Space Mono',monospace;font-size:0.78rem;font-weight:700;color:#145231;">8/10</span>
+          </div>
+        </div>
+
+        <div style="height:1px;background:var(--divider);"></div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <div style="width:40px;height:40px;background:rgba(59,126,232,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#3B7EE8;">
+              <i data-lucide="book-open" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size:0.87rem;font-weight:800;color:var(--text-1);">Word Learning</div>
+              <div style="font-size:0.68rem;font-weight:600;color:var(--text-3);">Compound Words · Yesterday</div>
+            </div>
+          </div>
+          <div style="background:#FFF3CC;border-radius:20px;padding:4px 11px;">
+            <span style="font-family:'Space Mono',monospace;font-size:0.73rem;font-weight:700;color:#8A5E00;">+80 XP</span>
+          </div>
+        </div>
+
+        <div style="height:1px;background:var(--divider);"></div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0 2px;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <div style="width:40px;height:40px;background:rgba(200,0,30,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#C8001E;">
+              <i data-lucide="swords" style="width:18px;height:18px;"></i>
+            </div>
+            <div>
+              <div style="font-size:0.87rem;font-weight:800;color:var(--text-1);">Challenge Won!</div>
+              <div style="font-size:0.68rem;font-weight:600;color:var(--text-3);">vs. Rohan · 3 days ago</div>
+            </div>
+          </div>
+          <div style="background:#FFD6DC;border-radius:20px;padding:4px 11px;display:flex;align-items:center;gap:4px;">
+            <i data-lucide="trophy" style="width:12px;height:12px;color:#C8001E;"></i>
+            <span style="font-size:0.73rem;font-weight:800;color:#C8001E;">Winner</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /scroll -->
+
+  <!-- ── Bottom Nav ──────────────────────────────────────── -->
+  <div class="bnav">
+    <div class="ni on">
+      <i data-lucide="house" style="width:22px;height:22px;"></i>
+      <span class="nl">Home</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="book-open" style="width:22px;height:22px;"></i>
+      <span class="nl">Learn</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="pencil" style="width:22px;height:22px;"></i>
+      <span class="nl">Test</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="trophy" style="width:22px;height:22px;"></i>
+      <span class="nl">Ranks</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="user" style="width:22px;height:22px;"></i>
+      <span class="nl">Profile</span>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+/* ── Theme toggle ───────────────────────────────────────── */
+function toggleTheme() {
+  const html   = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themIcon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('themLabel').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+}
+
+/* ── Streak count-up ────────────────────────────────────── */
+function countUp(el, target, ms) {
+  let start = null;
+  const step = ts => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / ms, 1);
+    el.textContent = Math.floor(p * target);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  };
+  requestAnimationFrame(step);
+}
+
+/* ── 7-day streak dots ──────────────────────────────────── */
+const DAY_LABELS = ['M','T','W','T','F','S','S'];
+const DAY_FILLED = [true, true, true, true, true, true, false];
+
+document.getElementById('weekRow').innerHTML = DAY_LABELS.map((d, i) => `
+  <div style="flex:1;text-align:center;">
+    <div style="font-size:0.6rem;font-weight:700;color:var(--text-3);margin-bottom:5px;">${d}</div>
+    <div style="
+      aspect-ratio:1; border-radius:9px;
+      background:${DAY_FILLED[i] ? '#F5A500' : 'var(--progress-bg)'};
+      border:2px solid ${DAY_FILLED[i] ? '#FFD966' : 'var(--border)'};
+      display:flex; align-items:center; justify-content:center;
+      transition: background 0.3s;
+    ">
+      ${DAY_FILLED[i]
+        ? '<i data-lucide="flame" style="width:13px;height:13px;color:#fff;stroke-width:2.5;"></i>'
+        : ''}
+    </div>
+  </div>
+`).join('');
+
+/* ── Init all Lucide icons ──────────────────────────────── */
+lucide.createIcons();
+
+/* ── Start count-up after icons are ready ───────────────── */
+setTimeout(() => countUp(document.getElementById('streakNum'), 12, 900), 350);
+</script>
+</body>
+</html>

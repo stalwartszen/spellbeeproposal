@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Leaderboard v2</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── Theme tokens ─────────────────────────────────────────── */
+:root {
+  --page-bg:    #E8DDD0;
+  --bg:         #F7F0E6;
+  --surface:    #FFFFFF;
+  --surface-2:  #FFF8F0;
+  --border:     rgba(26,26,46,0.09);
+  --text-1:     #1A1A2E;
+  --text-2:     #3D3D66;
+  --text-3:     #7070A0;
+  --text-muted: #B0B0C8;
+  --divider:    rgba(26,26,46,0.06);
+  --nav-bg:     #FFFFFF;
+  --nav-border: rgba(26,26,46,0.09);
+  --cshadow:    rgba(0,0,0,0.06);
+  --row-hover:  rgba(26,26,46,0.03);
+  --row-me:     rgba(200,0,30,0.05);
+  --tab-bg:     rgba(26,26,46,0.06);
+  --podium-bg:  linear-gradient(160deg,#C8001E 0%,#A00018 100%);
+  --podium-dec: rgba(255,255,255,0.07);
+}
+[data-theme="dark"] {
+  --page-bg:    #0D0D22;
+  --bg:         #1A1A2E;
+  --surface:    #252545;
+  --surface-2:  #2A2A4A;
+  --border:     rgba(255,255,255,0.07);
+  --text-1:     #F7F0E6;
+  --text-2:     #D0D0E8;
+  --text-3:     #7070A0;
+  --text-muted: #4A4A70;
+  --divider:    rgba(255,255,255,0.05);
+  --nav-bg:     #1A1A2E;
+  --nav-border: rgba(255,255,255,0.06);
+  --cshadow:    rgba(0,0,0,0.25);
+  --row-hover:  rgba(255,255,255,0.03);
+  --row-me:     rgba(200,0,30,0.12);
+  --tab-bg:     rgba(255,255,255,0.07);
+  --podium-bg:  linear-gradient(160deg,#A00018 0%,#7A0010 100%);
+  --podium-dec: rgba(255,255,255,0.04);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--page-bg);
+  display: flex; flex-direction: column;
+  align-items: center; min-height: 100vh;
+  padding: 32px 20px 48px; gap: 20px;
+  transition: background 0.3s;
+}
+
+/* ── Keyframes ────────────────────────────────────────────── */
+@keyframes fadeUp  { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes growBar { from{height:0} to{height:var(--h)} }
+@keyframes glowRing{ 0%,100%{box-shadow:0 0 10px rgba(245,165,0,0.35)} 50%{box-shadow:0 0 26px rgba(245,165,0,0.75)} }
+@keyframes badgePop{ 0%{transform:scale(0) rotate(-15deg)} 70%{transform:scale(1.12) rotate(4deg)} 100%{transform:scale(1) rotate(0)} }
+
+.fade-up { opacity:0; animation: fadeUp 0.4s ease forwards; }
+
+/* ── Phone shell ──────────────────────────────────────────── */
+.phone {
+  width: 390px; height: 844px; background: var(--bg);
+  border-radius: 44px; position: relative; overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.12);
+  flex-shrink: 0; transition: background 0.3s;
+}
+.notch {
+  width: 126px; height: 34px; background: #080612;
+  border-radius: 0 0 22px 22px;
+  position: absolute; top:0; left:50%; transform:translateX(-50%); z-index:20;
+}
+
+/* ── Scroll ───────────────────────────────────────────────── */
+.scroll { height: calc(100% - 74px); overflow-y: auto; padding: 52px 20px 20px; }
+.scroll::-webkit-scrollbar { display: none; }
+
+/* ── Cards ────────────────────────────────────────────────── */
+.card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 20px; transition: background 0.3s, border-color 0.3s;
+  box-shadow: 0 2px 12px var(--cshadow);
+}
+
+/* ── Tab toggle ───────────────────────────────────────────── */
+.tab-wrap {
+  background: var(--tab-bg); border-radius: 16px; padding: 4px;
+  display: flex; gap: 4px; transition: background 0.3s;
+}
+.tab {
+  flex:1; padding: 9px; text-align: center;
+  border-radius: 12px; font-size: 0.82rem; font-weight: 800;
+  cursor: pointer; transition: all 0.2s;
+}
+.tab.on  { background: #C8001E; color: #fff; box-shadow: 0 3px 0 #8A0011; }
+.tab.off { color: var(--text-3); }
+.tab.off:hover { color: var(--text-2); }
+
+/* ── Podium section ───────────────────────────────────────── */
+.podium-wrap {
+  background: var(--podium-bg);
+  border-radius: 24px; padding: 20px 16px 0;
+  margin-bottom: 16px; position: relative; overflow: hidden;
+  box-shadow: 0 6px 0 rgba(100,0,10,0.35);
+}
+.podium-wrap::before {
+  content:''; position:absolute; top:-50px; right:-40px;
+  width:180px; height:180px; background:var(--podium-dec); border-radius:50%;
+}
+.podium-wrap::after {
+  content:''; position:absolute; bottom:20px; left:-50px;
+  width:140px; height:140px; background:var(--podium-dec); border-radius:50%;
+}
+
+/* ── Avatar circles ───────────────────────────────────────── */
+.av {
+  border-radius: 50%; display:flex; align-items:center; justify-content:center;
+  font-family: 'Nunito', sans-serif; font-weight: 900; color: #fff;
+  flex-shrink: 0;
+}
+
+/* ── Podium bars ──────────────────────────────────────────── */
+.pbar {
+  width: 100%; border-radius: 14px 14px 0 0;
+  display:flex; align-items:center; justify-content:center;
+  height: 0; transition: height 1s cubic-bezier(0.34,1.1,0.64,1);
+}
+
+/* ── My rank banner ───────────────────────────────────────── */
+.my-rank {
+  background: var(--row-me);
+  border: 1.5px solid rgba(200,0,30,0.2);
+  border-radius: 18px; padding: 12px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom: 16px; transition: background 0.3s;
+}
+
+/* ── Rank rows ────────────────────────────────────────────── */
+.rank-row {
+  display:flex; align-items:center; gap:12px;
+  padding: 10px 12px; border-radius: 16px; cursor:pointer;
+  transition: background 0.15s;
+}
+.rank-row:hover { background: var(--row-hover); }
+.rank-row.me    { background: var(--row-me); border:1.5px solid rgba(200,0,30,0.15); }
+
+/* ── XP bar ───────────────────────────────────────────────── */
+.xpbar { height:5px; background:rgba(200,0,30,0.12); border-radius:3px; overflow:hidden; margin-top:4px; }
+.xpfill{ height:100%; border-radius:3px; background:linear-gradient(90deg,#C8001E,#E83030); transition:width 1s ease; width:0; }
+
+/* ── Nav ──────────────────────────────────────────────────── */
+.bnav {
+  position:absolute; bottom:0; left:0; right:0;
+  background:var(--nav-bg); border-top:1.5px solid var(--nav-border);
+  padding:10px 0 22px; display:flex; align-items:center; justify-content:space-around;
+  transition:background 0.3s;
+}
+.ni  { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:4px 10px; color:var(--text-muted); }
+.ni.on { color:#C8001E; }
+.ni.on svg { filter:drop-shadow(0 0 5px rgba(200,0,30,0.5)); }
+.nl  { font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
+
+i[data-lucide] { display:inline-flex; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<!-- ── Theme toggle ───────────────────────────────────────── -->
+<div style="display:flex; align-items:center; gap:12px;">
+  <span style="font-size:0.8rem; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:0.5px;">THEME</span>
+  <button id="themBtn" onclick="toggleTheme()" style="
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface); border:1.5px solid var(--border);
+    border-radius:30px; padding:7px 16px;
+    font-family:'Nunito',sans-serif; font-size:0.82rem; font-weight:800;
+    color:var(--text-2); cursor:pointer; box-shadow:0 2px 8px var(--cshadow);
+    transition:background 0.3s;">
+    <span id="themIcon">🌙</span><span id="themLabel">Dark Mode</span>
+  </button>
+</div>
+
+<!-- ── Phone ──────────────────────────────────────────────── -->
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="scroll">
+
+    <!-- ① Header -->
+    <div class="fade-up" style="animation-delay:0ms; display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+      <button style="width:38px;height:38px;background:var(--surface);border:1.5px solid var(--border);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-2);box-shadow:0 2px 6px var(--cshadow);">
+        <i data-lucide="arrow-left" style="width:17px;height:17px;"></i>
+      </button>
+      <span style="font-size:1rem; font-weight:900; color:var(--text-1);">Leaderboard</span>
+      <div style="display:flex; align-items:center; gap:5px; background:rgba(245,165,0,0.12); border:1.5px solid rgba(245,165,0,0.3); border-radius:20px; padding:5px 12px;">
+        <i data-lucide="zap" style="width:13px;height:13px;color:#F5A500;"></i>
+        <span style="font-size:0.73rem; font-weight:800; color:#F5A500;">Season 3</span>
+      </div>
+    </div>
+
+    <!-- ② Tabs: Class · School · National -->
+    <div class="tab-wrap fade-up" style="animation-delay:50ms; margin-bottom:20px;">
+      <div class="tab on"  onclick="switchTab(this)">Class</div>
+      <div class="tab off" onclick="switchTab(this)">School</div>
+      <div class="tab off" onclick="switchTab(this)">National</div>
+    </div>
+
+    <!-- ③ Podium -->
+    <div class="podium-wrap fade-up" style="animation-delay:130ms;">
+
+      <!-- Top label -->
+      <div style="text-align:center; margin-bottom:16px; position:relative; z-index:1;">
+        <span style="font-size:0.68rem; font-weight:800; color:rgba(255,255,255,0.65); text-transform:uppercase; letter-spacing:1.5px;">This Week's Top Spellers</span>
+      </div>
+
+      <!-- 3 columns -->
+      <div style="display:flex; align-items:flex-end; gap:10px; position:relative; z-index:1;">
+
+        <!-- 2nd place (left) -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:0;">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#7070C0,#A0A0E0);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#fff;margin-bottom:6px;border:2.5px solid rgba(255,255,255,0.55);box-shadow:0 3px 10px rgba(0,0,0,0.2);">RK</div>
+          <div style="font-size:0.72rem; font-weight:800; color:#fff;">Rahul K.</div>
+          <div style="font-size:0.65rem; font-weight:700; color:rgba(255,255,255,0.7); margin-top:2px; background:rgba(255,255,255,0.15); border-radius:20px; padding:2px 8px; margin-bottom:8px;" id="xp2">0 XP</div>
+          <div class="pbar" id="bar2" style="background:rgba(255,255,255,0.2); border:1.5px solid rgba(255,255,255,0.15); --h:90px;">
+            <span style="font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:900; color:rgba(255,255,255,0.4);">2</span>
+          </div>
+        </div>
+
+        <!-- 1st place (center) -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:0;">
+          <!-- Crown badge -->
+          <div style="background:rgba(245,165,0,0.25); border:1.5px solid rgba(245,165,0,0.4); border-radius:20px; padding:3px 10px; margin-bottom:6px; display:flex; align-items:center; gap:4px;">
+            <i data-lucide="crown" style="width:12px;height:12px;color:#F5A500;fill:#F5A500;"></i>
+            <span style="font-size:0.62rem; font-weight:900; color:#F5A500; letter-spacing:0.5px;">CHAMPION</span>
+          </div>
+          <!-- Avatar (gold ring + glow) -->
+          <div style="width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#C8001E,#FF3040);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:#fff;margin-bottom:6px;border:3px solid #F5A500;animation:glowRing 2.5s ease-in-out infinite;box-shadow:0 4px 16px rgba(0,0,0,0.25);">AS</div>
+          <div style="font-size:0.78rem; font-weight:900; color:#fff;">Aryan S.</div>
+          <div style="font-size:0.68rem; font-weight:800; color:#FFE050; margin-top:2px; background:rgba(245,165,0,0.2); border:1px solid rgba(245,165,0,0.35); border-radius:20px; padding:2px 9px; margin-bottom:8px;" id="xp1">0 XP</div>
+          <!-- Tallest bar -->
+          <div class="pbar" id="bar1" style="background:rgba(255,255,255,0.28); border:1.5px solid rgba(255,255,255,0.2); --h:132px;">
+            <span style="font-family:'Space Mono',monospace; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.45);">1</span>
+          </div>
+        </div>
+
+        <!-- 3rd place (right) -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:0;">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#C07830,#E09848);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#fff;margin-bottom:6px;border:2.5px solid rgba(255,255,255,0.55);box-shadow:0 3px 10px rgba(0,0,0,0.2);">PM</div>
+          <div style="font-size:0.72rem; font-weight:800; color:#fff;">Priya M.</div>
+          <div style="font-size:0.65rem; font-weight:700; color:rgba(255,255,255,0.7); margin-top:2px; background:rgba(255,255,255,0.15); border-radius:20px; padding:2px 8px; margin-bottom:8px;" id="xp3">0 XP</div>
+          <div class="pbar" id="bar3" style="background:rgba(255,255,255,0.16); border:1.5px solid rgba(255,255,255,0.12); --h:66px;">
+            <span style="font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:900; color:rgba(255,255,255,0.35);">3</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Podium base strip -->
+      <div style="display:flex; gap:10px; margin-top:0;">
+        <div style="flex:1; height:8px; background:rgba(255,255,255,0.14); border-radius:0 0 8px 8px;"></div>
+        <div style="flex:1; height:8px; background:rgba(255,255,255,0.22); border-radius:0 0 8px 8px;"></div>
+        <div style="flex:1; height:8px; background:rgba(255,255,255,0.1);  border-radius:0 0 8px 8px;"></div>
+      </div>
+    </div><!-- /podium-wrap -->
+
+    <!-- ④ My Rank banner -->
+    <div class="my-rank fade-up" style="animation-delay:280ms;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#C8001E,#FF3040);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:900;color:#fff;animation:badgePop 0.5s 0.5s ease both;flex-shrink:0;">AS</div>
+        <div>
+          <div style="font-size:0.87rem; font-weight:900; color:var(--text-1);">You're #1 🎉</div>
+          <div style="font-size:0.68rem; font-weight:600; color:var(--text-3);">Leading by 240 XP this week</div>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700; color:#C8001E;" id="myXP">0 XP</div>
+        <div style="font-size:0.65rem; font-weight:800; color:#22A861; margin-top:2px; display:flex; align-items:center; gap:2px; justify-content:flex-end;">
+          <i data-lucide="trending-up" style="width:11px;height:11px;"></i> +2 ranks
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ Full Rankings -->
+    <div class="fade-up" style="animation-delay:340ms; margin-bottom:12px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <div style="font-size:0.68rem; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:1.5px;">Full Rankings</div>
+        <div style="font-size:0.68rem; font-weight:700; color:#C8001E; cursor:pointer; display:flex; align-items:center; gap:3px;">
+          See all <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+        </div>
+      </div>
+    </div>
+
+    <div id="rankList"></div>
+
+  </div><!-- /scroll -->
+
+  <!-- ── Bottom Nav ──────────────────────────────────────── -->
+  <div class="bnav">
+    <div class="ni">
+      <i data-lucide="house" style="width:22px;height:22px;"></i>
+      <span class="nl">Home</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="book-open" style="width:22px;height:22px;"></i>
+      <span class="nl">Learn</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="pencil" style="width:22px;height:22px;"></i>
+      <span class="nl">Test</span>
+    </div>
+    <div class="ni on">
+      <i data-lucide="trophy" style="width:22px;height:22px;"></i>
+      <span class="nl" style="color:#C8001E;">Ranks</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="user" style="width:22px;height:22px;"></i>
+      <span class="nl">Profile</span>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+/* ── Theme ──────────────────────────────────────────────── */
+function toggleTheme() {
+  const html   = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themIcon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('themLabel').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+}
+
+/* ── Tab switch ─────────────────────────────────────────── */
+function switchTab(el) {
+  document.querySelectorAll('.tab').forEach(t => { t.className = 'tab off'; });
+  el.className = 'tab on';
+}
+
+/* ── Count-up ───────────────────────────────────────────── */
+function countUp(el, target, ms, suffix = '') {
+  let start = null;
+  const step = ts => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / ms, 1);
+    el.textContent = Math.floor(p * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target + suffix;
+  };
+  requestAnimationFrame(step);
+}
+
+/* ── Players data ───────────────────────────────────────── */
+const players = [
+  { rank:1,  name:'Aryan S.',  init:'AS', xp:2840, color:'#C8001E',  me:true  },
+  { rank:2,  name:'Rahul K.',  init:'RK', xp:2600, color:'#7070C0',  me:false },
+  { rank:3,  name:'Priya M.',  init:'PM', xp:2510, color:'#C07830',  me:false },
+  { rank:4,  name:'Amit R.',   init:'AR', xp:2380, color:'#3B7EE8',  me:false },
+  { rank:5,  name:'Sara T.',   init:'ST', xp:2200, color:'#22A861',  me:false },
+  { rank:6,  name:'Vikram P.', init:'VP', xp:2100, color:'#FF6B35',  me:false },
+  { rank:7,  name:'Neha G.',   init:'NG', xp:1980, color:'#C8001E',  me:false },
+  { rank:8,  name:'Dev S.',    init:'DS', xp:1850, color:'#3B7EE8',  me:false },
+];
+
+const MEDAL_COLORS = { 1:'#F5A500', 2:'#A0A0C0', 3:'#C07830' };
+const trends       = { 1:'+2', 2:'+1', 3:'-1', 4:'+3', 5:'+1', 6:'-2', 7:'+2', 8:'-1' };
+
+/* ── Build rank list ────────────────────────────────────── */
+const list = document.getElementById('rankList');
+players.forEach((p, i) => {
+  const isTop3  = p.rank <= 3;
+  const trendUp = trends[p.rank].startsWith('+');
+  const pct     = Math.round((p.xp / 2840) * 100);
+
+  const row = document.createElement('div');
+  row.className = 'rank-row fade-up' + (p.me ? ' me' : '');
+  row.style.animationDelay = (360 + i * 70) + 'ms';
+
+  row.innerHTML = `
+    <!-- Rank medal / number -->
+    <div style="
+      width:28px; height:28px; border-radius:50%; flex-shrink:0;
+      background:${isTop3 ? 'rgba(245,165,0,0.14)' : 'var(--tab-bg)'};
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Space Mono',monospace; font-size:0.72rem; font-weight:700;
+      color:${isTop3 ? MEDAL_COLORS[p.rank] : 'var(--text-3)'};">
+      ${p.rank}
+    </div>
+
+    <!-- Avatar -->
+    <div style="
+      width:40px; height:40px; border-radius:50%; flex-shrink:0;
+      background:linear-gradient(135deg,${p.color},${p.color}BB);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.82rem; font-weight:900; color:#fff;
+      ${p.me ? 'border:2px solid #C8001E; box-shadow:0 0 0 2px rgba(200,0,30,0.2);' : ''}">
+      ${p.init}
+    </div>
+
+    <!-- Name + XP bar -->
+    <div style="flex:1; min-width:0;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="font-size:0.86rem; font-weight:${p.me ? 900 : 700}; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${p.name}</span>
+        ${p.me ? '<span style="font-size:0.6rem;font-weight:800;background:#C8001E;color:#fff;border-radius:10px;padding:1px 7px;flex-shrink:0;">YOU</span>' : ''}
+      </div>
+      <div style="font-size:0.67rem; font-weight:600; color:var(--text-3); margin-top:1px;">Grade 5 · Section A</div>
+      <div class="xpbar">
+        <div class="xpfill" data-pct="${pct}"></div>
+      </div>
+    </div>
+
+    <!-- XP + trend -->
+    <div style="text-align:right; flex-shrink:0;">
+      <div class="xp-val" style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:${p.me ? '#C8001E' : 'var(--text-2)'};" data-target="${p.xp}">0 XP</div>
+      <div style="font-size:0.63rem; font-weight:800; color:${trendUp ? '#22A861' : '#E83000'}; margin-top:2px; display:flex; align-items:center; justify-content:flex-end; gap:1px;">
+        <svg width="8" height="8" viewBox="0 0 8 8"><polygon points="${trendUp ? '4,1 7,7 1,7' : '4,7 7,1 1,1'}" fill="${trendUp ? '#22A861' : '#E83000'}"/></svg>
+        ${trends[p.rank]}
+      </div>
+    </div>
+  `;
+
+  list.appendChild(row);
+});
+
+/* ── Animate bars + counts on load ─────────────────────── */
+setTimeout(() => {
+  document.getElementById('bar1').style.height = '132px';
+  document.getElementById('bar2').style.height = '90px';
+  document.getElementById('bar3').style.height = '66px';
+
+  countUp(document.getElementById('xp1'),  2840, 1100, ' XP');
+  countUp(document.getElementById('xp2'),  2600, 1100, ' XP');
+  countUp(document.getElementById('xp3'),  2510, 1100, ' XP');
+  countUp(document.getElementById('myXP'), 2840, 1100, ' XP');
+
+  document.querySelectorAll('.xp-val').forEach(el => {
+    countUp(el, parseInt(el.dataset.target), 1000, ' XP');
+  });
+
+  /* Animate XP mini-bars */
+  document.querySelectorAll('.xpfill').forEach(el => {
+    el.style.width = el.dataset.pct + '%';
+  });
+}, 280);
+
+/* ── Lucide ─────────────────────────────────────────────── */
+lucide.createIcons();
+</script>
+</body>
+</html>

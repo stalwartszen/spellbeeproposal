@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell Bee · Leaderboard v2</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ───────────────────────────────────────────────── */
+:root {
+  --page-bg:   #EDE5D8;
+  --bg:        #FAFAF7;
+  --surface:   #FFFFFF;
+  --border:    rgba(26,18,40,0.07);
+  --text-1:    #1A1228;
+  --text-2:    #3D3050;
+  --text-3:    #9090B8;
+  --muted:     #C0C0D8;
+  --row-hover: rgba(26,18,40,0.03);
+  --row-me:    rgba(255,85,0,0.06);
+  --cshadow:   rgba(0,0,0,0.07);
+  --divider:   rgba(26,18,40,0.06);
+}
+[data-theme="dark"] {
+  --page-bg:   #090712;
+  --bg:        #110E22;
+  --surface:   #1E1B38;
+  --border:    rgba(255,255,255,0.06);
+  --text-1:    #F7F0E6;
+  --text-2:    #C8C0E0;
+  --text-3:    #6060A0;
+  --muted:     #3A3A60;
+  --row-hover: rgba(255,255,255,0.03);
+  --row-me:    rgba(255,85,0,0.12);
+  --cshadow:   rgba(0,0,0,0.3);
+  --divider:   rgba(255,255,255,0.05);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--page-bg);
+  display: flex; flex-direction: column;
+  align-items: center; min-height: 100vh;
+  padding: 32px 20px 48px; gap: 20px;
+  transition: background 0.3s;
+}
+
+/* ── Keyframes ────────────────────────────────────────────── */
+@keyframes fadeUp  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes growUp  { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+@keyframes glow    { 0%,100%{box-shadow:0 0 12px rgba(255,200,50,0.4)} 50%{box-shadow:0 0 28px rgba(255,200,50,0.8)} }
+
+.fade-up { opacity:0; animation: fadeUp 0.4s ease forwards; }
+
+/* ── Phone ────────────────────────────────────────────────── */
+.phone {
+  width: 390px; height: 844px; background: var(--bg);
+  border-radius: 44px; position: relative; overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.24), 0 0 0 1px rgba(255,255,255,0.1);
+  flex-shrink: 0; transition: background 0.3s;
+}
+.notch {
+  width: 126px; height: 34px; background: #080612;
+  border-radius: 0 0 22px 22px;
+  position: absolute; top:0; left:50%; transform:translateX(-50%); z-index:20;
+}
+
+/* ── Scroll ───────────────────────────────────────────────── */
+.scroll { height: calc(100% - 74px); overflow-y: auto; }
+.scroll::-webkit-scrollbar { display: none; }
+
+/* ── Orange section ───────────────────────────────────────── */
+.orange-top {
+  background: linear-gradient(160deg, #FF5500 0%, #FF2E00 100%);
+  padding: 56px 20px 36px;
+  position: relative; overflow: hidden;
+}
+.orange-top::before {
+  content:''; position:absolute; top:-50px; right:-40px;
+  width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.orange-top::after {
+  content:''; position:absolute; top:20px; left:-60px;
+  width:140px; height:140px; background:rgba(255,255,255,0.05); border-radius:50%;
+}
+
+/* ── Tab pill ─────────────────────────────────────────────── */
+.tab-wrap {
+  background: rgba(255,255,255,0.2); border-radius: 30px; padding: 4px;
+  display: flex; gap: 4px; margin-bottom: 24px; position: relative; z-index:1;
+}
+.tab-pill {
+  flex:1; padding:9px; text-align:center;
+  border-radius:25px; font-size:0.82rem; font-weight:800;
+  cursor:pointer; transition:all 0.2s;
+}
+.tab-pill.on  { background:#fff; color:#FF5500; }
+.tab-pill.off { color:rgba(255,255,255,0.7); }
+
+/* ── Podium bars ──────────────────────────────────────────── */
+.pbar {
+  width: 100%; border-radius: 16px 16px 0 0;
+  transform-origin: bottom; transition: height 1s cubic-bezier(0.34,1.2,0.64,1);
+  display: flex; align-items: center; justify-content: center;
+}
+.pbar-1 { background: rgba(255,255,255,0.32); height: 0; }
+.pbar-2 { background: rgba(255,255,255,0.22); height: 0; }
+.pbar-3 { background: rgba(255,255,255,0.18); height: 0; }
+
+/* ── White list card ──────────────────────────────────────── */
+.list-card {
+  background: var(--surface);
+  border-radius: 28px 28px 0 0;
+  padding: 22px 20px 16px;
+  margin-top: -28px;
+  transition: background 0.3s;
+  position: relative; z-index:2;
+  min-height: 360px;
+}
+
+/* ── Rank rows ────────────────────────────────────────────── */
+.rank-row {
+  display:flex; align-items:center; gap:12px;
+  padding:11px 12px; border-radius:16px; cursor:pointer;
+  transition: background 0.15s;
+}
+.rank-row:hover { background: var(--row-hover); }
+.rank-row.me    { background: var(--row-me); }
+
+/* ── Your-rank banner ─────────────────────────────────────── */
+.my-banner {
+  background: rgba(255,85,0,0.08);
+  border: 1.5px solid rgba(255,85,0,0.18);
+  border-radius: 18px; padding: 11px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:16px;
+}
+
+/* ── Nav ──────────────────────────────────────────────────── */
+.bnav {
+  position:absolute; bottom:0; left:0; right:0;
+  background:var(--surface); border-top:1.5px solid var(--border);
+  padding:10px 0 20px;
+  display:flex; align-items:center; justify-content:space-around;
+  transition:background 0.3s; z-index:10;
+}
+.ni  { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:4px 10px; color:var(--text-3); }
+.ni.on { color:#FF5500; }
+.ni.on svg { filter:drop-shadow(0 0 5px rgba(255,85,0,0.5)); }
+.nl  { font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
+
+i[data-lucide] { display:inline-flex; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<!-- ── Theme toggle ───────────────────────────────────────── -->
+<div style="display:flex; align-items:center; gap:12px;">
+  <span style="font-size:0.8rem; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:0.5px;">THEME</span>
+  <button id="themBtn" onclick="toggleTheme()" style="
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface); border:1.5px solid var(--border);
+    border-radius:30px; padding:7px 16px;
+    font-family:'Nunito',sans-serif; font-size:0.82rem; font-weight:800;
+    color:var(--text-2); cursor:pointer; box-shadow:0 2px 8px var(--cshadow);
+    transition:background 0.3s;">
+    <span id="themIcon">🌙</span><span id="themLabel">Dark Mode</span>
+  </button>
+</div>
+
+<!-- ── Phone ──────────────────────────────────────────────── -->
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="scroll">
+
+    <!-- ① Orange header + podium section -->
+    <div class="orange-top">
+
+      <!-- Header row -->
+      <div class="fade-up" style="animation-delay:0ms; display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; position:relative; z-index:1;">
+        <button style="width:38px;height:38px;background:rgba(255,255,255,0.2);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;">
+          <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
+        </button>
+        <span style="font-size:1rem; font-weight:900; color:#fff;">Leaderboard</span>
+        <div style="background:rgba(255,255,255,0.2); border-radius:20px; padding:5px 12px; display:flex; align-items:center; gap:5px;">
+          <!-- Diamond gem -->
+          <svg width="12" height="14" viewBox="0 0 12 14"><polygon points="6,1 11,5 6,13 1,5" fill="#FFE050" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/></svg>
+          <span style="font-size:0.73rem; font-weight:800; color:#fff;">Season 3</span>
+        </div>
+      </div>
+
+      <!-- Tab toggle -->
+      <div class="tab-wrap fade-up" style="animation-delay:60ms;">
+        <div class="tab-pill on" onclick="switchTab(this)">Weekly</div>
+        <div class="tab-pill off" onclick="switchTab(this)">All time</div>
+      </div>
+
+      <!-- Podium -->
+      <div class="fade-up" style="animation-delay:120ms; display:flex; align-items:flex-end; gap:10px; position:relative; z-index:1;">
+
+        <!-- 2nd place (left) -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:0;">
+          <!-- Avatar circle -->
+          <div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2.5px solid rgba(255,255,255,0.7);box-shadow:0 4px 14px rgba(0,0,0,0.18);margin-bottom:6px;">
+            <!-- Rahul: blue spiky hair, lighter skin -->
+            <svg width="56" height="56" viewBox="0 0 60 60" fill="none">
+              <circle cx="30" cy="30" r="30" fill="#D6EEFF"/>
+              <ellipse cx="30" cy="57" rx="22" ry="13" fill="#3B7EE8"/>
+              <circle cx="30" cy="30" r="17" fill="#EFCBA8"/>
+              <!-- Spiky blue hair -->
+              <path d="M13 24 Q12 8 30 8 Q48 8 47 24 Q44 12 30 11 Q16 12 13 24Z" fill="#2244CC"/>
+              <path d="M13 20 Q10 10 15 6 Q16 12 18 10 Q18 6 22 8 Q21 5 26 8 Q25 4 30 8 Q29 4 34 8 Q33 5 38 8 Q38 6 42 10 Q44 12 45 8 Q48 14 47 20Z" fill="#2244CC"/>
+              <ellipse cx="12" cy="31" rx="3.5" ry="4.5" fill="#DDB890"/>
+              <ellipse cx="48" cy="31" rx="3.5" ry="4.5" fill="#DDB890"/>
+              <circle cx="22" cy="30" r="4" fill="#1A1228"/>
+              <circle cx="38" cy="30" r="4" fill="#1A1228"/>
+              <circle cx="23.4" cy="28.6" r="1.5" fill="white"/>
+              <circle cx="39.4" cy="28.6" r="1.5" fill="white"/>
+              <path d="M21 37 Q30 43 39 37" stroke="#1A1228" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <ellipse cx="15" cy="34" rx="4.5" ry="3" fill="rgba(210,100,60,0.18)"/>
+              <ellipse cx="45" cy="34" rx="4.5" ry="3" fill="rgba(210,100,60,0.18)"/>
+            </svg>
+          </div>
+          <div style="font-size:0.72rem; font-weight:800; color:#fff; text-align:center;">Rahul K.</div>
+          <div style="font-size:0.65rem; font-weight:700; color:rgba(255,255,255,0.75); background:rgba(255,255,255,0.15); border-radius:20px; padding:2px 8px; margin-top:3px; margin-bottom:8px;">311 pts</div>
+          <!-- Bar -->
+          <div class="pbar pbar-2" id="bar2" style="border: 1.5px solid rgba(255,255,255,0.15);">
+            <span style="font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:900; color:rgba(255,255,255,0.4);">2</span>
+          </div>
+        </div>
+
+        <!-- 1st place (center) — tallest -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:0;">
+          <!-- Custom SVG crown -->
+          <div style="margin-bottom:2px;">
+            <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+              <path d="M2,22 L2,10 L9,17 L16,3 L23,17 L30,10 L30,22 Z" fill="#FFE050" stroke="#C88000" stroke-width="1.5" stroke-linejoin="round"/>
+              <rect x="2" y="19" width="28" height="5" rx="2.5" fill="#FFD700" stroke="#C88000" stroke-width="1"/>
+              <circle cx="16" cy="4" r="3" fill="#FF5500"/>
+              <circle cx="7" cy="14" r="2.5" fill="#FF5500"/>
+              <circle cx="25" cy="14" r="2.5" fill="#FF5500"/>
+              <circle cx="16" cy="4" r="1.2" fill="#FFE050"/>
+              <circle cx="7" cy="14" r="1" fill="#FFE050"/>
+              <circle cx="25" cy="14" r="1" fill="#FFE050"/>
+            </svg>
+          </div>
+          <!-- Avatar circle (larger, gold border + glow) -->
+          <div style="width:66px;height:66px;border-radius:50%;overflow:hidden;border:3px solid #FFE050;box-shadow:0 0 20px rgba(255,220,50,0.5), 0 4px 14px rgba(0,0,0,0.2);margin-bottom:6px;animation:glow 2.5s ease-in-out infinite;">
+            <!-- Aryan: same as v3 -->
+            <svg width="66" height="66" viewBox="0 0 60 60" fill="none">
+              <circle cx="30" cy="30" r="30" fill="#FFF3CC"/>
+              <ellipse cx="30" cy="58" rx="24" ry="14" fill="#FF5500"/>
+              <rect x="24" y="45" width="12" height="9" rx="4" fill="#C07858"/>
+              <circle cx="30" cy="30" r="18" fill="#D4956A"/>
+              <path d="M13 26 Q12 11 30 11 Q48 11 47 26 Q46 14 30 13 Q14 13 13 26Z" fill="#1A1228"/>
+              <ellipse cx="12" cy="31" rx="3.5" ry="4.5" fill="#C07858"/>
+              <ellipse cx="48" cy="31" rx="3.5" ry="4.5" fill="#C07858"/>
+              <circle cx="22" cy="30" r="4.5" fill="#1A1228"/>
+              <circle cx="38" cy="30" r="4.5" fill="#1A1228"/>
+              <circle cx="23.6" cy="28.5" r="1.8" fill="white"/>
+              <circle cx="39.6" cy="28.5" r="1.8" fill="white"/>
+              <path d="M21 37 Q30 44 39 37" stroke="#1A1228" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <ellipse cx="15" cy="35" rx="5" ry="3.5" fill="rgba(220,70,30,0.2)"/>
+              <ellipse cx="45" cy="35" rx="5" ry="3.5" fill="rgba(220,70,30,0.2)"/>
+              <rect x="14" y="12" width="32" height="7" rx="3.5" fill="#F5A500" stroke="#C88000" stroke-width="1"/>
+              <rect x="22" y="12" width="3" height="7" rx="1" fill="rgba(26,18,40,0.25)"/>
+              <rect x="35" y="12" width="3" height="7" rx="1" fill="rgba(26,18,40,0.25)"/>
+              <line x1="19" y1="13" x2="13" y2="4" stroke="#1A1228" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="13" cy="4" r="3.5" fill="#F5A500" stroke="#1A1228" stroke-width="1.5"/>
+              <line x1="41" y1="13" x2="47" y2="4" stroke="#1A1228" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="47" cy="4" r="3.5" fill="#F5A500" stroke="#1A1228" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div style="font-size:0.78rem; font-weight:900; color:#fff; text-align:center;">Aryan S.</div>
+          <div style="font-size:0.68rem; font-weight:800; color:#FFE050; background:rgba(255,220,50,0.2); border:1px solid rgba(255,220,50,0.35); border-radius:20px; padding:2px 9px; margin-top:3px; margin-bottom:8px;" id="pts1">0 pts</div>
+          <!-- Bar (tallest) -->
+          <div class="pbar pbar-1" id="bar1" style="border:1.5px solid rgba(255,255,255,0.2);">
+            <span style="font-family:'Space Mono',monospace; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.45);">1</span>
+          </div>
+        </div>
+
+        <!-- 3rd place (right) -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:0;">
+          <div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2.5px solid rgba(255,255,255,0.7);box-shadow:0 4px 14px rgba(0,0,0,0.18);margin-bottom:6px;">
+            <!-- Priya: dark skin, curly afro hair -->
+            <svg width="56" height="56" viewBox="0 0 60 60" fill="none">
+              <circle cx="30" cy="30" r="30" fill="#FFE8D6"/>
+              <ellipse cx="30" cy="57" rx="22" ry="13" fill="#22A861"/>
+              <circle cx="30" cy="30" r="17" fill="#7A4A2A"/>
+              <!-- Afro curls: multiple small circles forming the afro -->
+              <circle cx="16" cy="22" r="8" fill="#1A1228"/>
+              <circle cx="24" cy="14" r="8" fill="#1A1228"/>
+              <circle cx="34" cy="13" r="8" fill="#1A1228"/>
+              <circle cx="44" cy="21" r="8" fill="#1A1228"/>
+              <circle cx="30" cy="30" r="17" fill="#7A4A2A"/>
+              <path d="M13 26 Q13 20 30 19 Q47 20 47 26" fill="#1A1228"/>
+              <ellipse cx="12" cy="31" rx="3.5" ry="4.5" fill="#6A3A1A"/>
+              <ellipse cx="48" cy="31" rx="3.5" ry="4.5" fill="#6A3A1A"/>
+              <circle cx="22" cy="30" r="4" fill="#1A1228"/>
+              <circle cx="38" cy="30" r="4" fill="#1A1228"/>
+              <circle cx="23.4" cy="28.6" r="1.5" fill="white"/>
+              <circle cx="39.4" cy="28.6" r="1.5" fill="white"/>
+              <path d="M21 37 Q30 43 39 37" stroke="#1A0A00" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <ellipse cx="15" cy="34" rx="4" ry="3" fill="rgba(200,80,40,0.2)"/>
+              <ellipse cx="45" cy="34" rx="4" ry="3" fill="rgba(200,80,40,0.2)"/>
+            </svg>
+          </div>
+          <div style="font-size:0.72rem; font-weight:800; color:#fff; text-align:center;">Priya M.</div>
+          <div style="font-size:0.65rem; font-weight:700; color:rgba(255,255,255,0.75); background:rgba(255,255,255,0.15); border-radius:20px; padding:2px 8px; margin-top:3px; margin-bottom:8px;">227 pts</div>
+          <!-- Bar (shortest) -->
+          <div class="pbar pbar-3" id="bar3" style="border:1.5px solid rgba(255,255,255,0.12);">
+            <span style="font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:900; color:rgba(255,255,255,0.4);">3</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Podium base strip -->
+      <div style="display:flex; gap:10px; margin-top:0;">
+        <div style="flex:1; height:8px; background:rgba(255,255,255,0.15); border-radius:0 0 8px 8px;"></div>
+        <div style="flex:1; height:8px; background:rgba(255,255,255,0.22); border-radius:0 0 8px 8px;"></div>
+        <div style="flex:1; height:8px; background:rgba(255,255,255,0.12); border-radius:0 0 8px 8px;"></div>
+      </div>
+
+    </div><!-- /orange-top -->
+
+    <!-- ② White list card (slides over orange) -->
+    <div class="list-card">
+
+      <!-- Your rank banner -->
+      <div class="my-banner fade-up" style="animation-delay:300ms;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <!-- Mini Aryan avatar -->
+          <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+            <svg width="38" height="38" viewBox="0 0 60 60" fill="none">
+              <circle cx="30" cy="30" r="30" fill="#FFF3CC"/>
+              <ellipse cx="30" cy="57" rx="22" ry="13" fill="#FF5500"/>
+              <circle cx="30" cy="30" r="17" fill="#D4956A"/>
+              <path d="M13 26 Q12 11 30 11 Q48 11 47 26 Q46 14 30 13 Q14 13 13 26Z" fill="#1A1228"/>
+              <circle cx="22" cy="30" r="4" fill="#1A1228"/><circle cx="38" cy="30" r="4" fill="#1A1228"/>
+              <circle cx="23.4" cy="28.5" r="1.5" fill="white"/><circle cx="39.4" cy="28.5" r="1.5" fill="white"/>
+              <path d="M21 37 Q30 43 39 37" stroke="#1A1228" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <rect x="14" y="12" width="32" height="7" rx="3.5" fill="#F5A500" stroke="#C88000" stroke-width="1"/>
+              <line x1="19" y1="13" x2="13" y2="4" stroke="#1A1228" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="13" cy="4" r="3.5" fill="#F5A500" stroke="#1A1228" stroke-width="1.5"/>
+              <line x1="41" y1="13" x2="47" y2="4" stroke="#1A1228" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="47" cy="4" r="3.5" fill="#F5A500" stroke="#1A1228" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:0.87rem; font-weight:900; color:var(--text-1);">You're #1 🎉</div>
+            <div style="font-size:0.7rem; font-weight:600; color:var(--text-3);">Leading by 240 pts this week</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700; color:#FF5500;" id="myPts">0 pts</div>
+          <div style="font-size:0.65rem; font-weight:700; color:#22A861; margin-top:2px;">↑ 2 ranks</div>
+        </div>
+      </div>
+
+      <!-- Full rankings label -->
+      <div class="fade-up" style="animation-delay:360ms; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <div style="font-size:0.68rem; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:1.5px;">Full Rankings</div>
+        <div style="font-size:0.68rem; font-weight:700; color:#FF5500; cursor:pointer;">See all →</div>
+      </div>
+
+      <!-- ── Rank rows 4–8 ─────────────────────────────────── -->
+
+      <!-- Rank 4: Amit (glasses) -->
+      <div class="rank-row fade-up" style="animation-delay:400ms;">
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-3); width:22px; flex-shrink:0;">04</div>
+        <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+          <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="30" fill="#E8E0FF"/>
+            <ellipse cx="30" cy="57" rx="22" ry="13" fill="#6C63FF"/>
+            <circle cx="30" cy="30" r="17" fill="#D4956A"/>
+            <path d="M13 25 Q13 11 30 11 Q47 11 47 25 Q45 13 30 12 Q15 12 13 25Z" fill="#1A1228"/>
+            <!-- Glasses -->
+            <circle cx="22" cy="31" r="6" fill="none" stroke="#1A1228" stroke-width="1.8"/>
+            <circle cx="38" cy="31" r="6" fill="none" stroke="#1A1228" stroke-width="1.8"/>
+            <line x1="28" y1="31" x2="32" y2="31" stroke="#1A1228" stroke-width="1.8"/>
+            <line x1="4" y1="28" x2="16" y2="29" stroke="#1A1228" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="44" y1="29" x2="56" y2="28" stroke="#1A1228" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="22" cy="31" r="2.8" fill="#1A1228"/>
+            <circle cx="38" cy="31" r="2.8" fill="#1A1228"/>
+            <circle cx="23" cy="30" r="1" fill="white"/><circle cx="39" cy="30" r="1" fill="white"/>
+            <path d="M22 38 Q30 43 38 38" stroke="#1A1228" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.86rem; font-weight:800; color:var(--text-1);">Amit R.</div>
+          <div style="font-size:0.68rem; font-weight:600; color:var(--text-3);">Grade 5 · 174 pts</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-2);" data-target="174">0</div>
+        <div style="margin-left:4px;">
+          <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9" fill="#22A861"/></svg>
+        </div>
+      </div>
+
+      <!-- Rank 5: Sara (blonde ponytail) -->
+      <div class="rank-row fade-up" style="animation-delay:450ms;">
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-3); width:22px; flex-shrink:0;">05</div>
+        <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+          <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="30" fill="#FFF3DD"/>
+            <ellipse cx="30" cy="57" rx="22" ry="13" fill="#FF5500"/>
+            <circle cx="30" cy="30" r="17" fill="#F5D5B0"/>
+            <path d="M13 25 Q13 11 30 11 Q47 11 47 25 Q45 13 30 12 Q15 12 13 25Z" fill="#FFB800"/>
+            <!-- Ponytail right side -->
+            <path d="M44 18 Q54 20 52 32 Q50 38 44 30 Q47 24 44 18Z" fill="#FFB800"/>
+            <circle cx="22" cy="30" r="4" fill="#1A1228"/><circle cx="38" cy="30" r="4" fill="#1A1228"/>
+            <circle cx="23.4" cy="28.6" r="1.5" fill="white"/><circle cx="39.4" cy="28.6" r="1.5" fill="white"/>
+            <path d="M21 37 Q30 43 39 37" stroke="#1A1228" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            <ellipse cx="15" cy="34" rx="4.5" ry="3" fill="rgba(220,100,50,0.18)"/>
+            <ellipse cx="45" cy="34" rx="4.5" ry="3" fill="rgba(220,100,50,0.18)"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.86rem; font-weight:800; color:var(--text-1);">Sara T.</div>
+          <div style="font-size:0.68rem; font-weight:600; color:var(--text-3);">Grade 5 · 172 pts</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-2);" data-target="172">0</div>
+        <div style="margin-left:4px;">
+          <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9" fill="#22A861"/></svg>
+        </div>
+      </div>
+
+      <!-- Rank 6: Vikram (dark skin, side-swept) -->
+      <div class="rank-row fade-up" style="animation-delay:500ms;">
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-3); width:22px; flex-shrink:0;">06</div>
+        <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+          <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="30" fill="#FFDDC8"/>
+            <ellipse cx="30" cy="57" rx="22" ry="13" fill="#FF5500"/>
+            <circle cx="30" cy="30" r="17" fill="#7A4A2A"/>
+            <path d="M13 24 Q13 9 30 9 Q47 9 47 24 Q44 11 30 10 Q16 11 13 24Z" fill="#120800"/>
+            <!-- Side swept left -->
+            <path d="M13 18 Q7 15 9 8 Q12 14 14 11 Q14 17 13 18Z" fill="#120800"/>
+            <ellipse cx="12" cy="31" rx="3.5" ry="4.5" fill="#6A3A1A"/>
+            <ellipse cx="48" cy="31" rx="3.5" ry="4.5" fill="#6A3A1A"/>
+            <circle cx="22" cy="30" r="4" fill="#1A1228"/><circle cx="38" cy="30" r="4" fill="#1A1228"/>
+            <circle cx="23.4" cy="28.6" r="1.5" fill="white"/><circle cx="39.4" cy="28.6" r="1.5" fill="white"/>
+            <path d="M21 37 Q30 43 39 37" stroke="#120800" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.86rem; font-weight:800; color:var(--text-1);">Vikram P.</div>
+          <div style="font-size:0.68rem; font-weight:600; color:var(--text-3);">Grade 5 · 141 pts</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-2);" data-target="141">0</div>
+        <div style="margin-left:4px;">
+          <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,9 9,1 1,1" fill="#E83000"/></svg>
+        </div>
+      </div>
+
+      <!-- Rank 7: Neha (pigtails) -->
+      <div class="rank-row fade-up" style="animation-delay:550ms;">
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-3); width:22px; flex-shrink:0;">07</div>
+        <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+          <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="30" fill="#FFE0F0"/>
+            <ellipse cx="30" cy="57" rx="22" ry="13" fill="#FF90B0"/>
+            <circle cx="30" cy="30" r="17" fill="#D4956A"/>
+            <path d="M13 25 Q13 11 30 11 Q47 11 47 25 Q45 13 30 12 Q15 12 13 25Z" fill="#1A1228"/>
+            <!-- Pigtail left -->
+            <path d="M13 20 Q4 17 5 26 Q7 31 12 25 Q11 22 13 20Z" fill="#1A1228"/>
+            <!-- Pigtail right -->
+            <path d="M47 20 Q56 17 55 26 Q53 31 48 25 Q49 22 47 20Z" fill="#1A1228"/>
+            <circle cx="22" cy="30" r="4" fill="#1A1228"/><circle cx="38" cy="30" r="4" fill="#1A1228"/>
+            <circle cx="23.4" cy="28.6" r="1.5" fill="white"/><circle cx="39.4" cy="28.6" r="1.5" fill="white"/>
+            <path d="M21 37 Q30 43 39 37" stroke="#1A1228" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            <ellipse cx="15" cy="34" rx="4.5" ry="3" fill="rgba(220,70,30,0.2)"/>
+            <ellipse cx="45" cy="34" rx="4.5" ry="3" fill="rgba(220,70,30,0.2)"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.86rem; font-weight:800; color:var(--text-1);">Neha G.</div>
+          <div style="font-size:0.68rem; font-weight:600; color:var(--text-3);">Grade 5 · 136 pts</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-2);" data-target="136">0</div>
+        <div style="margin-left:4px;">
+          <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,1 9,9 1,9" fill="#22A861"/></svg>
+        </div>
+      </div>
+
+      <!-- Rank 8: Dev (teal spiky hair) -->
+      <div class="rank-row fade-up" style="animation-delay:600ms;">
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-3); width:22px; flex-shrink:0;">08</div>
+        <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+          <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="30" fill="#D6F8F2"/>
+            <ellipse cx="30" cy="57" rx="22" ry="13" fill="#22A861"/>
+            <circle cx="30" cy="30" r="17" fill="#C07858"/>
+            <!-- Teal spiky hair -->
+            <path d="M13 24 Q12 8 30 8 Q48 8 47 24 Q44 11 30 10 Q16 11 13 24Z" fill="#1A8878"/>
+            <path d="M13 18 Q10 8 16 4 Q17 11 20 8 Q20 4 25 6 Q24 3 30 7 Q30 2 35 6 Q35 4 40 8 Q42 10 44 6 Q48 12 47 19Z" fill="#1A8878"/>
+            <ellipse cx="12" cy="31" rx="3.5" ry="4.5" fill="#A06848"/>
+            <ellipse cx="48" cy="31" rx="3.5" ry="4.5" fill="#A06848"/>
+            <circle cx="22" cy="30" r="4" fill="#1A1228"/><circle cx="38" cy="30" r="4" fill="#1A1228"/>
+            <circle cx="23.4" cy="28.6" r="1.5" fill="white"/><circle cx="39.4" cy="28.6" r="1.5" fill="white"/>
+            <path d="M21 37 Q30 43 39 37" stroke="#1A1228" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.86rem; font-weight:800; color:var(--text-1);">Dev S.</div>
+          <div style="font-size:0.68rem; font-weight:600; color:var(--text-3);">Grade 5 · 128 pts</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--text-2);" data-target="128">0</div>
+        <div style="margin-left:4px;">
+          <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,9 9,1 1,1" fill="#E83000"/></svg>
+        </div>
+      </div>
+
+    </div><!-- /list-card -->
+
+  </div><!-- /scroll -->
+
+  <!-- ── Bottom Nav ──────────────────────────────────────── -->
+  <div class="bnav">
+    <div class="ni">
+      <i data-lucide="house" style="width:22px;height:22px;"></i>
+      <span class="nl">Home</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="book-open" style="width:22px;height:22px;"></i>
+      <span class="nl">Learn</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="pencil" style="width:22px;height:22px;"></i>
+      <span class="nl">Test</span>
+    </div>
+    <div class="ni on">
+      <i data-lucide="trophy" style="width:22px;height:22px;"></i>
+      <span class="nl" style="color:#FF5500;">Ranks</span>
+    </div>
+    <div class="ni">
+      <i data-lucide="user" style="width:22px;height:22px;"></i>
+      <span class="nl">Profile</span>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+/* ── Theme ──────────────────────────────────────────────── */
+function toggleTheme() {
+  const html   = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themIcon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('themLabel').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+}
+
+/* ── Tab switch ─────────────────────────────────────────── */
+function switchTab(el) {
+  document.querySelectorAll('.tab-pill').forEach(t => {
+    t.className = 'tab-pill off';
+  });
+  el.className = 'tab-pill on';
+}
+
+/* ── Count-up ───────────────────────────────────────────── */
+function countUp(el, target, ms, suffix = '') {
+  let start = null;
+  const step = ts => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / ms, 1);
+    el.textContent = Math.floor(p * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target + suffix;
+  };
+  requestAnimationFrame(step);
+}
+
+/* ── Animate podium bars + counts ───────────────────────── */
+setTimeout(() => {
+  document.getElementById('bar1').style.height = '130px';
+  document.getElementById('bar2').style.height = '90px';
+  document.getElementById('bar3').style.height = '64px';
+
+  countUp(document.getElementById('pts1'), 413, 1000, ' pts');
+  countUp(document.getElementById('myPts'), 413, 1000, ' pts');
+
+  /* Count up rank-list pts */
+  document.querySelectorAll('[data-target]').forEach(el => {
+    countUp(el, parseInt(el.dataset.target), 1000, '');
+  });
+}, 250);
+
+/* ── Lucide icons ───────────────────────────────────────── */
+lucide.createIcons();
+</script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.ds{display:flex;flex-direction:column;gap:2rem;padding:1rem 0;font-family:var(--font-sans);}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:12px;}
+.row{display:flex;gap:8px;flex-wrap:wrap;}
+.col2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:0.5rem 0;}
+</style>
+
+<h2 class="sr-only">Spell Bee app design system — color palette, typography, components, and spacing tokens</h2>
+
+<div class="ds">
+
+  <!-- PALETTE -->
+  <div>
+    <p class="sec-label">Color palette</p>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+
+      <div style="display:flex;gap:0;border-radius:12px;overflow:hidden;height:56px;">
+        <div style="flex:3;background:#C8001E;display:flex;align-items:flex-end;padding:6px 10px;">
+          <span style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.9);">Spell Red · #C8001E</span>
+        </div>
+        <div style="flex:1.5;background:#E8002A;"></div>
+        <div style="flex:1;background:#FF1F3D;"></div>
+        <div style="flex:1;background:#FF6680;"></div>
+        <div style="flex:1;background:#FFD6DC;"></div>
+      </div>
+
+      <div style="display:flex;gap:0;border-radius:12px;overflow:hidden;height:56px;">
+        <div style="flex:3;background:#F5A500;display:flex;align-items:flex-end;padding:6px 10px;">
+          <span style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.9);">Bee Gold · #F5A500</span>
+        </div>
+        <div style="flex:1.5;background:#FFB800;"></div>
+        <div style="flex:1;background:#FFC933;"></div>
+        <div style="flex:1;background:#FFD966;"></div>
+        <div style="flex:1;background:#FFF3CC;"></div>
+      </div>
+
+      <div style="display:flex;gap:0;border-radius:12px;overflow:hidden;height:56px;">
+        <div style="flex:3;background:#1A1A2E;display:flex;align-items:flex-end;padding:6px 10px;">
+          <span style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.9);">Night Navy · #1A1A2E</span>
+        </div>
+        <div style="flex:1.5;background:#2A2A4A;"></div>
+        <div style="flex:1;background:#3D3D66;"></div>
+        <div style="flex:1;background:#7070A0;"></div>
+        <div style="flex:1;background:#D0D0E8;"></div>
+      </div>
+
+      <div style="display:flex;gap:0;border-radius:12px;overflow:hidden;height:56px;">
+        <div style="flex:3;background:#F7F0E6;display:flex;align-items:flex-end;padding:6px 10px;">
+          <span style="font-size:10px;font-weight:500;color:#1A1A2E;">Cream White · #F7F0E6</span>
+        </div>
+        <div style="flex:1.5;background:#fff;border:0.5px solid #eee;"></div>
+        <div style="flex:1;background:#FFF8F0;border:0.5px solid #eee;"></div>
+        <div style="flex:1;background:#F0EDE8;"></div>
+        <div style="flex:1;background:#E0DAD2;"></div>
+      </div>
+
+      <div style="display:flex;gap:6px;">
+        <div style="flex:1;background:#22A861;border-radius:10px;height:36px;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:10px;font-weight:500;color:#fff;">Success · #22A861</span>
+        </div>
+        <div style="flex:1;background:#3B7EE8;border-radius:10px;height:36px;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:10px;font-weight:500;color:#fff;">Info · #3B7EE8</span>
+        </div>
+        <div style="flex:1;background:#FF6B35;border-radius:10px;height:36px;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:10px;font-weight:500;color:#fff;">Warn · #FF6B35</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TYPOGRAPHY -->
+  <div>
+    <p class="sec-label">Typography</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="background:var(--color-background-secondary);border-radius:12px;padding:14px;">
+        <div style="font-size:26px;font-weight:500;color:#C8001E;line-height:1.1;margin-bottom:4px;">Display · 26px / 500</div>
+        <div style="font-size:11px;color:var(--color-text-tertiary);">Screen titles, hero headings</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
+        <div style="background:var(--color-background-secondary);border-radius:12px;padding:12px;">
+          <div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;">Heading · 18px</div>
+          <div style="font-size:10px;color:var(--color-text-tertiary);">Card titles, sections</div>
+        </div>
+        <div style="background:var(--color-background-secondary);border-radius:12px;padding:12px;">
+          <div style="font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;">Subhead · 15px</div>
+          <div style="font-size:10px;color:var(--color-text-tertiary);">List items, labels</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
+        <div style="background:var(--color-background-secondary);border-radius:12px;padding:12px;">
+          <div style="font-size:13px;color:var(--color-text-primary);margin-bottom:2px;">Body · 13px / 400</div>
+          <div style="font-size:10px;color:var(--color-text-tertiary);">Question text, copy</div>
+        </div>
+        <div style="background:var(--color-background-secondary);border-radius:12px;padding:12px;">
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;">Caption · 11px / 400</div>
+          <div style="font-size:10px;color:var(--color-text-tertiary);">Hints, timestamps</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- COMPONENTS -->
+  <div>
+    <p class="sec-label">Buttons</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="background:#C8001E;border-radius:14px;padding:13px;text-align:center;font-size:13px;font-weight:500;color:#fff;">Primary — play now</div>
+      <div style="background:#F5A500;border-radius:14px;padding:13px;text-align:center;font-size:13px;font-weight:500;color:#1A1A2E;">Secondary — practice</div>
+      <div style="background:#F7F0E6;border-radius:14px;padding:13px;text-align:center;font-size:13px;font-weight:500;color:#C8001E;border:1.5px solid #C8001E;">Ghost — skip</div>
+      <div style="background:#1A1A2E;border-radius:14px;padding:13px;text-align:center;font-size:13px;font-weight:500;color:#F5A500;">Dark — leaderboard</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CARDS -->
+  <div>
+    <p class="sec-label">Cards</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+
+      <div style="background:#fff;border-radius:16px;padding:14px;border:1.5px solid #F5A500;">
+        <div style="font-size:10px;color:#F5A500;font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.07em;">Mission card</div>
+        <div style="font-size:14px;font-weight:500;color:#1A1A2E;margin-bottom:6px;">Spell the word correctly</div>
+        <div style="height:5px;background:#FFF3CC;border-radius:3px;overflow:hidden;"><div style="height:100%;width:65%;background:#F5A500;border-radius:3px;"></div></div>
+        <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:4px;">65% complete</div>
+      </div>
+
+      <div style="background:#FFF8F0;border-radius:16px;padding:14px;border:0.5px solid #FFD966;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:#F5A500;flex-shrink:0;"></div>
+          <div>
+            <div style="font-size:13px;font-weight:500;color:#1A1A2E;margin-bottom:1px;">Bee streak</div>
+            <div style="font-size:11px;color:var(--color-text-tertiary);">14 days in a row</div>
+          </div>
+          <div style="margin-left:auto;background:#F5A500;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:500;color:#1A1A2E;">+50 xp</div>
+        </div>
+      </div>
+
+      <div style="background:#C8001E;border-radius:16px;padding:14px;">
+        <div style="font-size:10px;color:rgba(255,255,255,0.7);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.07em;">Challenge card</div>
+        <div style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px;">Live spelling battle</div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:11px;color:rgba(255,255,255,0.9);">2 players waiting</span>
+          <div style="background:#F5A500;border-radius:8px;padding:4px 12px;font-size:11px;font-weight:500;color:#1A1A2E;">Join</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BADGES & PILLS -->
+  <div>
+    <p class="sec-label">Badges & pills</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+      <div style="background:#FFD6DC;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:500;color:#C8001E;">Hot streak</div>
+      <div style="background:#FFF3CC;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:500;color:#8A5E00;">Top scorer</div>
+      <div style="background:#D0D0E8;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:500;color:#2A2A4A;">Level 8</div>
+      <div style="background:#C8E6D4;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:500;color:#145231;">Correct</div>
+      <div style="background:#FFD6DC;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:500;color:#8A0011;">Wrong</div>
+      <div style="background:#1A1A2E;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:500;color:#F5A500;">New</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SPACING & RADIUS TOKENS -->
+  <div>
+    <p class="sec-label">Spacing tokens</p>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:4px;height:4px;border-radius:1px;background:#C8001E;flex-shrink:0;"></div>
+        <div style="height:4px;flex:0.1;background:#C8001E;border-radius:2px;"></div>
+        <span style="font-size:11px;color:var(--color-text-secondary);">xs · 4px — icon gap, tight inline</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:8px;height:8px;border-radius:2px;background:#F5A500;flex-shrink:0;"></div>
+        <div style="height:4px;flex:0.2;background:#F5A500;border-radius:2px;"></div>
+        <span style="font-size:11px;color:var(--color-text-secondary);">sm · 8px — component padding</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:12px;height:12px;border-radius:3px;background:#1A1A2E;flex-shrink:0;"></div>
+        <div style="height:4px;flex:0.3;background:#1A1A2E;border-radius:2px;"></div>
+        <span style="font-size:11px;color:var(--color-text-secondary);">md · 12px — card internal gap</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:16px;height:16px;border-radius:4px;background:#C8001E;flex-shrink:0;"></div>
+        <div style="height:4px;flex:0.4;background:#C8001E;border-radius:2px;"></div>
+        <span style="font-size:11px;color:var(--color-text-secondary);">lg · 16px — section padding</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:24px;height:24px;border-radius:6px;background:#F5A500;flex-shrink:0;"></div>
+        <div style="height:4px;flex:0.6;background:#F5A500;border-radius:2px;"></div>
+        <span style="font-size:11px;color:var(--color-text-secondary);">xl · 24px — screen edge margin</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BORDER RADIUS -->
+  <div>
+    <p class="sec-label">Border radius</p>
+    <div style="display:flex;gap:10px;align-items:flex-end;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:36px;height:36px;background:#C8001E;border-radius:6px;"></div>
+        <span style="font-size:10px;color:var(--color-text-tertiary);">sm · 6px</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:44px;height:44px;background:#F5A500;border-radius:10px;"></div>
+        <span style="font-size:10px;color:var(--color-text-tertiary);">md · 10px</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:52px;height:52px;background:#1A1A2E;border-radius:16px;"></div>
+        <span style="font-size:10px;color:var(--color-text-tertiary);">lg · 16px</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:60px;height:60px;background:#C8001E;border-radius:24px;"></div>
+        <span style="font-size:10px;color:var(--color-text-tertiary);">xl · 24px</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:36px;height:36px;background:#F5A500;border-radius:50%;"></div>
+        <span style="font-size:10px;color:var(--color-text-tertiary);">pill · 50%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PROGRESS / GAMIFICATION ATOMS -->
+  <div>
+    <p class="sec-label">Gamification atoms</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+
+      <div style="background:var(--color-background-secondary);border-radius:12px;padding:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px;"><span>XP progress</span><span>780 / 1000</span></div>
+        <div style="height:8px;background:#F0EDE8;border-radius:4px;overflow:hidden;">
+          <div style="height:100%;width:78%;background:#F5A500;border-radius:4px;"></div>
+        </div>
+      </div>
+
+      <div style="background:var(--color-background-secondary);border-radius:12px;padding:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px;"><span>Accuracy</span><span>92%</span></div>
+        <div style="height:8px;background:#F0EDE8;border-radius:4px;overflow:hidden;">
+          <div style="height:100%;width:92%;background:#22A861;border-radius:4px;"></div>
+        </div>
+      </div>
+
+      <div style="background:var(--color-background-secondary);border-radius:12px;padding:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px;"><span>Lives</span><span>3 of 3</span></div>
+        <div style="display:flex;gap:6px;">
+          <div style="width:28px;height:10px;border-radius:5px;background:#C8001E;"></div>
+          <div style="width:28px;height:10px;border-radius:5px;background:#C8001E;"></div>
+          <div style="width:28px;height:10px;border-radius:5px;background:#C8001E;"></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
+        <div style="background:#FFF3CC;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:22px;font-weight:500;color:#8A5E00;">14</div>
+          <div style="font-size:10px;color:#B08020;margin-top:2px;">day streak</div>
+        </div>
+        <div style="background:#FFD6DC;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:22px;font-weight:500;color:#C8001E;">1,240</div>
+          <div style="font-size:10px;color:#E8002A;margin-top:2px;">total xp</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

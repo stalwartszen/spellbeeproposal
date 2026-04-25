@@ -1,0 +1,402 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.page{display:flex;flex-direction:column;gap:0;padding:1rem 0;font-family:'Nunito',sans-serif;}
+.mode-block{border-radius:22px;padding:20px;margin-bottom:1.5rem;}
+.lm{background:#F6F1E9;}
+.dm{background:#1C100A;}
+.mode-pill{display:inline-block;border-radius:20px;padding:4px 14px;font-size:11px;font-weight:700;margin-bottom:16px;}
+.lm .mode-pill{background:#fff;color:#FF9A00;border:0.5px solid #FF9A00;}
+.dm .mode-pill{background:#2E1A0E;color:#FFD93D;}
+.sec{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.lm .sec{color:rgba(79,32,13,0.4);}
+.dm .sec{color:rgba(255,255,255,0.3);}
+.rule{height:0.5px;margin:14px 0;}
+.lm .rule{background:rgba(79,32,13,0.12);}
+.dm .rule{background:rgba(255,255,255,0.08);}
+</style>
+
+<h2 class="sr-only">Warm Earth design system — light and dark mode with palette, typography, buttons, cards, badges, and gamification tokens</h2>
+
+<div class="page">
+
+<!-- ══════════════ LIGHT MODE ══════════════ -->
+<div class="mode-block lm">
+<div class="mode-pill">Light mode</div>
+
+<!-- PALETTE -->
+<p class="sec">Color palette</p>
+<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:4px;">
+
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#F6F1E9;display:flex;align-items:center;padding:0 12px;border-right:0.5px solid rgba(79,32,13,0.1);">
+      <div><div style="font-size:11px;font-weight:700;color:#4F200D;">Cream · #F6F1E9</div><div style="font-size:10px;color:rgba(79,32,13,0.45);">Background base</div></div>
+    </div>
+    <div style="flex:1;background:#EDE5D8;"></div>
+    <div style="flex:1;background:#DDD4C4;"></div>
+    <div style="flex:1;background:#C8BBAA;"></div>
+  </div>
+
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#FFD93D;display:flex;align-items:center;padding:0 12px;">
+      <div><div style="font-size:11px;font-weight:700;color:#4F200D;">Sun Yellow · #FFD93D</div><div style="font-size:10px;color:rgba(79,32,13,0.6);">Primary accent</div></div>
+    </div>
+    <div style="flex:1;background:#FFE468;"></div>
+    <div style="flex:1;background:#FFEC90;"></div>
+    <div style="flex:1;background:#FFF6CC;"></div>
+  </div>
+
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#FF9A00;display:flex;align-items:center;padding:0 12px;">
+      <div><div style="font-size:11px;font-weight:700;color:#fff;">Amber Fire · #FF9A00</div><div style="font-size:10px;color:rgba(255,255,255,0.7);">Secondary / CTA</div></div>
+    </div>
+    <div style="flex:1;background:#FFB133;"></div>
+    <div style="flex:1;background:#FFC966;"></div>
+    <div style="flex:1;background:#FFE4B3;"></div>
+  </div>
+
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#4F200D;display:flex;align-items:center;padding:0 12px;">
+      <div><div style="font-size:11px;font-weight:700;color:#fff;">Roast Brown · #4F200D</div><div style="font-size:10px;color:rgba(255,255,255,0.55);">Text / dark surface</div></div>
+    </div>
+    <div style="flex:1;background:#7A3818;"></div>
+    <div style="flex:1;background:#A85025;"></div>
+    <div style="flex:1;background:#D4916A;"></div>
+  </div>
+
+  <div style="display:flex;gap:5px;margin-top:2px;">
+    <div style="flex:1;background:#2ECC71;border-radius:8px;height:26px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;font-weight:700;color:#fff;">Success</span></div>
+    <div style="flex:1;background:#3B9EE8;border-radius:8px;height:26px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;font-weight:700;color:#fff;">Info</span></div>
+    <div style="flex:1;background:#E84040;border-radius:8px;height:26px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;font-weight:700;color:#fff;">Error</span></div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- TYPOGRAPHY LM -->
+<p class="sec">Typography — Fredoka One + Nunito</p>
+<div style="display:flex;flex-direction:column;gap:7px;">
+  <div style="background:#fff;border-radius:14px;padding:13px 15px;border:0.5px solid rgba(79,32,13,0.1);">
+    <div style="font-family:'Fredoka One',cursive;font-size:28px;color:#FF9A00;line-height:1.1;">Display · 28px</div>
+    <div style="font-size:10px;color:rgba(79,32,13,0.4);margin-top:2px;">Fredoka One — hero titles, app name</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#fff;border-radius:14px;padding:12px;border:0.5px solid rgba(79,32,13,0.1);">
+      <div style="font-family:'Fredoka One',cursive;font-size:19px;color:#4F200D;">Heading · 19</div>
+      <div style="font-size:10px;color:rgba(79,32,13,0.4);margin-top:1px;">Card titles</div>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:12px;border:0.5px solid rgba(79,32,13,0.1);">
+      <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:#4F200D;">Subhead · 15</div>
+      <div style="font-size:10px;color:rgba(79,32,13,0.4);margin-top:1px;">List items, labels</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#fff;border-radius:14px;padding:12px;border:0.5px solid rgba(79,32,13,0.1);">
+      <div style="font-family:'Nunito',sans-serif;font-size:13px;color:#4F200D;">Body · 13 / 400</div>
+      <div style="font-size:10px;color:rgba(79,32,13,0.4);margin-top:1px;">Content, copy</div>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:12px;border:0.5px solid rgba(79,32,13,0.1);">
+      <div style="font-family:'Nunito',sans-serif;font-size:11px;color:rgba(79,32,13,0.45);">Caption · 11</div>
+      <div style="font-size:10px;color:rgba(79,32,13,0.3);margin-top:1px;">Hints, timestamps</div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- BUTTONS LM -->
+<p class="sec">Buttons</p>
+<div style="display:flex;flex-direction:column;gap:7px;">
+  <div style="background:#FF9A00;border-radius:16px;padding:13px;text-align:center;font-family:'Fredoka One',cursive;font-size:15px;color:#fff;">Primary — play now</div>
+  <div style="background:#FFD93D;border-radius:16px;padding:13px;text-align:center;font-family:'Fredoka One',cursive;font-size:15px;color:#4F200D;">Secondary — practice</div>
+  <div style="background:transparent;border-radius:16px;padding:13px;text-align:center;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#FF9A00;border:2px solid #FF9A00;">Ghost — skip</div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#4F200D;border-radius:16px;padding:11px;text-align:center;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:#FFD93D;">Dark — rank</div>
+    <div style="background:#FFE4B3;border-radius:16px;padding:11px;text-align:center;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:#7A3818;">Tint — hint</div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- CARDS LM -->
+<p class="sec">Cards</p>
+<div style="display:flex;flex-direction:column;gap:8px;">
+  <div style="background:#fff;border-radius:18px;padding:15px;border:2px solid #FFD93D;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;color:#A85025;text-transform:uppercase;margin-bottom:5px;">Mission card</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:16px;color:#4F200D;margin-bottom:9px;">Spell the word: Autumn</div>
+    <div style="height:7px;background:#FFF6CC;border-radius:4px;overflow:hidden;"><div style="height:100%;width:60%;background:#FFD93D;border-radius:4px;"></div></div>
+    <div style="font-size:11px;color:rgba(79,32,13,0.45);margin-top:4px;font-family:'Nunito',sans-serif;">60% complete</div>
+  </div>
+
+  <div style="background:#FFF8EC;border-radius:18px;padding:15px;border:0.5px solid rgba(255,154,0,0.25);display:flex;align-items:center;gap:12px;">
+    <div style="width:40px;height:40px;border-radius:14px;background:#FF9A00;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#fff;"></div>
+    </div>
+    <div style="flex:1;">
+      <div style="font-family:'Fredoka One',cursive;font-size:14px;color:#4F200D;">Live challenge</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:11px;color:rgba(79,32,13,0.45);">4 players · starts soon</div>
+    </div>
+    <div style="background:#FF9A00;border-radius:10px;padding:6px 13px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#fff;">Join</div>
+  </div>
+
+  <div style="background:#4F200D;border-radius:18px;padding:15px;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;color:rgba(255,217,61,0.7);text-transform:uppercase;margin-bottom:5px;">Streak bonus</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:20px;color:#FFD93D;margin-bottom:4px;">14 days!</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:12px;color:rgba(255,255,255,0.6);">Keep going — 6 days to next badge</div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- BADGES LM -->
+<p class="sec">Badges & pills</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:2px;">
+  <div style="background:#FFF6CC;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#7A3818;">Hot streak</div>
+  <div style="background:#FFE4B3;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#4F200D;">Top scorer</div>
+  <div style="background:#4F200D;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#FFD93D;">Level 8</div>
+  <div style="background:#D4F0E0;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#145231;">Correct</div>
+  <div style="background:#FFE0DC;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#8A0011;">Wrong</div>
+  <div style="background:#FF9A00;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#fff;">New</div>
+</div>
+
+<div class="rule"></div>
+
+<!-- GAMIFICATION LM -->
+<p class="sec">Gamification atoms</p>
+<div style="display:flex;flex-direction:column;gap:7px;">
+  <div style="background:#fff;border-radius:14px;padding:13px;border:0.5px solid rgba(79,32,13,0.1);">
+    <div style="display:flex;justify-content:space-between;font-family:'Nunito',sans-serif;font-size:11px;margin-bottom:6px;">
+      <span style="color:rgba(79,32,13,0.45);">XP progress</span><span style="font-weight:700;color:#4F200D;">780 / 1000</span>
+    </div>
+    <div style="height:9px;background:#FFF6CC;border-radius:5px;overflow:hidden;"><div style="height:100%;width:78%;background:#FFD93D;border-radius:5px;"></div></div>
+  </div>
+  <div style="background:#fff;border-radius:14px;padding:13px;border:0.5px solid rgba(79,32,13,0.1);">
+    <div style="display:flex;justify-content:space-between;font-family:'Nunito',sans-serif;font-size:11px;margin-bottom:6px;">
+      <span style="color:rgba(79,32,13,0.45);">Accuracy</span><span style="font-weight:700;color:#4F200D;">92%</span>
+    </div>
+    <div style="height:9px;background:#D4F0E0;border-radius:5px;overflow:hidden;"><div style="height:100%;width:92%;background:#2ECC71;border-radius:5px;"></div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#FFF6CC;border-radius:14px;padding:13px;text-align:center;">
+      <div style="font-family:'Fredoka One',cursive;font-size:26px;color:#7A3818;">14</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:10px;color:#A85025;margin-top:1px;">day streak</div>
+    </div>
+    <div style="background:#FFE4B3;border-radius:14px;padding:13px;text-align:center;">
+      <div style="font-family:'Fredoka One',cursive;font-size:26px;color:#4F200D;">1,240</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:10px;color:#7A3818;margin-top:1px;">total xp</div>
+    </div>
+  </div>
+  <div style="background:#fff;border-radius:14px;padding:13px;border:0.5px solid rgba(79,32,13,0.1);">
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;color:rgba(79,32,13,0.45);margin-bottom:7px;">Lives</div>
+    <div style="display:flex;gap:6px;">
+      <div style="flex:1;height:9px;border-radius:5px;background:#FF9A00;"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:#FF9A00;"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:#FF9A00;"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:#FFE4B3;"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:#FFE4B3;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- SPACING + RADIUS LM -->
+<p class="sec">Spacing & radius tokens</p>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+  <div style="background:#fff;border-radius:14px;padding:12px;border:0.5px solid rgba(79,32,13,0.1);">
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#4F200D;margin-bottom:8px;">Spacing</div>
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;align-items:center;gap:7px;"><div style="width:4px;height:4px;border-radius:1px;background:#FF9A00;flex-shrink:0;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">xs · 4px</span></div>
+      <div style="display:flex;align-items:center;gap:7px;"><div style="width:8px;height:8px;border-radius:2px;background:#FF9A00;flex-shrink:0;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">sm · 8px</span></div>
+      <div style="display:flex;align-items:center;gap:7px;"><div style="width:12px;height:12px;border-radius:3px;background:#FFD93D;flex-shrink:0;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">md · 12px</span></div>
+      <div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:4px;background:#4F200D;flex-shrink:0;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">lg · 16px</span></div>
+      <div style="display:flex;align-items:center;gap:7px;"><div style="width:24px;height:24px;border-radius:6px;background:#4F200D;flex-shrink:0;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">xl · 24px</span></div>
+    </div>
+  </div>
+  <div style="background:#fff;border-radius:14px;padding:12px;border:0.5px solid rgba(79,32,13,0.1);">
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#4F200D;margin-bottom:8px;">Radius</div>
+    <div style="display:flex;flex-direction:column;gap:7px;align-items:flex-start;">
+      <div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:20px;background:#FF9A00;border-radius:6px;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">sm · 6px</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:20px;background:#FFD93D;border-radius:10px;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">md · 10px</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:20px;background:#4F200D;border-radius:14px;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">lg · 14px</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:20px;background:#FF9A00;border-radius:18px;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">xl · 18px</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:20px;background:#FFD93D;border-radius:50px;"></div><span style="font-size:10px;color:rgba(79,32,13,0.5);">pill · 50px</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ══════════════ DARK MODE ══════════════ -->
+<div class="mode-block dm">
+<div class="mode-pill">Dark mode</div>
+
+<!-- PALETTE DM -->
+<p class="sec">Color palette</p>
+<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:4px;">
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#1C100A;display:flex;align-items:center;padding:0 12px;border-right:0.5px solid rgba(255,255,255,0.07);">
+      <div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.75);">Deep Roast · #1C100A</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">Background base</div></div>
+    </div>
+    <div style="flex:1;background:#2E1A0E;"></div>
+    <div style="flex:1;background:#3D2412;"></div>
+    <div style="flex:1;background:#5A3520;"></div>
+  </div>
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#FFD93D;display:flex;align-items:center;padding:0 12px;">
+      <div><div style="font-size:11px;font-weight:700;color:#4F200D;">Sun Yellow · #FFD93D</div><div style="font-size:10px;color:rgba(79,32,13,0.6);">Primary accent — same</div></div>
+    </div>
+    <div style="flex:1;background:#FFE468;"></div>
+    <div style="flex:1;background:#FFF0A0;"></div>
+    <div style="flex:1;background:#2E1A0E;"></div>
+  </div>
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#FF9A00;display:flex;align-items:center;padding:0 12px;">
+      <div><div style="font-size:11px;font-weight:700;color:#fff;">Amber Fire · #FF9A00</div><div style="font-size:10px;color:rgba(255,255,255,0.65);">Secondary — same</div></div>
+    </div>
+    <div style="flex:1;background:#FFAE33;"></div>
+    <div style="flex:1;background:#FFC266;"></div>
+    <div style="flex:1;background:#3D2412;"></div>
+  </div>
+  <div style="display:flex;border-radius:12px;overflow:hidden;height:52px;">
+    <div style="flex:4;background:#2E1A0E;display:flex;align-items:center;padding:0 12px;">
+      <div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.75);">Card surface · #2E1A0E</div><div style="font-size:10px;color:rgba(255,255,255,0.3);">Elevated containers</div></div>
+    </div>
+    <div style="flex:1;background:#3D2412;"></div>
+    <div style="flex:1;background:#5A3520;"></div>
+    <div style="flex:1;background:#7A4A30;"></div>
+  </div>
+  <div style="display:flex;gap:5px;margin-top:2px;">
+    <div style="flex:1;background:#1DB954;border-radius:8px;height:26px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;font-weight:700;color:#fff;">Success</span></div>
+    <div style="flex:1;background:#5B9EFF;border-radius:8px;height:26px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;font-weight:700;color:#1C100A;">Info</span></div>
+    <div style="flex:1;background:#FF5050;border-radius:8px;height:26px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;font-weight:700;color:#fff;">Error</span></div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- TYPOGRAPHY DM -->
+<p class="sec">Typography — Fredoka One + Nunito</p>
+<div style="display:flex;flex-direction:column;gap:7px;">
+  <div style="background:#2E1A0E;border-radius:14px;padding:13px 15px;">
+    <div style="font-family:'Fredoka One',cursive;font-size:28px;color:#FFD93D;line-height:1.1;">Display · 28px</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">Fredoka One — hero titles, app name</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#2E1A0E;border-radius:14px;padding:12px;">
+      <div style="font-family:'Fredoka One',cursive;font-size:19px;color:#fff;">Heading · 19</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:1px;">Card titles</div>
+    </div>
+    <div style="background:#2E1A0E;border-radius:14px;padding:12px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:rgba(255,255,255,0.9);">Subhead · 15</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:1px;">List items, labels</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#2E1A0E;border-radius:14px;padding:12px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:13px;color:rgba(255,255,255,0.8);">Body · 13 / 400</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:1px;">Content, copy</div>
+    </div>
+    <div style="background:#2E1A0E;border-radius:14px;padding:12px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:11px;color:rgba(255,255,255,0.35);">Caption · 11</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.2);margin-top:1px;">Hints, timestamps</div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- BUTTONS DM -->
+<p class="sec">Buttons</p>
+<div style="display:flex;flex-direction:column;gap:7px;">
+  <div style="background:#FF9A00;border-radius:16px;padding:13px;text-align:center;font-family:'Fredoka One',cursive;font-size:15px;color:#fff;">Primary — play now</div>
+  <div style="background:#FFD93D;border-radius:16px;padding:13px;text-align:center;font-family:'Fredoka One',cursive;font-size:15px;color:#4F200D;">Secondary — practice</div>
+  <div style="background:transparent;border-radius:16px;padding:13px;text-align:center;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#FFD93D;border:2px solid #FFD93D;">Ghost — skip</div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#3D2412;border-radius:16px;padding:11px;text-align:center;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:#FFD93D;">Dark — rank</div>
+    <div style="background:#5A3520;border-radius:16px;padding:11px;text-align:center;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:#FFAE33;">Tint — hint</div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- CARDS DM -->
+<p class="sec">Cards</p>
+<div style="display:flex;flex-direction:column;gap:8px;">
+  <div style="background:#2E1A0E;border-radius:18px;padding:15px;border:2px solid #FFD93D;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;color:#FFAE33;text-transform:uppercase;margin-bottom:5px;">Mission card</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:16px;color:#fff;margin-bottom:9px;">Spell the word: Autumn</div>
+    <div style="height:7px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;"><div style="height:100%;width:60%;background:#FFD93D;border-radius:4px;"></div></div>
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;color:rgba(255,255,255,0.35);margin-top:4px;">60% complete</div>
+  </div>
+  <div style="background:#2E1A0E;border-radius:18px;padding:15px;border:0.5px solid rgba(255,154,0,0.2);display:flex;align-items:center;gap:12px;">
+    <div style="width:40px;height:40px;border-radius:14px;background:#FF9A00;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#fff;"></div>
+    </div>
+    <div style="flex:1;">
+      <div style="font-family:'Fredoka One',cursive;font-size:14px;color:#fff;">Live challenge</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:11px;color:rgba(255,255,255,0.35);">4 players · starts soon</div>
+    </div>
+    <div style="background:#FF9A00;border-radius:10px;padding:6px 13px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#fff;">Join</div>
+  </div>
+  <div style="background:#3D2412;border-radius:18px;padding:15px;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;color:rgba(255,217,61,0.6);text-transform:uppercase;margin-bottom:5px;">Streak bonus</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:20px;color:#FFD93D;margin-bottom:4px;">14 days!</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:12px;color:rgba(255,255,255,0.45);">Keep going — 6 days to next badge</div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- BADGES DM -->
+<p class="sec">Badges & pills</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px;">
+  <div style="background:#3D2412;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#FFD93D;">Hot streak</div>
+  <div style="background:#5A3520;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#FFAE33;">Top scorer</div>
+  <div style="background:#FFD93D;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#4F200D;">Level 8</div>
+  <div style="background:#0A2A18;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#5CE89A;">Correct</div>
+  <div style="background:#2A0808;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#FF8080;">Wrong</div>
+  <div style="background:#FF9A00;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#fff;">New</div>
+</div>
+
+<div class="rule"></div>
+
+<!-- GAMIFICATION DM -->
+<p class="sec">Gamification atoms</p>
+<div style="display:flex;flex-direction:column;gap:7px;">
+  <div style="background:#2E1A0E;border-radius:14px;padding:13px;">
+    <div style="display:flex;justify-content:space-between;font-family:'Nunito',sans-serif;font-size:11px;margin-bottom:6px;">
+      <span style="color:rgba(255,255,255,0.35);">XP progress</span><span style="font-weight:700;color:#fff;">780 / 1000</span>
+    </div>
+    <div style="height:9px;background:rgba(255,255,255,0.07);border-radius:5px;overflow:hidden;"><div style="height:100%;width:78%;background:#FFD93D;border-radius:5px;"></div></div>
+  </div>
+  <div style="background:#2E1A0E;border-radius:14px;padding:13px;">
+    <div style="display:flex;justify-content:space-between;font-family:'Nunito',sans-serif;font-size:11px;margin-bottom:6px;">
+      <span style="color:rgba(255,255,255,0.35);">Accuracy</span><span style="font-weight:700;color:#fff;">92%</span>
+    </div>
+    <div style="height:9px;background:rgba(255,255,255,0.07);border-radius:5px;overflow:hidden;"><div style="height:100%;width:92%;background:#1DB954;border-radius:5px;"></div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">
+    <div style="background:#3D2412;border-radius:14px;padding:13px;text-align:center;">
+      <div style="font-family:'Fredoka One',cursive;font-size:26px;color:#FFD93D;">14</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:10px;color:#FFAE33;margin-top:1px;">day streak</div>
+    </div>
+    <div style="background:#3D2412;border-radius:14px;padding:13px;text-align:center;">
+      <div style="font-family:'Fredoka One',cursive;font-size:26px;color:#FF9A00;">1,240</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:10px;color:#FFAE33;margin-top:1px;">total xp</div>
+    </div>
+  </div>
+  <div style="background:#2E1A0E;border-radius:14px;padding:13px;">
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:7px;">Lives</div>
+    <div style="display:flex;gap:6px;">
+      <div style="flex:1;height:9px;border-radius:5px;background:#FF9A00;"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:#FF9A00;"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:#FF9A00;"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:rgba(255,255,255,0.08);"></div>
+      <div style="flex:1;height:9px;border-radius:5px;background:rgba(255,255,255,0.08);"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
