@@ -254,13 +254,24 @@ body {
 .stat-lbl { font-size: 9px; color: var(--text3); margin-top: 3px; transition: color 0.4s; }
 
 /* SCREENS */
+/* showcase image row */
 .showcase-section { padding: 0 80px 48px; position: relative; z-index: 2; }
 .section-label { font-size: 9.5px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 22px; transition: color 0.4s; }
 .screens-row {
-  display: flex; gap: 14px; overflow-x: auto; padding-bottom: 20px;
-  scrollbar-width: none; -ms-overflow-style: none;
+  display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+  padding-bottom: 8px;
 }
-.screens-row::-webkit-scrollbar { display: none; }
+.showcase-img {
+  max-width: 100%; height: auto; display: block;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.3);
+  border: 1px solid var(--surface-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.showcase-img:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 28px 72px rgba(0,0,0,0.65), 0 6px 20px rgba(0,0,0,0.35);
+}
 /* ── iPhone mockup ─────────────────────────────
    Outer shell: 100px wide
    Inner screen: 86px wide
@@ -572,69 +583,26 @@ var VARS = {
 
 var activeVar = 'a';
 
-/* ── Build iPhone mockup for a given variation ── */
+/* ── Showcase screenshot images per variation ── */
+var SHOWCASE_IMAGES = {
+  a: ['newassets/Screenshot 2026-04-25 190647.png'],
+  b: ['newassets/Screenshot 2026-04-25 190622.png'],
+  c: [
+    'newassets/Screenshot 2026-04-25 225804.png',
+    'newassets/Screenshot 2026-04-25 225838.png',
+  ],
+};
+
 function buildScreens(v) {
   var row = document.getElementById('screens-row');
   row.textContent = '';
-  var dir = SCREEN_DIRS[v];
 
-  SCREENS.forEach(function(s) {
-    /* Outer wrap */
-    var wrap = document.createElement('div');
-    wrap.className = 'phone-wrap';
-
-    /* ── iPhone shell ── */
-    var iphone = document.createElement('div');
-    iphone.className = 'iphone';
-
-    /* Glass layer (for inset shadow effect) */
-    var glass = document.createElement('div');
-    glass.className = 'iphone-glass';
-
-    /* App screen (scaled iframe) */
-    var screenDiv = document.createElement('div');
-    screenDiv.className = 'iphone-screen';
-
-    var filename = (v === 'a') ? s.fileA : s.fileBC;
-    var iframe = document.createElement('iframe');
-    iframe.src = dir + '/' + filename;
-    iframe.title = s.name;
-    iframe.setAttribute('scrolling', 'no');
-
-    screenDiv.appendChild(iframe);
-    glass.appendChild(screenDiv);
-
-    /* Dynamic Island */
-    var island = document.createElement('div');
-    island.className = 'dynamic-island';
-
-    /* Home bar */
-    var homeBar = document.createElement('div');
-    homeBar.className = 'home-bar';
-
-    iphone.appendChild(glass);
-    iphone.appendChild(island);
-    iphone.appendChild(homeBar);
-
-    /* Label */
-    var info = document.createElement('div');
-    info.style.textAlign = 'center';
-
-    var nm = document.createElement('div');
-    nm.className = 'screen-name';
-    nm.style.color = s['color' + v.toUpperCase()];
-    nm.textContent = s.name;
-
-    var sub = document.createElement('div');
-    sub.className = 'screen-sub';
-    sub.textContent = s.sub;
-
-    info.appendChild(nm);
-    info.appendChild(sub);
-
-    wrap.appendChild(iphone);
-    wrap.appendChild(info);
-    row.appendChild(wrap);
+  SHOWCASE_IMAGES[v].forEach(function(src) {
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Design variation preview';
+    img.className = 'showcase-img';
+    row.appendChild(img);
   });
 }
 
