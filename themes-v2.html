@@ -67,31 +67,31 @@ body.var-b {
   --header-bg:     rgba(28,16,10,0.85);
 }
 
-/* C — Clarity Focus */
+/* C — Bold Red */
 body.var-c {
-  --bg:            linear-gradient(155deg,#0B0F1E 0%,#0E1328 45%,#080D1B 100%);
-  --surface:       rgba(16,22,40,0.85);
-  --surface-border:rgba(56,189,248,0.2);
-  --surface-shadow:0 28px 56px rgba(0,0,0,0.65),0 0 0 1px rgba(56,189,248,0.07);
-  --accent:        #38BDF8;
-  --accent-glow:   rgba(56,189,248,0.12);
-  --accent-glow2:  rgba(129,140,248,0.08);
-  --text:          rgba(232,244,255,0.92);
-  --text2:         rgba(180,215,242,0.6);
-  --text3:         rgba(140,185,225,0.32);
-  --badge-bg:      rgba(56,189,248,0.12);
-  --badge-border:  rgba(56,189,248,0.38);
-  --badge-text:    #7DD3FC;
+  --bg:            linear-gradient(155deg,#1A0005 0%,#200008 45%,#150003 100%);
+  --surface:       rgba(35,5,10,0.85);
+  --surface-border:rgba(200,0,30,0.22);
+  --surface-shadow:0 28px 56px rgba(0,0,0,0.65),0 0 0 1px rgba(200,0,30,0.08);
+  --accent:        #C8001E;
+  --accent-glow:   rgba(200,0,30,0.16);
+  --accent-glow2:  rgba(255,80,40,0.08);
+  --text:          rgba(255,240,240,0.92);
+  --text2:         rgba(255,200,200,0.62);
+  --text3:         rgba(255,160,160,0.32);
+  --badge-bg:      rgba(200,0,30,0.15);
+  --badge-border:  rgba(200,0,30,0.42);
+  --badge-text:    #FF8080;
   --card-bg:       rgba(255,255,255,0.04);
-  --card-border:   rgba(56,189,248,0.1);
-  --notch:         rgba(56,189,248,0.12);
-  --screen-bg:     #0B0F1E;
-  --tab-bg:        rgba(56,189,248,0.12);
-  --tab-border:    rgba(56,189,248,0.42);
-  --tab-text:      #7DD3FC;
-  --img-filter:    grayscale(0.14) contrast(1.09) brightness(1.07) saturate(0.86);
-  --divider:       rgba(56,189,248,0.08);
-  --header-bg:     rgba(11,15,30,0.85);
+  --card-border:   rgba(200,0,30,0.12);
+  --notch:         rgba(200,0,30,0.14);
+  --screen-bg:     #1A0005;
+  --tab-bg:        rgba(200,0,30,0.15);
+  --tab-border:    rgba(200,0,30,0.45);
+  --tab-text:      #FF8080;
+  --img-filter:    none;
+  --divider:       rgba(200,0,30,0.1);
+  --header-bg:     rgba(26,0,5,0.88);
 }
 
 /* ════════════════════════════════════════
@@ -558,26 +558,26 @@ var VARS = {
     stats: [{ n:'2×', l:'Parent Approval' }, { n:'7', l:'Core Screens' }],
   },
   c: {
-    num: '03', badge: 'UX MAKEOVER',
-    titleParts: ['Clarity ', 'Focus'],
-    desc: 'Content-led architecture with minimal visual chrome. Reduced cognitive load keeps students focused on the word — not the interface. Clean spacing improves readability for dyslexic learners and performs well on shared classroom screens and projectors in bright environments.',
+    num: '03', badge: 'BRAND REDESIGN',
+    titleParts: ['Bold ', 'Red'],
+    desc: 'Signature crimson-red identity with maximum energy and brand recall. Honeycomb letter tiles and bold podium leaderboard drive daily return behaviour. Full light and dark mode support adapts seamlessly from classroom projectors to evening personal device use.',
     palette: [
-      { color:'#38BDF8', name:'Sky Blue' },
-      { color:'#818CF8', name:'Indigo' },
-      { color:'#F472B6', name:'Rose' },
-      { color:'#34D399', name:'Emerald' },
-      { color:'#0C1020', name:'Ink Black' },
+      { color:'#C8001E', name:'Crimson Red' },
+      { color:'#FF4444', name:'Bright Red' },
+      { color:'#FFCC00', name:'Golden Yellow' },
+      { color:'#FFFFFF', name:'Clean White' },
+      { color:'#1A1A1A', name:'Near Black' },
     ],
     notes: [
-      { icon:'🔬', title:'Minimal cognitive chrome', body:'Stripped-back surfaces keep the word and action as the primary visual element — no competing gradients or ornamental UI to distract.' },
-      { icon:'♿', title:'Accessibility-first structure', body:'WCAG AA contrast throughout. Larger touch targets, generous letter-spacing, and clear focus states make it suitable for all learners.' },
-      { icon:'📱', title:'Classroom & projector ready', body:'Works in bright-lit classrooms on shared iPads and projectors. Reduced motion option and a teacher mode that removes leaderboard distractions.' },
+      { icon:'🔴', title:'Instant brand recognition', body:'Signature crimson red creates high-energy recall across all screens. Yellow honeycomb tile accents on the spelling test add playful contrast without breaking legibility.' },
+      { icon:'🎮', title:'Gamification front & centre', body:'Points, streaks, and rank badges are always visible. Podium-style leaderboard and animated letter tiles drive competitive daily return behaviour.' },
+      { icon:'🌓', title:'Light + dark out of the box', body:'Both modes ship in this variant — bright white for classroom projectors and dark background for low-light evening sessions, with no UI compromise.' },
     ],
-    typeFont: "'Space Mono', monospace",
-    typeName: 'Space Mono + Inter',
-    typeDesc: 'Precise, clean, high readability',
-    tags: ['WCAG AA+', 'Reduced Motion', 'Dyslexia Friendly', 'Classroom Mode'],
-    stats: [{ n:'AAA', l:'Contrast Ratio' }, { n:'40%', l:'Less Chrome' }],
+    typeFont: "'Nunito', sans-serif",
+    typeName: 'Nunito + Inter',
+    typeDesc: 'Rounded, friendly, high-energy',
+    tags: ['Brand Red', 'Light + Dark', 'Gamified', 'High Energy'],
+    stats: [{ n:'2', l:'Mode Variants' }, { n:'7', l:'Core Screens' }],
   },
 };
 
@@ -596,12 +596,16 @@ var SHOWCASE_IMAGES = {
 function buildScreens(v) {
   var row = document.getElementById('screens-row');
   row.textContent = '';
+  var imgs = SHOWCASE_IMAGES[v];
+  var maxW = imgs.length > 1 ? '430px' : '600px';
 
-  SHOWCASE_IMAGES[v].forEach(function(src) {
+  imgs.forEach(function(src) {
     var img = document.createElement('img');
     img.src = src;
     img.alt = 'Design variation preview';
     img.className = 'showcase-img';
+    img.style.maxWidth = maxW;
+    img.style.width = '100%';
     row.appendChild(img);
   });
 }
